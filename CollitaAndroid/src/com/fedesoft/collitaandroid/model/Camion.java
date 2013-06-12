@@ -7,7 +7,7 @@ public class Camion {
 	private String telefono;
 	private Integer cajonesMaximo;
 	
-	
+	// modificació
 	public Integer getId() {
 		return id;
 	}
