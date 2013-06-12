@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/adminitem" android:title="Gestionar">
+        <menu>
+            <item android:id="@+id/cuadrillasitem" android:title="Cuadrillas"/>
+            <item android:id="@+id/camionesitem" android:title="Camiones"/>
+            <item android:id="@+id/compradoresitem" android:title="Compradores"/>
+            <item android:id="@+id/termesitem" android:title="Termes"/>
+            <item android:id="@+id/variedadesitem" android:title="Variedades"/>
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,229 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"    
+    tools:context=".EditarOrdenColiitaActivity" >
+
+   
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView5"
+        android:layout_marginTop="19dp"
+        android:text="Terme :"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/variedadordeneditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView5"
+        android:layout_alignLeft="@+id/cuadrillaordeneditText"
+        android:layout_below="@+id/camionordeneditText"
+        android:layout_toLeftOf="@+id/elijevariedadButton"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/termeordeneditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView7"
+        android:layout_alignLeft="@+id/variedadordeneditText"
+        android:layout_below="@+id/variedadordeneditText"
+        android:layout_toLeftOf="@+id/elijetermeButton"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/propietarioordeneditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView8"
+        android:layout_alignLeft="@+id/compradorordeneditText"
+        android:layout_below="@+id/compradorordeneditText"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <AutoCompleteTextView
+        android:id="@+id/cuadrillaordeneditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_alignTop="@+id/elijecuadrillaButton"
+        android:layout_toLeftOf="@+id/elijecamionbutton"
+        android:layout_toRightOf="@+id/textView8"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/camionordeneditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_alignLeft="@+id/variedadordeneditText"
+        android:layout_alignTop="@+id/elijecamionbutton"
+        android:layout_toLeftOf="@+id/elijevariedadButton"
+        android:ems="10"
+        android:inputType="textPersonName" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView3"
+        android:layout_marginTop="19dp"
+        android:text="Variedad :"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/elijevariedadButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/variedadordeneditText"
+        android:layout_alignParentRight="true"
+        android:text="v" />
+
+    <Button
+        android:id="@+id/elijecomprdorButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/elijetermeButton"
+        android:text="v" />
+
+    <EditText
+        android:id="@+id/cajonesEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/TextView01"
+        android:layout_alignLeft="@+id/propietarioordeneditText"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/propietarioordeneditText"
+        android:ems="10"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/elijecamionbutton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/cuadrillaordeneditText"
+        android:text="v" />
+
+    <Button
+        android:id="@+id/elijetermeButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/termeordeneditText"
+        android:layout_alignParentRight="true"
+        android:text="v" />
+
+    <Button
+        android:id="@+id/fechaOrdenbutton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/textView3"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/elijecuadrillaButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/fechaOrdenbutton"
+        android:text="v" />
+
+    <Button
+        android:id="@+id/editarrordenbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:text="Guardar" />
+
+    <EditText
+        android:id="@+id/compradorordeneditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView7"
+        android:layout_alignTop="@+id/elijecomprdorButton"
+        android:layout_toLeftOf="@+id/elijecomprdorButton"
+        android:layout_toRightOf="@+id/textView7"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView6"
+        android:layout_marginTop="24dp"
+        android:text="Comprador:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_below="@+id/textView8"
+        android:layout_marginTop="26dp"
+        android:text="Cajones :"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView7"
+        android:layout_marginTop="28dp"
+        android:text="Propietario:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/elijecamionbutton"
+        android:layout_alignLeft="@+id/textView2"
+        android:text="Camion :"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/fechaOrdenbutton"
+        android:layout_alignRight="@+id/textView6"
+        android:text="Fecha :"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/elijecuadrillaButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/textView8"
+        android:text="Cuadrilla :"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>
