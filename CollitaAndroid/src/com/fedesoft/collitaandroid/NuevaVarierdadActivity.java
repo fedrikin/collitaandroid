@@ -50,7 +50,7 @@ public class NuevaVarierdadActivity extends Activity {
 		Variedad variedad=new Variedad();
 		variedad.setNombre(nombre);
 		variedad.setPrecioKilo(Double.parseDouble(precioKilo));
-		CollitaDAO collitaDAO=CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO=CollitaDAO.getInstance();
 		try {
 			collitaDAO.guardarVariedad(variedad);
 			setResult(1);

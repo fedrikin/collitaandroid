@@ -54,7 +54,7 @@ public class EditarOrdenColiitaActivity extends Activity {
 
 		Integer ordenCollitaId=getIntent().getIntExtra("ordencollita_id",0);
 		System.out.println("id:"+ordenCollitaId);
-		CollitaDAO collitaDAO=CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO=CollitaDAO.getInstance();
 		ordecollita=collitaDAO.getOrdenCollitadById(ordenCollitaId);
 		
 		propietarioEditText.setText(ordecollita.getPropietario());

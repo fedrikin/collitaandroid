@@ -34,7 +34,7 @@ public class EditarVariedadActivity extends Activity {
 		
 		Integer variedadId=getIntent().getIntExtra("variedad_id",0);
 		System.out.println("id:"+variedadId);
-		CollitaDAO collitaDAO=CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO=CollitaDAO.getInstance();
 	    variedad=collitaDAO.getVariedadById(variedadId);
 		nombreVariedadEditText.setText(variedad.getNombre());
 		precioKgEditText.setText(""+variedad.getPrecioKilo());

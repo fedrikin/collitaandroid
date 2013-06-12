@@ -60,7 +60,7 @@ public class NuevoCamionActivity extends Activity {
 		camion.setConductor(conductor);
 		camion.setCajonesMaximo(Integer.parseInt(cajonesmaximo));
 		camion.setTelefono(telefono);
-		CollitaDAO collitaDAO = CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO = CollitaDAO.getInstance();
 		try {
 			collitaDAO.guardarCamion(camion);
 			setResult(1);

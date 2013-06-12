@@ -34,7 +34,7 @@ public class EditarCuadrillaActivity extends Activity {
 		
 		Integer cuadrillaId=getIntent().getIntExtra("cuadrilla_id",0);
 		System.out.println("id:"+cuadrillaId);
-		CollitaDAO collitaDAO=CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO=CollitaDAO.getInstance();
 		cuadrilla=collitaDAO.getCuadrillaById(cuadrillaId);
 		nombreCuadrillaEditText.setText(cuadrilla.getNombre());
 		numeroCollidorsEditText.setText(""+cuadrilla.getNumeroCollidors());		

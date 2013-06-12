@@ -38,6 +38,9 @@ public class Cuadrilla {
 		this.telefono = telefono;
 	}
 	
+	public String toString(){
+		return nombre;
+	}
 	
 	
 

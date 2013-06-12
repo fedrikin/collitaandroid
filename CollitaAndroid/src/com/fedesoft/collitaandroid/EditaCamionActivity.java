@@ -36,7 +36,7 @@ public class EditaCamionActivity extends Activity {
 		
 		Integer camionId=getIntent().getIntExtra("camion_id",0);
 		System.out.println("id:"+camionId);
-		CollitaDAO collitaDAO=CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO=CollitaDAO.getInstance();
 		camion=collitaDAO.getCamionById(camionId);
 		nombreCamionEditText.setText(camion.getNombre());
 		nombreConductorEditText.setText(camion.getConductor());

@@ -41,7 +41,7 @@ public class VariedadesActivity extends Activity {
 	}
 	private void refrescarlista(){
 		listaVariedadeslinearlayout.removeAllViews();
-		CollitaDAO collitaDAO=CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO=CollitaDAO.getInstance();
 		List<Variedad> variedades= collitaDAO.recuperarVariedades();
 		for(final Variedad variedad:variedades){
 			Button b=new Button(getApplicationContext());

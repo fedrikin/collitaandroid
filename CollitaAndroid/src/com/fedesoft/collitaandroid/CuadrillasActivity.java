@@ -42,7 +42,7 @@ public class CuadrillasActivity extends Activity {
 
 	private void refrescarLista() {
 		cuadrillasLinearLayout.removeAllViews();
-		CollitaDAO collitaDAO=CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO=CollitaDAO.getInstance();
 		List<Cuadrilla> cuadrillas= collitaDAO.recuperarCuadrillas();
 		for(final Cuadrilla c:cuadrillas){
 			Button b=new Button(getApplicationContext());

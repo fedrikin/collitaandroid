@@ -20,9 +20,8 @@ import com.fedesoft.collitaandroid.model.OrdenCollita;
 import com.fedesoft.collitaandroid.model.Terme;
 import com.fedesoft.collitaandroid.model.Variedad;
 
-public class CollitaDAO {
-	private static CollitaDAO instance;
-	
+public class CollitaDAO implements CollitaDAOIfc {
+	private static CollitaDAOIfc instance;
 	private List<Cuadrilla> cuadrillas;
 	private List<Camion> camiones;
 	private List<Variedad> variedades;
@@ -32,7 +31,7 @@ public class CollitaDAO {
 	private Integer contador=1;
 	
 	
-	public static CollitaDAO getInstance(){
+	public static CollitaDAOIfc getInstance(){
 		if (instance == null){
 			instance=new CollitaDAO();
 		}
@@ -267,6 +266,7 @@ public class CollitaDAO {
 	}
 	
 	//..........................................................................................recuperarcuadrilles
+	@Override
 	public Cuadrilla getCuadrillaById(Integer id){ 
 		for(Cuadrilla c:cuadrillas){
 			if (c.getId() == id){
@@ -277,6 +277,7 @@ public class CollitaDAO {
 		
 	}
 	
+	@Override
 	public void actualizarCuadrilla(Cuadrilla cuadrilla){
 		for (Cuadrilla cuadrillaAux : cuadrillas) {
 			if (cuadrillaAux.getId()==cuadrilla.getId()){
@@ -289,6 +290,7 @@ public class CollitaDAO {
 		
 	}
 	
+	@Override
 	public void guardarCuadrilla(Cuadrilla cuadrilla) throws CuadrillaYaExisteException{
 		for(Cuadrilla c: cuadrillas){
 			if (c.getNombre().equals(cuadrilla.getNombre())){
@@ -300,24 +302,26 @@ public class CollitaDAO {
 		contador++;
 	}
 	
+	@Override
 	public List<Cuadrilla> recuperarCuadrillas(){		
 		return cuadrillas;
 	}
 	
-	public List<Cuadrilla> buscarCuadrillaPorNombre(String nombre){
-		List<Cuadrilla> resultado=new ArrayList<Cuadrilla>();
+	@Override
+	public Cuadrilla buscarCuadrillaPorNombre(String nombre){		
 		for(Cuadrilla c: cuadrillas){
-			if(c.getNombre().contains(nombre)){
-				resultado.add(c);
+			if(c.getNombre().equals(nombre)){
+				return c;
 			}			
 		}
-		return resultado;
+		return null;
 	}
 	
 	//...............................................................................................recuperarcamion
 	
 	
 	
+	@Override
 	public Camion getCamionById(Integer id){
 		for(Camion ca:camiones){
 			if (ca.getId() == id){
@@ -326,6 +330,7 @@ public class CollitaDAO {
 		}
 		return null;
 	}
+	@Override
 	public void actualizarCamion(Camion camion){
 		for (Camion camionAux:camiones){
 			if (camionAux.getId()==camion.getId()){
@@ -337,6 +342,7 @@ public class CollitaDAO {
 			}
 		}
 	}
+	@Override
 	public void guardarCamion(Camion camion) throws CamionYaExisteException{
 		for (Camion ca:camiones){
 			if (ca.getNombre().equals(camion.getNombre())){
@@ -349,11 +355,13 @@ public class CollitaDAO {
 		
 	}
 	
-    public List<Camion> recuperarCamiones(){
+    @Override
+	public List<Camion> recuperarCamiones(){
     	
 		return camiones;    	
     }
-    public List<Camion> buscarCamionPorNombre(String nombre){
+    @Override
+	public List<Camion> buscarCamionPorNombre(String nombre){
 		List<Camion> resultado=new ArrayList<Camion>();
 		for(Camion ca: camiones){
 			if(ca.getNombre().contains(nombre)){
@@ -365,7 +373,8 @@ public class CollitaDAO {
     
     //.................................................................................................recuperarcomprador
     
-    public Comprador getCompradorById(Integer id){
+    @Override
+	public Comprador getCompradorById(Integer id){
     	 for(Comprador co:compradores){
     		 if (co.getId() == id){
     			 return co;
@@ -373,7 +382,8 @@ public class CollitaDAO {
     	 }
     	 return null;
     }
-    public void actualizarComprador(Comprador comprador){
+    @Override
+	public void actualizarComprador(Comprador comprador){
     	for (Comprador compradorAux:compradores){
     		if (compradorAux.getId()== comprador.getId()){
     			compradorAux.setNombre(comprador.getNombre());
@@ -382,7 +392,8 @@ public class CollitaDAO {
     		}
     	}
     }
-    public void guardarComprador(Comprador comprador)throws CompradorYaExisteException{
+    @Override
+	public void guardarComprador(Comprador comprador)throws CompradorYaExisteException{
 		  for(Comprador co:compradores){
 			   if (co.getNombre().equals(comprador.getNombre())){
 				   throw new CompradorYaExisteException();
@@ -392,11 +403,13 @@ public class CollitaDAO {
 		  compradores.add(comprador);
 		  contador++;
 	}
-    public List<Comprador> recuperarCompradores(){
+    @Override
+	public List<Comprador> recuperarCompradores(){
     	
 		return compradores;
     }
-    public List<Comprador> buscarCompradorPorNombre(String nombre){
+    @Override
+	public List<Comprador> buscarCompradorPorNombre(String nombre){
     	List<Comprador> resultado=new ArrayList<Comprador>();
     	for(Comprador co: compradores){
     		if(co.getNombre().contains(nombre)){
@@ -407,7 +420,8 @@ public class CollitaDAO {
     }
     //.................................................................................................recuperarterme
     
-    public Terme getTermeById(Integer id){
+    @Override
+	public Terme getTermeById(Integer id){
     	for(Terme t:termes){
     		if(t.getId() == id){
     			return t;
@@ -415,7 +429,8 @@ public class CollitaDAO {
     	}
     	return null;
     }
-    public void actualizaTerme(Terme terme){
+    @Override
+	public void actualizaTerme(Terme terme){
     	for (Terme termeAux:termes){
     		if (termeAux.getId() == terme.getId()){
     			termeAux.setNombre(terme.getNombre());
@@ -424,7 +439,8 @@ public class CollitaDAO {
     		}
     	}
     }
-    public void guardarTerme(Terme terme)throws TermeYaExisteException{
+    @Override
+	public void guardarTerme(Terme terme)throws TermeYaExisteException{
     	 for(Terme t:termes){
     		 if (t.getNombre().equals(terme.getNombre())){
     			 throw new TermeYaExisteException();
@@ -434,12 +450,14 @@ public class CollitaDAO {
 		 termes.add(terme);
 		 contador++;
 	}
-    public  List<Terme> recuperarTermes(){
+    @Override
+	public  List<Terme> recuperarTermes(){
     	
 		return termes;
     	
     }
-    public List<Terme> buscarTermePorNombre(String nombre){
+    @Override
+	public List<Terme> buscarTermePorNombre(String nombre){
     	List<Terme> resultado=new ArrayList<Terme>();
     	for(Terme t:termes){
     		if(t.getNombre().contains(nombre)){
@@ -451,6 +469,7 @@ public class CollitaDAO {
     }
     //..................................................................................................recuperarVarietat
 
+	@Override
 	public Variedad getVariedadById(Integer id){
 		for(Variedad v:variedades){
 			if (v.getId() == id){
@@ -459,6 +478,7 @@ public class CollitaDAO {
 		}
 		return null;
 	}
+	@Override
 	public void actualizaVariedad(Variedad variedad){
 		for (Variedad variedadAux:variedades){
 			if (variedadAux.getId()==variedad.getId()){
@@ -468,7 +488,8 @@ public class CollitaDAO {
 			}
 		}
 	}
-    public void guardarVariedad(Variedad variedad) throws VariedadYaExisteException{
+    @Override
+	public void guardarVariedad(Variedad variedad) throws VariedadYaExisteException{
     	for (Variedad v:variedades){
 			if (v.getNombre().equals(variedad.getNombre())){
 				throw new VariedadYaExisteException();
@@ -479,10 +500,12 @@ public class CollitaDAO {
 		contador++;
 		
 	}
-    public List<Variedad> recuperarVariedades(){
+    @Override
+	public List<Variedad> recuperarVariedades(){
     	 return variedades ;
     }
-    public List<Variedad> buscarVariedadPorNombre(String nombre){
+    @Override
+	public List<Variedad> buscarVariedadPorNombre(String nombre){
     	List<Variedad> resultado=new ArrayList<Variedad>();
     	for(Variedad v: variedades){
 			if(v.getNombre().contains(nombre)){
@@ -493,7 +516,8 @@ public class CollitaDAO {
     	
     }
     //...................................................................................................recuperarOrdedecollita
-    public OrdenCollita getOrdenCollitadById(Integer id){
+    @Override
+	public OrdenCollita getOrdenCollitadById(Integer id){
 		for(OrdenCollita oc:ordenesCollitas){
 			if (oc.getId() == id){
 				return oc;
@@ -502,7 +526,8 @@ public class CollitaDAO {
 		
 		return null;
 	}
-    public void actualizarOrdenCollita(OrdenCollita ordencollita){
+    @Override
+	public void actualizarOrdenCollita(OrdenCollita ordencollita){
     	for (OrdenCollita ordencollitaAux:ordenesCollitas){
     		if ( ordencollitaAux.getId()==ordencollita.getId()){
     			 ordencollitaAux.setFechaCollita(ordencollita.getFechaCollita());//no faria falta
@@ -517,17 +542,20 @@ public class CollitaDAO {
     		}
     	}
     }
-    public void guardarOrdenCollita(OrdenCollita ordencollita){
+    @Override
+	public void guardarOrdenCollita(OrdenCollita ordencollita){
     	ordencollita.setId(contador);
 		ordenesCollitas.add(ordencollita);
 		contador++;
 	}
-    public List<OrdenCollita> recuperarOrdenesCollita(){
+    @Override
+	public List<OrdenCollita> recuperarOrdenesCollita(){
     	
 		return ordenesCollitas;
     	
     }
 
+	@Override
 	public List<OrdenCollita> recuperarOrdenesCollita(Date fecha) {
 		SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");				
 		List<OrdenCollita> ordenesCollitaFecha=new ArrayList<OrdenCollita>();
