@@ -38,6 +38,8 @@ public class Camion {
 	public void setCajonesMaximo(Integer cajonesMaximo) {
 		this.cajonesMaximo = cajonesMaximo;
 	}
-	
+	public String toString(){
+		return nombre;
+	}
 
 }

@@ -37,7 +37,7 @@ public interface CollitaDAOIfc {
 
 	public abstract List<Camion> recuperarCamiones();
 
-	public abstract List<Camion> buscarCamionPorNombre(String nombre);
+	public abstract Camion buscarCamionPorNombre(String nombre);
 
 	public abstract Comprador getCompradorById(Integer id);
 
@@ -48,7 +48,7 @@ public interface CollitaDAOIfc {
 
 	public abstract List<Comprador> recuperarCompradores();
 
-	public  List<Comprador> buscarCompradorPorNombre(String nombre);
+	public  Comprador buscarCompradorPorNombre(String nombre);
 
 	public  Terme getTermeById(Integer id);
 
@@ -59,7 +59,7 @@ public interface CollitaDAOIfc {
 
 	public abstract List<Terme> recuperarTermes();
 
-	public abstract List<Terme> buscarTermePorNombre(String nombre);
+	public abstract Terme buscarTermePorNombre(String nombre);
 
 
 	public abstract Variedad getVariedadById(Integer id);
@@ -71,7 +71,7 @@ public interface CollitaDAOIfc {
 
 	public abstract List<Variedad> recuperarVariedades();
 
-	public abstract List<Variedad> buscarVariedadPorNombre(String nombre);
+	public abstract Variedad buscarVariedadPorNombre(String nombre);
 
 	public abstract OrdenCollita getOrdenCollitadById(Integer id);
 

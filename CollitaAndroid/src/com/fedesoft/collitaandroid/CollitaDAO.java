@@ -360,15 +360,15 @@ public class CollitaDAO implements CollitaDAOIfc {
     	
 		return camiones;    	
     }
+   
     @Override
-	public List<Camion> buscarCamionPorNombre(String nombre){
-		List<Camion> resultado=new ArrayList<Camion>();
+	public Camion buscarCamionPorNombre(String nombre){		
 		for(Camion ca: camiones){
-			if(ca.getNombre().contains(nombre)){
-				resultado.add(ca);
+			if(ca.getNombre().equals(nombre)){
+				return ca;
 			}			
 		}
-		return resultado;
+		return null;
 	}
     
     //.................................................................................................recuperarcomprador
@@ -408,15 +408,15 @@ public class CollitaDAO implements CollitaDAOIfc {
     	
 		return compradores;
     }
+    
     @Override
-	public List<Comprador> buscarCompradorPorNombre(String nombre){
-    	List<Comprador> resultado=new ArrayList<Comprador>();
+	public Comprador buscarCompradorPorNombre(String nombre){    	
     	for(Comprador co: compradores){
-    		if(co.getNombre().contains(nombre)){
-    			
+    		if(co.getNombre().equals(nombre)){    	
+    			return co;
     		}
     	}
-    	return resultado;
+    	return null;
     }
     //.................................................................................................recuperarterme
     
@@ -456,15 +456,15 @@ public class CollitaDAO implements CollitaDAOIfc {
 		return termes;
     	
     }
+
     @Override
-	public List<Terme> buscarTermePorNombre(String nombre){
-    	List<Terme> resultado=new ArrayList<Terme>();
+	public Terme buscarTermePorNombre(String nombre){    	
     	for(Terme t:termes){
-    		if(t.getNombre().contains(nombre)){
-    			
+    		if(t.getNombre().equals(nombre)){
+    			return t;
     		}
     	}
-    	return resultado;
+    	return null;
     			
     }
     //..................................................................................................recuperarVarietat
@@ -504,15 +504,15 @@ public class CollitaDAO implements CollitaDAOIfc {
 	public List<Variedad> recuperarVariedades(){
     	 return variedades ;
     }
+   
     @Override
-	public List<Variedad> buscarVariedadPorNombre(String nombre){
-    	List<Variedad> resultado=new ArrayList<Variedad>();
+	public Variedad buscarVariedadPorNombre(String nombre){    
     	for(Variedad v: variedades){
 			if(v.getNombre().contains(nombre)){
-				resultado.add(v);
+				return v;
 			}			
 		}
-		return resultado;
+		return null;
     	
     }
     //...................................................................................................recuperarOrdedecollita

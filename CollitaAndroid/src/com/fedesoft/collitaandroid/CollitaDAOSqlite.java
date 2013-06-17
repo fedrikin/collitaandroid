@@ -40,7 +40,22 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 	public void onCreate(SQLiteDatabase db) {
 		String sql = "CREATE TABLE cudrillas(" + "id int primary,"
 				+ "nombre varchar(50)," + "numerocollidors int,"
-				+ "telefono varchar(50)" + ")";
+				+ "telefono varchar(50)" + ")" +
+		         "CREATE TABLE camiones (" + "id int primary,"
+				+ "nombre varcahr(50)," + "conductor varchar(50),"
+				+ "telefono varchar(50)," +"cajones int," +")"+
+				 "CREATE TABLE compradores("+ "id int primary,"
+				+"nombre varchar(50)," + "telefono varchar(50),"+ ")" +
+				 "CREATE TABLE termes(" + "id int primary,"
+				+ "nombre varchar(50)," + "precio float," +")" +
+				 "CREATE TABLE variedades(" +"nombre varchar(50)," 
+				+ "precio float," +")" +
+				 "CREATE TABLE ordenCollita(" + "id int primary,"
+				+ "fecha date," + "cuadrilla cuadrillas," + "camion camiones," 
+				+ "comprador compradores," + "terme termes," + "variedad variedades,"
+				+ "propietario varchar(50)," + "cajonesprevistos int," +")";
+				
+		       
 		db.execSQL(sql);
 		
 	}
@@ -107,7 +122,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 	}
 
 	@Override
-	public List<Camion> buscarCamionPorNombre(String nombre) {
+	public Camion buscarCamionPorNombre(String nombre) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -138,7 +153,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 	}
 
 	@Override
-	public List<Comprador> buscarCompradorPorNombre(String nombre) {
+	public Comprador buscarCompradorPorNombre(String nombre) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -168,7 +183,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 	}
 
 	@Override
-	public List<Terme> buscarTermePorNombre(String nombre) {
+	public Terme buscarTermePorNombre(String nombre) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -199,7 +214,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 	}
 
 	@Override
-	public List<Variedad> buscarVariedadPorNombre(String nombre) {
+	public Variedad buscarVariedadPorNombre(String nombre) {
 		// TODO Auto-generated method stub
 		return null;
 	}

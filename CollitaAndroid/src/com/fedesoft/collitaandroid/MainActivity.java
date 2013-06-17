@@ -62,6 +62,7 @@ public class MainActivity extends Activity {
 						fechaCollitaButton);
 				newFragment.show(getFragmentManager(), "datePicker");
 			}
+			
 		});
 		refrescarLista();
 	}
@@ -76,8 +77,7 @@ public class MainActivity extends Activity {
 
 	private void refrescarLista() {
 		try {
-			fecha = simpleDateFormat.parse(fechaCollitaButton.getText()
-					.toString());
+			fecha = simpleDateFormat.parse(fechaCollitaButton.getText().toString());
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -86,8 +86,7 @@ public class MainActivity extends Activity {
 		List<OrdenCollita> ordenes = collitaDAO.recuperarOrdenesCollita(fecha);
 		for (final OrdenCollita ordenCollita : ordenes) {
 			Button ordenCollitaButton = new Button(getApplicationContext());
-			ordenCollitaButton.setText(ordenCollita.getId() + "-"
-					+ ordenCollita.getPropietario());
+			ordenCollitaButton.setText(ordenCollita.getId() +"-"+ ordenCollita.getPropietario());
 			ordenesLinearLayout.addView(ordenCollitaButton);
 			ordenCollitaButton.setOnClickListener(new OnClickListener() {
 

@@ -23,5 +23,7 @@ public class Terme {
 	public void setPrecioKilo(Double precioKilo) {
 		this.precioKilo = precioKilo;
 	}
-
+	public String toString(){
+		return nombre;
+	}
 }

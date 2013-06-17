@@ -14,24 +14,24 @@
         android:text="Terme :"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <EditText
-        android:id="@+id/variedadordeneditText"
+    <AutoCompleteTextView 
+        android:id="@+id/variedadOrdenAutoCompleteText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textView5"
-        android:layout_alignLeft="@+id/cuadrillaordeneditText"
-        android:layout_below="@+id/camionordeneditText"
+        android:layout_alignLeft="@+id/cuadrillaOrdenAutoCompleteEditText"
+        android:layout_below="@+id/camionOrdenAutoCompleteText"
         android:layout_toLeftOf="@+id/elijevariedadButton"
         android:ems="10"
         android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/termeordeneditText"
+    <AutoCompleteTextView 
+        android:id="@+id/termeOrdenAutoCompleteText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/textView7"
-        android:layout_alignLeft="@+id/variedadordeneditText"
-        android:layout_below="@+id/variedadordeneditText"
+        android:layout_alignLeft="@+id/variedadOrdenAutoCompleteText"
+        android:layout_below="@+id/variedadOrdenAutoCompleteText"
         android:layout_toLeftOf="@+id/elijetermeButton"
         android:ems="10"
         android:inputType="textPersonName" />
@@ -41,13 +41,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textView8"
-        android:layout_alignLeft="@+id/compradorordeneditText"
-        android:layout_below="@+id/compradorordeneditText"
+        android:layout_alignLeft="@+id/compradorOrdenAutoCompleteText"
+        android:layout_below="@+id/compradorOrdenAutoCompleteText"
         android:ems="10"
         android:inputType="textPersonName" />
 
     <AutoCompleteTextView
-        android:id="@+id/cuadrillaordeneditText"
+        android:id="@+id/cuadrillaOrdenAutoCompleteEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textView2"
@@ -57,19 +57,19 @@
         android:ems="10"
         android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/camionordeneditText"
+    <AutoCompleteTextView 
+        android:id="@+id/camionOrdenAutoCompleteText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textView3"
-        android:layout_alignLeft="@+id/variedadordeneditText"
+        android:layout_alignLeft="@+id/variedadOrdenAutoCompleteText"
         android:layout_alignTop="@+id/elijecamionbutton"
         android:layout_toLeftOf="@+id/elijevariedadButton"
         android:ems="10"
         android:inputType="textPersonName" >
 
         <requestFocus />
-    </EditText>
+    </AutoCompleteTextView>
 
     <TextView
         android:id="@+id/textView5"
@@ -86,7 +86,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/variedadordeneditText"
+        android:layout_alignBottom="@+id/variedadOrdenAutoCompleteText"
         android:layout_alignParentRight="true"
         android:text="v" />
 
@@ -116,7 +116,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/cuadrillaordeneditText"
+        android:layout_below="@+id/cuadrillaOrdenAutoCompleteEditText"
         android:text="v" />
 
     <Button
@@ -124,7 +124,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/termeordeneditText"
+        android:layout_alignBottom="@+id/termeOrdenAutoCompleteText"
         android:layout_alignParentRight="true"
         android:text="v" />
 
@@ -156,8 +156,8 @@
         android:layout_alignParentRight="true"
         android:text="Guardar" />
 
-    <EditText
-        android:id="@+id/compradorordeneditText"
+    <AutoCompleteTextView 
+        android:id="@+id/compradorOrdenAutoCompleteText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textView7"

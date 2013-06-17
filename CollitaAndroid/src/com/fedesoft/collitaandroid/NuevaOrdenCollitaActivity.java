@@ -6,8 +6,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.fedesoft.collitaandroid.model.Camion;
+import com.fedesoft.collitaandroid.model.Comprador;
 import com.fedesoft.collitaandroid.model.Cuadrilla;
 import com.fedesoft.collitaandroid.model.OrdenCollita;
+import com.fedesoft.collitaandroid.model.Terme;
+import com.fedesoft.collitaandroid.model.Variedad;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -33,13 +37,17 @@ import android.widget.Toast;
 public class NuevaOrdenCollitaActivity extends Activity implements OnClickListener {
 
 	private AutoCompleteTextView cuadrillaOrdenAutoComplete;
-	private EditText camionOrdenEditText;
+	private AutoCompleteTextView camionOrdenAutoComplete;	
+	private AutoCompleteTextView variedadOrdenAutoComplete;
+	private AutoCompleteTextView termeOrdenAutoComplete;
+	private AutoCompleteTextView compradorOrdenAutoComplete;
 	private EditText cajonesOrdenEditText;
-	private EditText variedadOrdenEditText;
-	private EditText termeOrdenEditText;
-	private EditText compradorOrdenEditText;
 	private EditText propietarioEditText;
 	private Button seleccionCuadrillaButton;
+	private Button seleccionCamionButton;
+	private Button seleccionCompradorButton;
+	private Button seleccionTermeButton;
+	private Button seleccionVariedadButton;
 	private Button guardaButton;
 	private Button fechaOrdenButton;
 	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
@@ -51,41 +59,72 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_nueva_orden_collita);
 
-		cuadrillaOrdenAutoComplete = (AutoCompleteTextView) findViewById(R.id.cuadrillaordeneditText);
-		camionOrdenEditText = (EditText) findViewById(R.id.camionordeneditText);
-		variedadOrdenEditText = (EditText) findViewById(R.id.variedadordeneditText);
-		termeOrdenEditText = (EditText) findViewById(R.id.termeordeneditText);
-		compradorOrdenEditText = (EditText) findViewById(R.id.compradorordeneditText);
+		cuadrillaOrdenAutoComplete = (AutoCompleteTextView) findViewById(R.id.cuadrillaOrdenAutoCompleteEditText);
+		camionOrdenAutoComplete = (AutoCompleteTextView) findViewById(R.id.camionOrdenAutoCompleteText);
+		variedadOrdenAutoComplete = (AutoCompleteTextView) findViewById(R.id.variedadOrdenAutoCompleteText);
+		termeOrdenAutoComplete = (AutoCompleteTextView) findViewById(R.id.termeOrdenAutoCompleteText);
+		compradorOrdenAutoComplete = (AutoCompleteTextView) findViewById(R.id.compradorOrdenAutoCompleteText);
 		propietarioEditText = (EditText) findViewById(R.id.propietarioordeneditText);
 		cajonesOrdenEditText = (EditText) findViewById(R.id.cajonesEditText);
 		fechaOrdenButton = (Button) findViewById(R.id.fechaOrdenbutton);
-		seleccionCuadrillaButton = (Button) findViewById(R.id.elijecuadrillaButton);
 		// La propia activitat fa les funcions de onclicklistener
+		seleccionCuadrillaButton = (Button) findViewById(R.id.elijecuadrillaButton);		
 		seleccionCuadrillaButton.setOnClickListener(this);
-		
+		seleccionCamionButton = (Button) findViewById(R.id.elijecamionbutton);
+		seleccionCamionButton.setOnClickListener(this);
+		seleccionCompradorButton = (Button) findViewById(R.id.elijecomprdorButton);
+		seleccionCompradorButton.setOnClickListener(this);
+		seleccionTermeButton =(Button) findViewById(R.id.elijetermeButton);
+		seleccionTermeButton.setOnClickListener(this);
+		seleccionVariedadButton =(Button) findViewById(R.id.elijevariedadButton);		
+		seleccionVariedadButton.setOnClickListener(this);
 		
 		guardaButton = (Button) findViewById(R.id.editarrordenbutton);
 		guardaButton.setOnClickListener(this);
+		
 		fechaOrdenButton.setText(simpleDateFormat.format(fecha));
-		fechaOrdenButton.setOnClickListener(new OnClickListener() {
-			@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-			@Override
-			public void onClick(View v) {
-				DialogFragment newFragment = new DatePickerFragment(
-						fechaOrdenButton);
-				newFragment.show(getFragmentManager(), "datePicker");
-			}
-		});
+		fechaOrdenButton.setOnClickListener(this);
+			
+		// Cargar datos...............
 		cargarCuadrillas();
 		cuadrillaOrdenAutoComplete.setThreshold(1);
+		cargarCamiones();
+		camionOrdenAutoComplete.setThreshold(1);
+		cargarCompradores();
+		compradorOrdenAutoComplete.setThreshold(1);
+		cargarTermes();
+		termeOrdenAutoComplete.setThreshold(1);
+		cargarVariedades();
+		variedadOrdenAutoComplete.setThreshold(1);
+		
 	}
-
+     // METODOS......................
 	private void cargarCuadrillas() {
 		List<Cuadrilla> cuadrillas = CollitaDAO.getInstance().recuperarCuadrillas();
 		ArrayAdapter<Cuadrilla> adapter=new ArrayAdapter<Cuadrilla>(this,android.R.layout.simple_dropdown_item_1line,cuadrillas.toArray(new Cuadrilla[]{}));
 		cuadrillaOrdenAutoComplete.setAdapter(adapter);
 	}
-
+	private void cargarCamiones() {
+		List<Camion> camiones = CollitaDAO.getInstance().recuperarCamiones();
+		ArrayAdapter<Camion> adapter=new ArrayAdapter<Camion>(this,android.R.layout.simple_dropdown_item_1line,camiones.toArray(new Camion[]{}));
+		camionOrdenAutoComplete.setAdapter(adapter);
+	}
+	private void cargarCompradores() {
+		List<Comprador> compradores = CollitaDAO.getInstance().recuperarCompradores();
+		ArrayAdapter<Comprador> adapter=new ArrayAdapter<Comprador>(this,android.R.layout.simple_dropdown_item_1line,compradores.toArray(new Comprador[]{}));
+		compradorOrdenAutoComplete.setAdapter(adapter);
+	}
+	private void cargarTermes() {
+		List<Terme> termes = CollitaDAO.getInstance().recuperarTermes();
+		ArrayAdapter<Terme> adapter=new ArrayAdapter<Terme>(this,android.R.layout.simple_dropdown_item_1line,termes.toArray(new Terme[]{}));
+		termeOrdenAutoComplete.setAdapter(adapter);
+	}
+	private void cargarVariedades() {
+		List<Variedad> variedades = CollitaDAO.getInstance().recuperarVariedades();
+		ArrayAdapter<Variedad> adapter=new ArrayAdapter<Variedad>(this,android.R.layout.simple_dropdown_item_1line,variedades.toArray(new Variedad[]{}));
+		variedadOrdenAutoComplete.setAdapter(adapter);
+	}
+    
 	protected void guardarOrden() {
 		String fechacollita = fechaOrdenButton.getText().toString();
 		try {
@@ -94,14 +133,7 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 			e.printStackTrace();
 		}
 
-		
-		String cuadrilla = cuadrillaOrdenAutoComplete.getText().toString();
-		String camion = camionOrdenEditText.getText().toString();
 		String cajonePrevistos = cajonesOrdenEditText.getText().toString();
-		String variedad = variedadOrdenEditText.getText().toString();
-		String terme = termeOrdenEditText.getText().toString();
-		String comprador = compradorOrdenEditText.getText().toString();
-		String propietario = propietarioEditText.getText().toString();
 		if (cajonePrevistos.equals("")) {
 			Toast toast = Toast.makeText(getApplicationContext(),
 					"tindran que collira algo, NO??? POSA CAIXONS!!",
@@ -110,17 +142,25 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 			cajonePrevistos = "0";
 			return;
 		}
+		String propietario = propietarioEditText.getText().toString();
+		
+		String cuadrilla = cuadrillaOrdenAutoComplete.getText().toString();
+		String camion = camionOrdenAutoComplete.getText().toString();		
+		String variedad = variedadOrdenAutoComplete.getText().toString();
+		String terme = termeOrdenAutoComplete.getText().toString();
+		String comprador = compradorOrdenAutoComplete.getText().toString();
+		
+		
 		OrdenCollita ordenCollita = new OrdenCollita();
 		ordenCollita.setCajonesPrevistos(Integer.parseInt(cajonePrevistos));
 		ordenCollita.setPropietario(propietario);
 		ordenCollita.setFechaCollita(fecha);
 		ordenCollita.setCuadrilla(CollitaDAO.getInstance().buscarCuadrillaPorNombre(cuadrilla));
-
-		/*
-		 * Integer cuadrillaId=cuadrillaList.getSelecedItem(); Cuadrilla
-		 * cuadrilla=CollitaDAO.getInstance().getCuadrillaById(cuadrillaId);
-		 * ordenCollita.setCuadrilla(cuadrilla);
-		 */
+        ordenCollita.setCamion(CollitaDAO.getInstance().buscarCamionPorNombre(camion));
+        ordenCollita.setComprador(CollitaDAO.getInstance().buscarCompradorPorNombre(comprador));
+        ordenCollita.setTerme(CollitaDAO.getInstance().buscarTermePorNombre(terme));
+        ordenCollita.setVariedad(CollitaDAO.getInstance().buscarVariedadPorNombre(variedad));
+	
 		CollitaDAOIfc collitaDAO = CollitaDAO.getInstance();
 		collitaDAO.guardarOrdenCollita(ordenCollita);
 		setResult(1);
@@ -162,7 +202,7 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 			button.setText("" + day + "/" + (month + 1) + "/" + year);
 		}
 	}
-
+// onClick s.......................
 	@Override
 	public void onClick(View v) {
 		if (v == guardaButton){
@@ -173,7 +213,28 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 			cuadrillaOrdenAutoComplete.showDropDown();
 			
 		}
+		if (v == seleccionCamionButton){
+			System.out.println("camiones");
+			camionOrdenAutoComplete.showDropDown();
+		}
+		if (v == seleccionCompradorButton){
+			System.out.println("compradores");
+			compradorOrdenAutoComplete.showDropDown();
+		}
+		if (v == seleccionTermeButton){
+			System.out.println("termes");
+			termeOrdenAutoComplete.showDropDown();
+		}
+		if (v == seleccionVariedadButton){
+			System.out.println("variedades");
+			variedadOrdenAutoComplete.showDropDown();
+		}
+		if (v == fechaOrdenButton){			
 		
+			DialogFragment newFragment = new DatePickerFragment(
+					fechaOrdenButton);
+			newFragment.show(getFragmentManager(), "datePicker");
+		}
 	}
 
 }
