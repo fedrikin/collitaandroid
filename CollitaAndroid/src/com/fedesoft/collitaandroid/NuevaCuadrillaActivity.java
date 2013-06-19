@@ -55,7 +55,7 @@ public class NuevaCuadrillaActivity extends Activity {
 		cuadrilla.setNombre(nombre);		
 		cuadrilla.setNumeroCollidors(Integer.parseInt(numeroCollidors));
 		cuadrilla.setTelefono(telefono);
-		CollitaDAOIfc collitaDAO=CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO=CollitaDAOSqlite.getInstance(getApplicationContext());
 		try{
 			collitaDAO.guardarCuadrilla(cuadrilla);
 			setResult(1);

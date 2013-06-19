@@ -42,8 +42,8 @@ public class CuadrillasActivity extends Activity {
 
 	private void refrescarLista() {
 		cuadrillasLinearLayout.removeAllViews();
-		CollitaDAOIfc collitaDAO=CollitaDAO.getInstance();
-		List<Cuadrilla> cuadrillas= collitaDAO.recuperarCuadrillas();
+		CollitaDAOIfc collitaDAO=CollitaDAOSqlite.getInstance(getApplicationContext());
+		List<Cuadrilla> cuadrillas= collitaDAO.recuperarCuadrillas(); 
 		for(final Cuadrilla c:cuadrillas){
 			Button b=new Button(getApplicationContext());
 			b.setText(c.getNombre());

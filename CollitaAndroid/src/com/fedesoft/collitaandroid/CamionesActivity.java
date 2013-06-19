@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 public class CamionesActivity extends Activity {
 	
 	private Button agregarCamionesButton;
-    private LinearLayout camionesLinearLayout;
+    private LinearLayout camionesLinearLayout; 
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

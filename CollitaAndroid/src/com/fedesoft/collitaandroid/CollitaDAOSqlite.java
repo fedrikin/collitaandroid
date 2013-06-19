@@ -1,9 +1,15 @@
 package com.fedesoft.collitaandroid;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
@@ -23,6 +29,7 @@ import com.fedesoft.collitaandroid.model.Variedad;
 
 public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc {
 	private static CollitaDAOSqlite instance = null;
+	private String sqlCreate;
 
 	public static CollitaDAOSqlite getInstance(Context context) {
 		if (instance == null) {
@@ -34,30 +41,33 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 	private CollitaDAOSqlite(Context context, String name,
 			CursorFactory factory, int version) {
 		super(context, name, factory, version);
+		sqlCreate = leerFichero();
+		
+	}
+
+	private String leerFichero() {
+		InputStream fis;
+		try {
+			fis = getClass().getResourceAsStream("create.sql");
+			StringBuffer fileContent = new StringBuffer("");
+			byte[] buffer = new byte[1024];
+			while (fis.read(buffer) != -1) {
+				fileContent.append(new String(buffer));
+			} 
+			
+			fis.close();
+			return fileContent.toString();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		String sql = "CREATE TABLE cudrillas(" + "id int primary,"
-				+ "nombre varchar(50)," + "numerocollidors int,"
-				+ "telefono varchar(50)" + ")" +
-		         "CREATE TABLE camiones (" + "id int primary,"
-				+ "nombre varcahr(50)," + "conductor varchar(50),"
-				+ "telefono varchar(50)," +"cajones int," +")"+
-				 "CREATE TABLE compradores("+ "id int primary,"
-				+"nombre varchar(50)," + "telefono varchar(50),"+ ")" +
-				 "CREATE TABLE termes(" + "id int primary,"
-				+ "nombre varchar(50)," + "precio float," +")" +
-				 "CREATE TABLE variedades(" +"nombre varchar(50)," 
-				+ "precio float," +")" +
-				 "CREATE TABLE ordenCollita(" + "id int primary,"
-				+ "fecha date," + "cuadrilla cuadrillas," + "camion camiones," 
-				+ "comprador compradores," + "terme termes," + "variedad variedades,"
-				+ "propietario varchar(50)," + "cajonesprevistos int," +")";
-				
-		       
-		db.execSQL(sql);
-		
+		executeSqlScript(db, sqlCreate);		
 	}
 
 	@Override
@@ -81,14 +91,25 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 	@Override
 	public void guardarCuadrilla(Cuadrilla cuadrilla)
 			throws CuadrillaYaExisteException {
-		// TODO Auto-generated method stub
-
+		SQLiteDatabase db = getWritableDatabase();
+		Object[] parametros = new Object[]{cuadrilla.getNombre(),cuadrilla.getNumeroCollidors(),cuadrilla.getTelefono()};
+		db.execSQL("insert into cuadrilla(nombre,numerocollidors,telefono) values (?,?,?)",parametros);		
 	}
 
 	@Override
 	public List<Cuadrilla> recuperarCuadrillas() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Cuadrilla> resultado=new ArrayList<Cuadrilla>();
+		SQLiteDatabase db = getReadableDatabase();		
+		Cursor cursor=db.rawQuery("select * from cuadrilla", new String[]{});		
+		while(cursor.moveToNext()){
+			Cuadrilla cuadrilla=new Cuadrilla();
+			cuadrilla.setId(cursor.getInt(cursor.getColumnIndex("ID")));
+			cuadrilla.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
+			cuadrilla.setNumeroCollidors(cursor.getInt(cursor.getColumnIndex("NUMEROCOLLIDORS")));
+			cuadrilla.setTelefono(cursor.getString(cursor.getColumnIndex("TELEFONO")));
+			resultado.add(cuadrilla);					
+		}
+		return resultado;
 	}
 
 	@Override
@@ -248,5 +269,33 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	// Metodo per a poder executar multiples consultes sql en un string
+	 public static int executeSqlScript(SQLiteDatabase db, String sql)
+	             {	        
+	        String[] lines = sql.split(";");
+	        int count;
+	        count = executeSqlStatements(db, lines);	        
+	        System.out.println("Executed " + count + " statements from SQL script ");
+	        return count;
+	    }
+
+	  
+
+	    public static int executeSqlStatements(SQLiteDatabase db, String[] statements) {
+	        int count = 0;
+	        for (String line : statements) {
+	            line = line.trim();
+	            if (line.length() > 0) {
+	                db.execSQL(line);
+	                count++;
+	            }
+	        }
+	        return count;
+	    }
+
+
+	
 
 }
