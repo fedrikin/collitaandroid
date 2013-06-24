@@ -43,7 +43,7 @@ public class NuevoCompradorActivity extends Activity {
 		Comprador comprador=new Comprador();
 		comprador.setNombre(nombre);
 		comprador.setTelefono(telefono);
-		CollitaDAOIfc collitaDAO=CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO=CollitaDAOSqlite.getInstance(getApplicationContext());
 		try {
 			collitaDAO.guardarComprador(comprador);
 			setResult(1);

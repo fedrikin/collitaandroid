@@ -34,7 +34,7 @@ public class EditarCuadrillaActivity extends Activity {
 		
 		Integer cuadrillaId=getIntent().getIntExtra("cuadrilla_id",0);
 		System.out.println("id:"+cuadrillaId);
-		CollitaDAOIfc collitaDAO=CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO=CollitaDAOSqlite.getInstance(getApplicationContext());
 		cuadrilla=collitaDAO.getCuadrillaById(cuadrillaId);
 		nombreCuadrillaEditText.setText(cuadrilla.getNombre());
 		numeroCollidorsEditText.setText(""+cuadrilla.getNumeroCollidors());		
@@ -57,7 +57,7 @@ public class EditarCuadrillaActivity extends Activity {
 		}
 		cuadrilla.setNumeroCollidors(Integer.parseInt(numeroCollidorsEditText.getText().toString()));		
 		cuadrilla.setTelefono(telefonoEditText.getText().toString());
-		CollitaDAO.getInstance().actualizarCuadrilla(cuadrilla);
+		CollitaDAOSqlite.getInstance(getApplicationContext()).actualizarCuadrilla(cuadrilla);
 		setResult(1);
 		finish();
 	}

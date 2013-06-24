@@ -3,8 +3,6 @@ package com.fedesoft.collitaandroid;
 import java.util.List;
 
 import com.fedesoft.collitaandroid.model.Camion;
-import com.fedesoft.collitaandroid.model.Cuadrilla;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -23,7 +21,7 @@ public class CamionesActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_camiones);
-		agregarCamionesButton=(Button)findViewById(R.id.agregarcamionbutton);
+		agregarCamionesButton=(Button)findViewById(R.id.agregarcuadrillabutton);
 		camionesLinearLayout=(LinearLayout)findViewById(R.id.listacuadrillaslinearlayout);
 		
 		agregarCamionesButton.setOnClickListener(new OnClickListener() {			
@@ -43,7 +41,7 @@ public class CamionesActivity extends Activity {
   	}
 	private void refrescarLista() {
 		camionesLinearLayout.removeAllViews();
-		CollitaDAOIfc collitaDAO=CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO=CollitaDAOSqlite.getInstance(getApplicationContext());
 		List<Camion> camiones= collitaDAO.recuperarCamiones();
 		for(final Camion c:camiones){
 			Button b=new Button(getApplicationContext());

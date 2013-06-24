@@ -33,7 +33,7 @@ public class EditarCompradorActivity extends Activity {
 		});
 		Integer compradorId=getIntent().getIntExtra("comprador_id",0);
 		System.out.println("id"+compradorId);
-		CollitaDAOIfc collitaDAO=CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO=CollitaDAOSqlite.getInstance(getApplicationContext());
 	    comprador=collitaDAO.getCompradorById(compradorId);
 		nombreCompradorEditText.setText(comprador.getNombre());
 		telefonoCompradorEditText.setText(comprador.getTelefono());
@@ -48,7 +48,7 @@ public class EditarCompradorActivity extends Activity {
     	}
     	comprador.setNombre(nombreCompradorEditText.getText().toString());
     	comprador.setTelefono(telefonoCompradorEditText.getText().toString());
-    	CollitaDAO.getInstance().actualizarComprador(comprador);
+    	CollitaDAOSqlite.getInstance(getApplicationContext()).actualizarComprador(comprador);
     	setResult(1);
     	finish();
     	    	

@@ -530,7 +530,7 @@ public class CollitaDAO implements CollitaDAOIfc {
 	public void actualizarOrdenCollita(OrdenCollita ordencollita){
     	for (OrdenCollita ordencollitaAux:ordenesCollitas){
     		if ( ordencollitaAux.getId()==ordencollita.getId()){
-    			 ordencollitaAux.setFechaCollita(ordencollita.getFechaCollita());//no faria falta
+    			 ordencollitaAux.setFechaCollita(ordencollita.getFechaCollita());
     			 ordencollitaAux.setCuadrilla(ordencollita.getCuadrilla());
     			 ordencollitaAux.setCamion(ordencollita.getCamion());
     			 ordencollitaAux.setComprador(ordencollita.getComprador());

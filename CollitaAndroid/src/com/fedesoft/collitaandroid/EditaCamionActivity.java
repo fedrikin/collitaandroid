@@ -36,7 +36,7 @@ public class EditaCamionActivity extends Activity {
 		
 		Integer camionId=getIntent().getIntExtra("camion_id",0);
 		System.out.println("id:"+camionId);
-		CollitaDAOIfc collitaDAO=CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO=CollitaDAOSqlite.getInstance(getApplicationContext());
 		camion=collitaDAO.getCamionById(camionId);
 		nombreCamionEditText.setText(camion.getNombre());
 		nombreConductorEditText.setText(camion.getConductor());
@@ -62,7 +62,7 @@ public class EditaCamionActivity extends Activity {
 				return;
 	      }
 	      camion.setCajonesMaximo(Integer.parseInt(cajonesMaximoEditText.getText().toString()));
-	      CollitaDAO.getInstance().actualizarCamion(camion);
+	      CollitaDAOSqlite.getInstance(getApplicationContext()).actualizarCamion(camion);
 	      setResult(1);
 	      finish();
 	    }

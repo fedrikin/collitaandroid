@@ -54,7 +54,7 @@ public class NuevoTermeActivity extends Activity {
 		Terme terme = new Terme();
 		terme.setNombre(nombre);		
 		terme.setPrecioKilo(Double.parseDouble(precio));
-		CollitaDAOIfc collitaDAO=CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO=CollitaDAOSqlite.getInstance(getApplicationContext());
 		try {
 			collitaDAO.guardarTerme(terme);
 			setResult(1);

@@ -32,7 +32,7 @@ public class EditarTermesActivity extends Activity {
 		});
 		Integer termeId=getIntent().getIntExtra("terme_id",0);
 		System.out.println("id:"+termeId);
-		CollitaDAOIfc collitaDAO=CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO=CollitaDAOSqlite.getInstance(getApplicationContext());
 	    terme=collitaDAO.getTermeById(termeId);
 		nombreTermeEditText.setText(terme.getNombre());
 		preciokgEditText.setText(""+terme.getPrecioKilo());
@@ -53,7 +53,7 @@ public class EditarTermesActivity extends Activity {
 			return;
 	    }
 	    terme.setPrecioKilo(Double.parseDouble(preciokgEditText.getText().toString()));
-	    CollitaDAO.getInstance().actualizaTerme(terme);
+	    CollitaDAOSqlite.getInstance(getApplicationContext()).actualizaTerme(terme);
 	    setResult(1);
 	    finish();
 	}

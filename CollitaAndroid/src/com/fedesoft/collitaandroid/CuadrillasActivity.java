@@ -21,7 +21,7 @@ public class CuadrillasActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_cuadrillas);
-		agregarCuadrillaButton=(Button)findViewById(R.id.agregarcamionbutton);
+		agregarCuadrillaButton=(Button)findViewById(R.id.agregarcuadrillabutton);
 		cuadrillasLinearLayout=(LinearLayout)findViewById(R.id.listacuadrillaslinearlayout);
 		agregarCuadrillaButton.setOnClickListener(new OnClickListener() {		
 			@Override

@@ -5,7 +5,7 @@
     tools:context=".CamionesActivity" >
     
      <Button
-        android:id="@+id/agregarcamionbutton"
+        android:id="@+id/agregarcuadrillabutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -17,7 +17,7 @@
         android:id="@+id/scrollView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/agregarcamionbutton"
+        android:layout_above="@+id/agregarcuadrillabutton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true" >
