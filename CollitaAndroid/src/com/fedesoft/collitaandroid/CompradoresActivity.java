@@ -42,7 +42,7 @@ public class CompradoresActivity extends Activity {
 		}
 		private void refrescarlista(){
 		listaCompradoresLayout.removeAllViews();	
-		CollitaDAOIfc collitaDAO=CollitaDAOSqlite.getInstance(getApplicationContext());
+		CollitaDAOIfc collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 		List<Comprador> compradores= collitaDAO.recuperarCompradores();
 		for(final Comprador c:compradores){
 			Button b=new Button(getApplicationContext());

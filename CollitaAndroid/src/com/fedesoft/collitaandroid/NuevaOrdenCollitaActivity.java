@@ -50,6 +50,7 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 	private Button seleccionVariedadButton;
 	private Button guardaButton;
 	private Button fechaOrdenButton;
+	private CollitaDAOIfc collitaDAO;
 	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
 			"dd/MM/yyyy");
 	Date fecha = new Date();
@@ -84,6 +85,7 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 		
 		fechaOrdenButton.setText(simpleDateFormat.format(fecha));
 		fechaOrdenButton.setOnClickListener(this);
+		collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 			
 		// Cargar datos...............
 		cargarCuadrillas();
@@ -100,27 +102,27 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 	}
      // METODOS......................
 	private void cargarCuadrillas() {
-		List<Cuadrilla> cuadrillas = CollitaDAO.getInstance().recuperarCuadrillas();
+		List<Cuadrilla> cuadrillas = collitaDAO.recuperarCuadrillas(true);
 		ArrayAdapter<Cuadrilla> adapter=new ArrayAdapter<Cuadrilla>(this,android.R.layout.simple_dropdown_item_1line,cuadrillas.toArray(new Cuadrilla[]{}));
 		cuadrillaOrdenAutoComplete.setAdapter(adapter);
 	}
 	private void cargarCamiones() {
-		List<Camion> camiones = CollitaDAO.getInstance().recuperarCamiones();
+		List<Camion> camiones = collitaDAO.recuperarCamiones();
 		ArrayAdapter<Camion> adapter=new ArrayAdapter<Camion>(this,android.R.layout.simple_dropdown_item_1line,camiones.toArray(new Camion[]{}));
 		camionOrdenAutoComplete.setAdapter(adapter);
 	}
 	private void cargarCompradores() {
-		List<Comprador> compradores = CollitaDAO.getInstance().recuperarCompradores();
+		List<Comprador> compradores = collitaDAO.recuperarCompradores();
 		ArrayAdapter<Comprador> adapter=new ArrayAdapter<Comprador>(this,android.R.layout.simple_dropdown_item_1line,compradores.toArray(new Comprador[]{}));
 		compradorOrdenAutoComplete.setAdapter(adapter);
 	}
 	private void cargarTermes() {
-		List<Terme> termes = CollitaDAO.getInstance().recuperarTermes();
+		List<Terme> termes = collitaDAO.recuperarTermes();
 		ArrayAdapter<Terme> adapter=new ArrayAdapter<Terme>(this,android.R.layout.simple_dropdown_item_1line,termes.toArray(new Terme[]{}));
 		termeOrdenAutoComplete.setAdapter(adapter);
 	}
 	private void cargarVariedades() {
-		List<Variedad> variedades = CollitaDAO.getInstance().recuperarVariedades();
+		List<Variedad> variedades = collitaDAO.recuperarVariedades();
 		ArrayAdapter<Variedad> adapter=new ArrayAdapter<Variedad>(this,android.R.layout.simple_dropdown_item_1line,variedades.toArray(new Variedad[]{}));
 		variedadOrdenAutoComplete.setAdapter(adapter);
 	}
@@ -155,13 +157,11 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 		ordenCollita.setCajonesPrevistos(Integer.parseInt(cajonePrevistos));
 		ordenCollita.setPropietario(propietario);
 		ordenCollita.setFechaCollita(fecha);
-		ordenCollita.setCuadrilla(CollitaDAO.getInstance().buscarCuadrillaPorNombre(cuadrilla));
-        ordenCollita.setCamion(CollitaDAO.getInstance().buscarCamionPorNombre(camion));
-        ordenCollita.setComprador(CollitaDAO.getInstance().buscarCompradorPorNombre(comprador));
-        ordenCollita.setTerme(CollitaDAO.getInstance().buscarTermePorNombre(terme));
-        ordenCollita.setVariedad(CollitaDAO.getInstance().buscarVariedadPorNombre(variedad));
-	
-		CollitaDAOIfc collitaDAO = CollitaDAO.getInstance();
+		ordenCollita.setCuadrilla(collitaDAO.buscarCuadrillaPorNombre(cuadrilla));
+        ordenCollita.setCamion(collitaDAO.buscarCamionPorNombre(camion));
+        ordenCollita.setComprador(collitaDAO.buscarCompradorPorNombre(comprador));
+        ordenCollita.setTerme(collitaDAO.buscarTermePorNombre(terme));
+        ordenCollita.setVariedad(collitaDAO.buscarVariedadPorNombre(variedad));
 		collitaDAO.guardarOrdenCollita(ordenCollita);
 		setResult(1);
 		finish();

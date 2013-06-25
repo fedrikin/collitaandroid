@@ -303,7 +303,7 @@ public class CollitaDAO implements CollitaDAOIfc {
 	}
 	
 	@Override
-	public List<Cuadrilla> recuperarCuadrillas(){		
+	public List<Cuadrilla> recuperarCuadrillas(Boolean activas){		
 		return cuadrillas;
 	}
 	
@@ -566,4 +566,12 @@ public class CollitaDAO implements CollitaDAOIfc {
 		}
 		return ordenesCollitaFecha;
 	}
+
+	@Override
+	public List<Cuadrilla> buscarCuadrillasPorNombre(String nombre) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 }

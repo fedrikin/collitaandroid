@@ -41,7 +41,7 @@ public class CamionesActivity extends Activity {
   	}
 	private void refrescarLista() {
 		camionesLinearLayout.removeAllViews();
-		CollitaDAOIfc collitaDAO=CollitaDAOSqlite.getInstance(getApplicationContext());
+		CollitaDAOIfc collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 		List<Camion> camiones= collitaDAO.recuperarCamiones();
 		for(final Camion c:camiones){
 			Button b=new Button(getApplicationContext());

@@ -44,7 +44,7 @@ public class TermesActivity extends Activity {
 	}
     private void refrescarlista(){
     	listaTermesLinearLayout.removeAllViews();
-		CollitaDAOIfc collitaDAO=CollitaDAOSqlite.getInstance(getApplicationContext());
+		CollitaDAOIfc collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 		List<Terme> termes= collitaDAO.recuperarTermes();
 		for(final Terme terme:termes){
 			Button b=new Button(getApplicationContext());

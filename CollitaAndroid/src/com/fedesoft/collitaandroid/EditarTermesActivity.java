@@ -32,7 +32,7 @@ public class EditarTermesActivity extends Activity {
 		});
 		Integer termeId=getIntent().getIntExtra("terme_id",0);
 		System.out.println("id:"+termeId);
-		CollitaDAOIfc collitaDAO=CollitaDAOSqlite.getInstance(getApplicationContext());
+		CollitaDAOIfc collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 	    terme=collitaDAO.getTermeById(termeId);
 		nombreTermeEditText.setText(terme.getNombre());
 		preciokgEditText.setText(""+terme.getPrecioKilo());

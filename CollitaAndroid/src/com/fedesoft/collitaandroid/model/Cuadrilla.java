@@ -5,6 +5,7 @@ public class Cuadrilla {
 	private String nombre;
 	private Integer numeroCollidors;
 	private String telefono;
+	private boolean activa;
 	
 	public void setId(Integer id){
 		this.id=id;
@@ -40,6 +41,14 @@ public class Cuadrilla {
 	
 	public String toString(){
 		return nombre;
+	}
+
+	public boolean isActiva() {
+		return activa;
+	}
+
+	public void setActiva(boolean activa) {
+		this.activa = activa;
 	}
 	
 	

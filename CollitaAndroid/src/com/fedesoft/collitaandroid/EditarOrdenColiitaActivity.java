@@ -68,7 +68,7 @@ public class EditarOrdenColiitaActivity extends Activity implements OnClickListe
 		
 		Integer ordenCollitaId=getIntent().getIntExtra("ordencollita_id",0);
 		System.out.println("id:"+ordenCollitaId);
-		CollitaDAOIfc collitaDAO=CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 		ordecollita=collitaDAO.getOrdenCollitadById(ordenCollitaId);
 		
 		propietarioEditText.setText(ordecollita.getPropietario());
@@ -104,7 +104,7 @@ public class EditarOrdenColiitaActivity extends Activity implements OnClickListe
 	}
      // METODOS......................
 	private void cargarCuadrillas() {
-		List<Cuadrilla> cuadrillas = CollitaDAO.getInstance().recuperarCuadrillas();
+		List<Cuadrilla> cuadrillas = CollitaDAO.getInstance().recuperarCuadrillas(true);
 		ArrayAdapter<Cuadrilla> adapter=new ArrayAdapter<Cuadrilla>(this,android.R.layout.simple_dropdown_item_1line,cuadrillas.toArray(new Cuadrilla[]{}));
 		cuadrillaOrdenAutoComplete.setAdapter(adapter);
 	}

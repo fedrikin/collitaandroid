@@ -10,7 +10,8 @@ CREATE TABLE cuadrilla (
   ID Integer primary key ,
   NOMBRE varchar  NULL,
   NUMEROCOLLIDORS int  NULL,
-  TELEFONO varchar  NULL
+  TELEFONO varchar  NULL,
+  ACTIVA boolean NULL
 );
 
 CREATE TABLE comprador (

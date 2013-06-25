@@ -82,7 +82,7 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		}
 		ordenesLinearLayout.removeAllViews();
-		CollitaDAOIfc collitaDAO = CollitaDAO.getInstance();
+		CollitaDAOIfc collitaDAO = CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 		List<OrdenCollita> ordenes = collitaDAO.recuperarOrdenesCollita(fecha);
 		for (final OrdenCollita ordenCollita : ordenes) {
 			Button ordenCollitaButton = new Button(getApplicationContext());

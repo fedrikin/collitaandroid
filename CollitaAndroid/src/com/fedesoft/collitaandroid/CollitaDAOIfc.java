@@ -18,14 +18,16 @@ import com.fedesoft.collitaandroid.model.Variedad;
 public interface CollitaDAOIfc {
 
 	public  Cuadrilla getCuadrillaById(Integer id);
-
+		
 	public abstract void actualizarCuadrilla(Cuadrilla cuadrilla);
 
 	public abstract void guardarCuadrilla(Cuadrilla cuadrilla)
 			throws CuadrillaYaExisteException;
 
-	public abstract List<Cuadrilla> recuperarCuadrillas();
+	public abstract List<Cuadrilla> recuperarCuadrillas(Boolean activas);
 
+	public abstract List<Cuadrilla> buscarCuadrillasPorNombre(String nombre);
+	
 	public abstract Cuadrilla buscarCuadrillaPorNombre(String nombre);
 
 	public abstract Camion getCamionById(Integer id);
