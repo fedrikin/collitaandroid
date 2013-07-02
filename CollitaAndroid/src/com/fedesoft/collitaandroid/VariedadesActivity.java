@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 public class VariedadesActivity extends Activity {
     private Button agregarVariedadButton;
     private LinearLayout listaVariedadeslinearlayout;
-    
+    private CollitaDAOIfc collitaDAO;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,11 +41,11 @@ public class VariedadesActivity extends Activity {
 	}
 	private void refrescarlista(){
 		listaVariedadeslinearlayout.removeAllViews();
-		CollitaDAOIfc collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
+		collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 		List<Variedad> variedades= collitaDAO.recuperarVariedades();
 		for(final Variedad variedad:variedades){
 			Button b=new Button(getApplicationContext());
-			b.setText(variedad.getNombre());
+			b.setText(variedad.getNombre()+"-"+variedad.getId());
 			listaVariedadeslinearlayout.addView(b);
 			b.setOnClickListener(new OnClickListener() {				
 				@Override

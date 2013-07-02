@@ -33,6 +33,7 @@ public class MainActivity extends Activity {
 			"dd/MM/yyyy");
 	private LinearLayout ordenesLinearLayout;
 	private Button agregarButton;
+	
 	Date fecha = new Date();
 
 	@Override
@@ -82,8 +83,8 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		}
 		ordenesLinearLayout.removeAllViews();
-		CollitaDAOIfc collitaDAO = CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
-		List<OrdenCollita> ordenes = collitaDAO.recuperarOrdenesCollita(fecha);
+	    CollitaDAOIfc collitaDAO = CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
+		List<OrdenCollita> ordenes=collitaDAO.recuperarOrdenesCollita(fecha);
 		for (final OrdenCollita ordenCollita : ordenes) {
 			Button ordenCollitaButton = new Button(getApplicationContext());
 			ordenCollitaButton.setText(ordenCollita.getId() +"-"+ ordenCollita.getPropietario());

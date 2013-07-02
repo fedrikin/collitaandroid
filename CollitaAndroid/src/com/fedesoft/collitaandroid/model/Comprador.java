@@ -4,7 +4,7 @@ public class Comprador {
 	private Integer id;
 	private String nombre;
 	private String telefono;
-	
+	private boolean activo;
 	
 	public Integer getId() {
 		return id;
@@ -26,5 +26,11 @@ public class Comprador {
 	}
 	public String toString(){
 		return nombre;
+	}
+	public boolean isActivo() {
+		return activo;
+	}
+	public void setActivo(boolean activo) {
+		this.activo = activo;
 	}
 }

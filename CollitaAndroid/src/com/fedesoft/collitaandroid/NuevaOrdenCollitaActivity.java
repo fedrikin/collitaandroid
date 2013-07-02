@@ -107,12 +107,12 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 		cuadrillaOrdenAutoComplete.setAdapter(adapter);
 	}
 	private void cargarCamiones() {
-		List<Camion> camiones = collitaDAO.recuperarCamiones();
+		List<Camion> camiones = collitaDAO.recuperarCamiones(true);
 		ArrayAdapter<Camion> adapter=new ArrayAdapter<Camion>(this,android.R.layout.simple_dropdown_item_1line,camiones.toArray(new Camion[]{}));
 		camionOrdenAutoComplete.setAdapter(adapter);
 	}
 	private void cargarCompradores() {
-		List<Comprador> compradores = collitaDAO.recuperarCompradores();
+		List<Comprador> compradores = collitaDAO.recuperarCompradores(true);
 		ArrayAdapter<Comprador> adapter=new ArrayAdapter<Comprador>(this,android.R.layout.simple_dropdown_item_1line,compradores.toArray(new Comprador[]{}));
 		compradorOrdenAutoComplete.setAdapter(adapter);
 	}

@@ -37,7 +37,7 @@ public interface CollitaDAOIfc {
 	public abstract void guardarCamion(Camion camion)
 			throws CamionYaExisteException;
 
-	public abstract List<Camion> recuperarCamiones();
+	public abstract List<Camion> recuperarCamiones(Boolean activos);
 
 	public abstract Camion buscarCamionPorNombre(String nombre);
 
@@ -48,7 +48,7 @@ public interface CollitaDAOIfc {
 	public abstract void guardarComprador(Comprador comprador)
 			throws CompradorYaExisteException;
 
-	public abstract List<Comprador> recuperarCompradores();
+	public abstract List<Comprador> recuperarCompradores(Boolean activos);
 
 	public  Comprador buscarCompradorPorNombre(String nombre);
 

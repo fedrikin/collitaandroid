@@ -16,6 +16,7 @@ public class NuevoCompradorActivity extends Activity {
 	private EditText nombreCompradorEditText;	
 	private EditText telefonoCompradorEditText;
 	private Button guardaButton;
+	private CollitaDAOIfc collitaDAO;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,7 +44,8 @@ public class NuevoCompradorActivity extends Activity {
 		Comprador comprador=new Comprador();
 		comprador.setNombre(nombre);
 		comprador.setTelefono(telefono);
-		CollitaDAOIfc collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
+		comprador.setActivo(true);
+	    collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 		try {
 			collitaDAO.guardarComprador(comprador);
 			setResult(1);

@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 public class TermesActivity extends Activity {
 	private Button agregarTermesButton;
     private LinearLayout listaTermesLinearLayout;
-    
+    private CollitaDAOIfc collitaDAO;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +44,11 @@ public class TermesActivity extends Activity {
 	}
     private void refrescarlista(){
     	listaTermesLinearLayout.removeAllViews();
-		CollitaDAOIfc collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
+	    collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 		List<Terme> termes= collitaDAO.recuperarTermes();
 		for(final Terme terme:termes){
 			Button b=new Button(getApplicationContext());
-			b.setText(terme.getNombre());
+			b.setText(terme.getNombre()+ "-"+ terme.getId());
 			listaTermesLinearLayout.addView(b);
 			b.setOnClickListener(new OnClickListener() {
 				

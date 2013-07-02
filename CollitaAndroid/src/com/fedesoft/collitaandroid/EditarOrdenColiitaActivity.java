@@ -37,6 +37,7 @@ public class EditarOrdenColiitaActivity extends Activity implements OnClickListe
 	private Button seleccionVariedadButton;
 	private Button editaButton;
 	private OrdenCollita ordecollita;
+	private CollitaDAOIfc collitaDAO;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +65,12 @@ public class EditarOrdenColiitaActivity extends Activity implements OnClickListe
 		editaButton=(Button) findViewById(R.id.editarrordenbutton);
 		editaButton.setOnClickListener(this);
 		
+		
        // Arreplega els datos desde mainactivity
 		
 		Integer ordenCollitaId=getIntent().getIntExtra("ordencollita_id",0);
 		System.out.println("id:"+ordenCollitaId);
-		CollitaDAOIfc collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
+		collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 		ordecollita=collitaDAO.getOrdenCollitadById(ordenCollitaId);
 		
 		propietarioEditText.setText(ordecollita.getPropietario());
@@ -104,27 +106,28 @@ public class EditarOrdenColiitaActivity extends Activity implements OnClickListe
 	}
      // METODOS......................
 	private void cargarCuadrillas() {
-		List<Cuadrilla> cuadrillas = CollitaDAO.getInstance().recuperarCuadrillas(true);
+		List<Cuadrilla> cuadrillas = collitaDAO.recuperarCuadrillas(true);
 		ArrayAdapter<Cuadrilla> adapter=new ArrayAdapter<Cuadrilla>(this,android.R.layout.simple_dropdown_item_1line,cuadrillas.toArray(new Cuadrilla[]{}));
 		cuadrillaOrdenAutoComplete.setAdapter(adapter);
 	}
 	private void cargarCamiones() {
-		List<Camion> camiones = CollitaDAO.getInstance().recuperarCamiones();
+		List<Camion> camiones = collitaDAO.recuperarCamiones(true);
 		ArrayAdapter<Camion> adapter=new ArrayAdapter<Camion>(this,android.R.layout.simple_dropdown_item_1line,camiones.toArray(new Camion[]{}));
 		camionOrdenAutoComplete.setAdapter(adapter);
 	}
+	
 	private void cargarCompradores() {
-		List<Comprador> compradores = CollitaDAO.getInstance().recuperarCompradores();
+		List<Comprador> compradores = collitaDAO.recuperarCompradores(true);
 		ArrayAdapter<Comprador> adapter=new ArrayAdapter<Comprador>(this,android.R.layout.simple_dropdown_item_1line,compradores.toArray(new Comprador[]{}));
 		compradorOrdenAutoComplete.setAdapter(adapter);
 	}
 	private void cargarTermes() {
-		List<Terme> termes = CollitaDAO.getInstance().recuperarTermes();
+		List<Terme> termes = collitaDAO.recuperarTermes();
 		ArrayAdapter<Terme> adapter=new ArrayAdapter<Terme>(this,android.R.layout.simple_dropdown_item_1line,termes.toArray(new Terme[]{}));
 		termeOrdenAutoComplete.setAdapter(adapter);
 	}
 	private void cargarVariedades() {
-		List<Variedad> variedades = CollitaDAO.getInstance().recuperarVariedades();
+		List<Variedad> variedades = collitaDAO.recuperarVariedades();
 		ArrayAdapter<Variedad> adapter=new ArrayAdapter<Variedad>(this,android.R.layout.simple_dropdown_item_1line,variedades.toArray(new Variedad[]{}));
 		variedadOrdenAutoComplete.setAdapter(adapter);
 	}
@@ -141,13 +144,13 @@ public class EditarOrdenColiitaActivity extends Activity implements OnClickListe
 		String variedad = variedadOrdenAutoComplete.getText().toString();
 		String terme = termeOrdenAutoComplete.getText().toString();
 		String comprador = compradorOrdenAutoComplete.getText().toString();
-		ordecollita.setCuadrilla(CollitaDAO.getInstance().buscarCuadrillaPorNombre(cuadrilla));
-		ordecollita.setCamion(CollitaDAO.getInstance().buscarCamionPorNombre(camion));
-		ordecollita.setComprador(CollitaDAO.getInstance().buscarCompradorPorNombre(comprador));
-		ordecollita.setTerme(CollitaDAO.getInstance().buscarTermePorNombre(terme));
-		ordecollita.setVariedad(CollitaDAO.getInstance().buscarVariedadPorNombre(variedad));
+		ordecollita.setCuadrilla(collitaDAO.buscarCuadrillaPorNombre(cuadrilla));
+		ordecollita.setCamion(collitaDAO.buscarCamionPorNombre(camion));
+		ordecollita.setComprador(collitaDAO.buscarCompradorPorNombre(comprador));
+		ordecollita.setTerme(collitaDAO.buscarTermePorNombre(terme));
+		ordecollita.setVariedad(collitaDAO.buscarVariedadPorNombre(variedad));
 		
-		CollitaDAO.getInstance().actualizarOrdenCollita(ordecollita);
+		collitaDAO.actualizarOrdenCollita(ordecollita);
 		setResult(1);
 		finish();
 	}

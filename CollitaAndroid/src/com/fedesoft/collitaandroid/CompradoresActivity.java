@@ -16,6 +16,7 @@ public class CompradoresActivity extends Activity {
 
 	private Button agregarCompradoresButton;
 	private LinearLayout listaCompradoresLayout;
+	private CollitaDAOIfc collitaDAO;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +43,8 @@ public class CompradoresActivity extends Activity {
 		}
 		private void refrescarlista(){
 		listaCompradoresLayout.removeAllViews();	
-		CollitaDAOIfc collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
-		List<Comprador> compradores= collitaDAO.recuperarCompradores();
+		collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
+		List<Comprador> compradores= collitaDAO.recuperarCompradores(null);
 		for(final Comprador c:compradores){
 			Button b=new Button(getApplicationContext());
 			b.setText(c.getNombre());

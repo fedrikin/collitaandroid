@@ -3,7 +3,8 @@ CREATE TABLE  camion (
   CAJONESMAXIMO int  NULL,
   CONDUCTOR VARCHAR NULL,
   NOMBRE VARCHAR NULL,
-  TELEFONO VARCHAR NULL
+  TELEFONO VARCHAR NULL,
+  ACTIVO boolean NULL
 );
 
 CREATE TABLE cuadrilla (
@@ -17,8 +18,8 @@ CREATE TABLE cuadrilla (
 CREATE TABLE comprador (
   ID Integer primary key ,
   NOMBRE varchar DEFAULT NULL,
-  TELEFONO varchar DEFAULT NULL
-
+  TELEFONO varchar DEFAULT NULL,
+  ACTIVO boolean NULL
 );
 
 
@@ -28,7 +29,7 @@ CREATE TABLE comprador (
 CREATE TABLE ordencollita (
   ID Integer primary key ,
   CAJONESPREVISTOS int  NULL,
-  FECHACOLLITA date  NULL,
+  FECHACOLLITA date  NULL,  
   CAMION_ID int  NULL,
   COMPRADOR_ID int  NULL,
   CUADRILLA_ID int  NULL,

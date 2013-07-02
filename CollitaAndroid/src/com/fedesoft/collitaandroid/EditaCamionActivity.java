@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -16,7 +17,9 @@ public class EditaCamionActivity extends Activity {
     private EditText cajonesMaximoEditText;
     private EditText telefonoEditText;
     private Button  editarCamionButton;
+    private CheckBox activoCheckBox;
     private Camion camion;
+    private CollitaDAOIfc collitaDAO;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -25,6 +28,7 @@ public class EditaCamionActivity extends Activity {
 		nombreConductorEditText= (EditText) findViewById(R.id.nombreconductoreditText);
 		cajonesMaximoEditText=(EditText) findViewById(R.id.numerocajoneseditText);
 		telefonoEditText=(EditText) findViewById(R.id.telefonoconductoreditText);
+		activoCheckBox=(CheckBox) findViewById(R.id.camionaActivocheckBox);
 		editarCamionButton=(Button) findViewById(R.id.guardarnuevocamionbutton);
 		editarCamionButton.setOnClickListener(new OnClickListener() {
 			
@@ -34,15 +38,14 @@ public class EditaCamionActivity extends Activity {
 			}		
 		});
 		
-		Integer camionId=getIntent().getIntExtra("camion_id",0);
-		System.out.println("id:"+camionId);
-		CollitaDAOIfc collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
+		Integer camionId=getIntent().getIntExtra("camion_id",0);		
+	    collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 		camion=collitaDAO.getCamionById(camionId);
 		nombreCamionEditText.setText(camion.getNombre());
 		nombreConductorEditText.setText(camion.getConductor());
 		cajonesMaximoEditText.setText(""+camion.getCajonesMaximo());	
 		telefonoEditText.setText(camion.getTelefono());
-				
+		activoCheckBox.setChecked(camion.isActivo());		
 	}
 	    private void editarcamion() {
 	     
@@ -62,6 +65,7 @@ public class EditaCamionActivity extends Activity {
 				return;
 	      }
 	      camion.setCajonesMaximo(Integer.parseInt(cajonesMaximoEditText.getText().toString()));
+	      camion.setActivo(activoCheckBox.isChecked());
 	      CollitaDAOSqlite.getInstance(getApplicationContext()).actualizarCamion(camion);
 	      setResult(1);
 	      finish();

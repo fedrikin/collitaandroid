@@ -356,7 +356,7 @@ public class CollitaDAO implements CollitaDAOIfc {
 	}
 	
     @Override
-	public List<Camion> recuperarCamiones(){
+	public List<Camion> recuperarCamiones(Boolean activo){
     	
 		return camiones;    	
     }
@@ -403,8 +403,7 @@ public class CollitaDAO implements CollitaDAOIfc {
 		  compradores.add(comprador);
 		  contador++;
 	}
-    @Override
-	public List<Comprador> recuperarCompradores(){
+    public List<Comprador> recuperarCompradores(boolean activos){
     	
 		return compradores;
     }
@@ -569,6 +568,12 @@ public class CollitaDAO implements CollitaDAOIfc {
 
 	@Override
 	public List<Cuadrilla> buscarCuadrillasPorNombre(String nombre) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Comprador> recuperarCompradores(Boolean activos) {
 		// TODO Auto-generated method stub
 		return null;
 	}

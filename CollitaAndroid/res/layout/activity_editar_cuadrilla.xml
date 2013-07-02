@@ -48,11 +48,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/numcollidorseditText"
+        android:layout_marginTop="14dp"
         android:ems="10"
-        android:inputType="phone" >
-
-        <requestFocus />
-    </EditText>
+        android:inputType="phone" />
 
     <TextView
         android:id="@+id/textView3"
@@ -63,16 +61,6 @@
         android:text="Telefono"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <Button
-        android:id="@+id/guardarcuadrillabutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/telefonocuadrillaeditText"
-        android:layout_marginTop="49dp"
-        android:text="Guardar" />
-
     <CheckBox
         android:id="@+id/cuadrillaactivacheckBox"
         android:layout_width="wrap_content"
@@ -80,7 +68,16 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/textView3"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="20dp"
         android:text="Activa" />
+
+    <Button
+        android:id="@+id/guardarcuadrillabutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/cuadrillaactivacheckBox"
+        android:text="Guardar" />
 
 </RelativeLayout>

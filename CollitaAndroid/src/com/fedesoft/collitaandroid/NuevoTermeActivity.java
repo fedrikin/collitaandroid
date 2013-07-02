@@ -16,6 +16,7 @@ public class NuevoTermeActivity extends Activity {
 	private EditText nombreTermeEditText;
 	private EditText precioTermeEditText;
 	private Button guardaButton;
+	private CollitaDAOIfc collitaDAO;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class NuevoTermeActivity extends Activity {
 		Terme terme = new Terme();
 		terme.setNombre(nombre);		
 		terme.setPrecioKilo(Double.parseDouble(precio));
-		CollitaDAOIfc collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
+	    collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 		try {
 			collitaDAO.guardarTerme(terme);
 			setResult(1);

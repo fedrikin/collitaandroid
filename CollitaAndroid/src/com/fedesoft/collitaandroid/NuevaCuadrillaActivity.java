@@ -17,6 +17,7 @@ public class NuevaCuadrillaActivity extends Activity {
 	private EditText numeroCollidorsEditText;
 	private EditText telefonoEditText;
 	private Button guardaButton;
+	private CollitaDAOIfc collitaDAO;
 			
 
 	@Override
@@ -56,7 +57,7 @@ public class NuevaCuadrillaActivity extends Activity {
 		cuadrilla.setNumeroCollidors(Integer.parseInt(numeroCollidors));
 		cuadrilla.setTelefono(telefono);
 		cuadrilla.setActiva(true);
-		CollitaDAOIfc collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
+		collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 		try{
 			collitaDAO.guardarCuadrilla(cuadrilla);
 			setResult(1);

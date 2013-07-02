@@ -92,6 +92,14 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:text="Guardar" />
-    
+
+    <CheckBox
+        android:id="@+id/camionaActivocheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/guardarnuevocamionbutton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:text="Activo" />
 
 </RelativeLayout>
