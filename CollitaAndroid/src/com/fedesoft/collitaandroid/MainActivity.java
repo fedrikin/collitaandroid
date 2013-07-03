@@ -95,6 +95,9 @@ public class MainActivity extends Activity {
 		List<OrdenCollita> ordenes = collitaDAO.recuperarOrdenesCollita(fecha);
 		HashMap<String, Integer> cajonesVariedad = new HashMap<String, Integer>();
 		for (final OrdenCollita ordenCollita : ordenes) {
+			if(filtro !=null && !ordenCollita.getVariedad().getNombre().equals(filtro)){
+				continue;
+			}
 			Button ordenCollitaButton = new Button(getApplicationContext());
 			ordenCollitaButton.setText(ordenCollita.getId() + "-"
 					+ ordenCollita.getPropietario());
@@ -128,6 +131,13 @@ public class MainActivity extends Activity {
 		Button totalButton = new Button(getApplicationContext());
 		totalButton.setLayoutParams(params);
 		totalButton.setText("Total");
+		totalButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				filtrarVariedad("Total");
+			}
+		});
 		TextView totalTextView = new TextView(getApplicationContext());
 		totalTextView.setLayoutParams(params);
 		totalTextView.setGravity(Gravity.CENTER_HORIZONTAL);
