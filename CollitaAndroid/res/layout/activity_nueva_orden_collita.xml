@@ -133,8 +133,8 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/elijecuadrillaButton"
         android:layout_toRightOf="@+id/textView3"
         android:text="Button" />
 
@@ -224,5 +224,27 @@
         android:layout_alignRight="@+id/textView8"
         android:text="Cuadrilla :"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/diamasbutton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/diamenosbutton"
+        android:layout_alignLeft="@+id/elijecuadrillaButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="^" />
+
+    <Button
+        android:id="@+id/diamenosbutton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/fechaOrdenbutton"
+        android:layout_alignLeft="@+id/elijecuadrillaButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/textView1"
+        android:text="v" />
 
 </RelativeLayout>

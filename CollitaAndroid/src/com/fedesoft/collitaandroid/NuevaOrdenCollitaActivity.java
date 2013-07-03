@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.fedesoft.collitaandroid.model.Camion;
@@ -50,6 +51,8 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 	private Button seleccionVariedadButton;
 	private Button guardaButton;
 	private Button fechaOrdenButton;
+	private Button diaMasButton;
+	private Button diaMenosButton;
 	private CollitaDAOIfc collitaDAO;
 	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
 			"dd/MM/yyyy");
@@ -67,6 +70,8 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 		compradorOrdenAutoComplete = (AutoCompleteTextView) findViewById(R.id.compradorOrdenAutoCompleteText);
 		propietarioEditText = (EditText) findViewById(R.id.propietarioordeneditText);
 		cajonesOrdenEditText = (EditText) findViewById(R.id.cajonesEditText);
+		diaMasButton= (Button) findViewById(R.id.diamasbutton);
+		diaMenosButton=(Button)findViewById(R.id.diamenosbutton);
 		fechaOrdenButton = (Button) findViewById(R.id.fechaOrdenbutton);
 		// La propia activitat fa les funcions de onclicklistener
 		seleccionCuadrillaButton = (Button) findViewById(R.id.elijecuadrillaButton);		
@@ -85,6 +90,10 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 		
 		fechaOrdenButton.setText(simpleDateFormat.format(fecha));
 		fechaOrdenButton.setOnClickListener(this);
+		diaMasButton.setOnClickListener(this);
+		diaMenosButton.setOnClickListener(this);
+		
+		
 		collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 			
 		// Cargar datos...............
@@ -144,15 +153,12 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 			cajonePrevistos = "0";
 			return;
 		}
-		String propietario = propietarioEditText.getText().toString();
-		
+		String propietario = propietarioEditText.getText().toString();		
 		String cuadrilla = cuadrillaOrdenAutoComplete.getText().toString();
 		String camion = camionOrdenAutoComplete.getText().toString();		
 		String variedad = variedadOrdenAutoComplete.getText().toString();
 		String terme = termeOrdenAutoComplete.getText().toString();
-		String comprador = compradorOrdenAutoComplete.getText().toString();
-		
-		
+		String comprador = compradorOrdenAutoComplete.getText().toString();				
 		OrdenCollita ordenCollita = new OrdenCollita();
 		ordenCollita.setCajonesPrevistos(Integer.parseInt(cajonePrevistos));
 		ordenCollita.setPropietario(propietario);
@@ -230,10 +236,33 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 			variedadOrdenAutoComplete.showDropDown();
 		}
 		if (v == fechaOrdenButton){			
-		
 			DialogFragment newFragment = new DatePickerFragment(
 					fechaOrdenButton);
 			newFragment.show(getFragmentManager(), "datePicker");
+		}
+		if (v==diaMasButton){
+			try {
+				Date fechaAux = simpleDateFormat.parse(fechaOrdenButton.getText().toString());
+				GregorianCalendar calendar=new GregorianCalendar();
+				calendar.setTime(fechaAux);
+				calendar.add(GregorianCalendar.DATE, 1);
+				fechaOrdenButton.setText(simpleDateFormat.format(calendar.getTime()));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		
+				
+		}
+		if(v==diaMenosButton){
+			try {
+				Date fechaAux = simpleDateFormat.parse(fechaOrdenButton.getText().toString());
+				GregorianCalendar calendar=new GregorianCalendar();
+				calendar.setTime(fechaAux);
+				calendar.add(GregorianCalendar.DATE, -1);
+				fechaOrdenButton.setText(simpleDateFormat.format(calendar.getTime()));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

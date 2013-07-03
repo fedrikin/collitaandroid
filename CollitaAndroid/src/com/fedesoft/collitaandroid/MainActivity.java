@@ -4,12 +4,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.DatePicker;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import android.app.AlertDialog;
@@ -33,8 +37,9 @@ public class MainActivity extends Activity {
 			"dd/MM/yyyy");
 	private LinearLayout ordenesLinearLayout;
 	private Button agregarButton;
-	
+	private LinearLayout cajonesVariedadLayout;
 	Date fecha = new Date();
+	private String filtro=null;;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		fechaCollitaButton = (Button) findViewById(R.id.fechacollitabutton);
 		ordenesLinearLayout = (LinearLayout) findViewById(R.id.ordeneslinearlayout);
+		cajonesVariedadLayout = (LinearLayout) findViewById(R.id.cajonesvariedadlinearlayout);
 		agregarButton = (Button) findViewById(R.id.agragarordenbutton);
 		agregarButton.setOnClickListener(new OnClickListener() {
 
@@ -53,7 +59,7 @@ public class MainActivity extends Activity {
 
 			}
 		});
-		
+
 		fechaCollitaButton.setText(simpleDateFormat.format(fecha));
 		fechaCollitaButton.setOnClickListener(new OnClickListener() {
 
@@ -63,7 +69,7 @@ public class MainActivity extends Activity {
 						fechaCollitaButton);
 				newFragment.show(getFragmentManager(), "datePicker");
 			}
-			
+
 		});
 		refrescarLista();
 	}
@@ -78,16 +84,20 @@ public class MainActivity extends Activity {
 
 	private void refrescarLista() {
 		try {
-			fecha = simpleDateFormat.parse(fechaCollitaButton.getText().toString());
+			fecha = simpleDateFormat.parse(fechaCollitaButton.getText()
+					.toString());
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		ordenesLinearLayout.removeAllViews();
-	    CollitaDAOIfc collitaDAO = CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
-		List<OrdenCollita> ordenes=collitaDAO.recuperarOrdenesCollita(fecha);
+		CollitaDAOIfc collitaDAO = CollitaApplication.getInstance(
+				getApplicationContext()).getCollitaDAO();
+		List<OrdenCollita> ordenes = collitaDAO.recuperarOrdenesCollita(fecha);
+		HashMap<String, Integer> cajonesVariedad = new HashMap<String, Integer>();
 		for (final OrdenCollita ordenCollita : ordenes) {
 			Button ordenCollitaButton = new Button(getApplicationContext());
-			ordenCollitaButton.setText(ordenCollita.getId() +"-"+ ordenCollita.getPropietario());
+			ordenCollitaButton.setText(ordenCollita.getId() + "-"
+					+ ordenCollita.getPropietario());
 			ordenesLinearLayout.addView(ordenCollitaButton);
 			ordenCollitaButton.setOnClickListener(new OnClickListener() {
 
@@ -99,7 +109,73 @@ public class MainActivity extends Activity {
 					startActivityForResult(intent, 3);
 				}
 			});
+			String variedad = ordenCollita.getVariedad().getNombre();
+			if (cajonesVariedad.get(variedad) == null) {
+				cajonesVariedad.put(variedad,
+						ordenCollita.getCajonesPrevistos());
+			} else {
+				Integer cajones = cajonesVariedad.get(variedad);
+				cajonesVariedad.put(variedad,
+						cajones + ordenCollita.getCajonesPrevistos());
+			}
 		}
+		muestraTablaTotales(cajonesVariedad);
+	}
+
+	private void muestraTablaTotales(HashMap<String, Integer> cajonesVariedad) {
+		cajonesVariedadLayout.removeAllViews();
+		LinearLayout.LayoutParams params = new LayoutParams(50, 50, 1);
+		Button totalButton = new Button(getApplicationContext());
+		totalButton.setLayoutParams(params);
+		totalButton.setText("Total");
+		TextView totalTextView = new TextView(getApplicationContext());
+		totalTextView.setLayoutParams(params);
+		totalTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+		totalTextView.setTextAppearance(getApplicationContext(),
+				android.R.style.TextAppearance_Large);
+		LinearLayout variedades = new LinearLayout(getApplicationContext());
+		LinearLayout cajones = new LinearLayout(getApplicationContext());
+		variedades.addView(totalButton);
+		cajones.addView(totalTextView);
+		Integer total = 0;
+		for (final String variedad : cajonesVariedad.keySet()) {
+			Button button = new Button(getApplicationContext());
+			// Per a distribuir l'espai entre tots el botons el weight ha de ser
+			// 1
+			button.setLayoutParams(params);
+			button.setText(variedad);
+			variedades.addView(button);
+			button.setLayoutParams(params);
+			TextView textView = new TextView(getApplicationContext());
+			textView.setLayoutParams(params);
+			textView.setGravity(Gravity.CENTER_HORIZONTAL);
+			textView.setTextAppearance(getApplicationContext(),
+					android.R.style.TextAppearance_Large);
+			textView.setText("" + cajonesVariedad.get(variedad));
+			cajones.addView(textView);
+			total += cajonesVariedad.get(variedad);
+			button.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					filtrarVariedad(variedad);
+				}
+			});
+		}
+		totalTextView.setText("" + total);
+		cajonesVariedadLayout.addView(variedades);
+		cajonesVariedadLayout.addView(cajones);
+
+	}
+
+	protected void filtrarVariedad(String variedad) {
+		if (variedad == "Total") {
+			filtro = null;
+		} else {
+			filtro = variedad;
+		}
+		refrescarLista();
+
 	}
 
 	public class DatePickerFragment extends DialogFragment implements
@@ -119,7 +195,6 @@ public class MainActivity extends Activity {
 			int month = c.get(Calendar.MONTH);
 			int day = c.get(Calendar.DAY_OF_MONTH);
 			// Create a new instance of DatePickerDialog and return it
-
 			return new DatePickerDialog(getActivity(), this, year, month, day);
 		}
 

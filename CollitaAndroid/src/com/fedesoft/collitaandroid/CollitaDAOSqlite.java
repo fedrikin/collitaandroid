@@ -77,7 +77,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		if (oldVersion == 1 && newVersion == 2) {
 			db.execSQL("Alter table cuadrilla add column activa boolean null");
 		}
-		if (oldVersion ==2 && newVersion == 3) {
+		if (oldVersion == 2 && newVersion == 3) {
 			db.execSQL("Alter table camion add column ACTIVO boolean null");
 			db.execSQL("Alter table comprador add column ACTIVO boolean null");
 		}
@@ -100,7 +100,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 				.getColumnIndex("NUMEROCOLLIDORS")));
 		resultado.setTelefono(cursor.getString(cursor
 				.getColumnIndex("TELEFONO")));
-		resultado.setActiva(cursor.getInt(cursor.getColumnIndex("ACTIVA")) >0 );
+		resultado.setActiva(cursor.getInt(cursor.getColumnIndex("ACTIVA")) > 0);
 		db.close();
 		return resultado;
 	}
@@ -146,10 +146,14 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		while (cursor.moveToNext()) {
 			Cuadrilla cuadrilla = new Cuadrilla();
 			cuadrilla.setId(cursor.getInt(cursor.getColumnIndex("ID")));
-			cuadrilla.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
-			cuadrilla.setNumeroCollidors(cursor.getInt(cursor.getColumnIndex("NUMEROCOLLIDORS")));
-			cuadrilla.setTelefono(cursor.getString(cursor.getColumnIndex("TELEFONO")));
-			cuadrilla.setActiva(cursor.getInt(cursor.getColumnIndex("ACTIVA"))>0);
+			cuadrilla.setNombre(cursor.getString(cursor
+					.getColumnIndex("NOMBRE")));
+			cuadrilla.setNumeroCollidors(cursor.getInt(cursor
+					.getColumnIndex("NUMEROCOLLIDORS")));
+			cuadrilla.setTelefono(cursor.getString(cursor
+					.getColumnIndex("TELEFONO")));
+			cuadrilla
+					.setActiva(cursor.getInt(cursor.getColumnIndex("ACTIVA")) > 0);
 			resultado.add(cuadrilla);
 		}
 		return resultado;
@@ -171,10 +175,11 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 					.getColumnIndex("NUMEROCOLLIDORS")));
 			cuadrilla.setTelefono(cursor.getString(cursor
 					.getColumnIndex("TELEFONO")));
-			cuadrilla.setActiva(cursor.getInt(cursor.getColumnIndex("ACTIVA")) >0 );
+			cuadrilla
+					.setActiva(cursor.getInt(cursor.getColumnIndex("ACTIVA")) > 0);
 			db.close();
 			resultado.add(cuadrilla);
-			
+
 		}
 		return resultado;
 	}
@@ -188,15 +193,18 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor cursor = db.rawQuery("select * from camion where id=?",
 				new String[] { "" + id });
-		cursor.moveToNext();							
-				resultado.setId(cursor.getInt(cursor.getColumnIndex("ID")));
-				resultado.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
-				resultado.setConductor(cursor.getString(cursor.getColumnIndex("CONDUCTOR")));
-				resultado.setCajonesMaximo(cursor.getInt(cursor.getColumnIndex("CAJONESMAXIMO")));
-				resultado.setTelefono(cursor.getString(cursor.getColumnIndex("TELEFONO")));
-				resultado.setActivo(cursor.getInt(cursor.getColumnIndex("ACTIVO")) >0);	
-				db.close();
-			return resultado;
+		cursor.moveToNext();
+		resultado.setId(cursor.getInt(cursor.getColumnIndex("ID")));
+		resultado.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
+		resultado.setConductor(cursor.getString(cursor
+				.getColumnIndex("CONDUCTOR")));
+		resultado.setCajonesMaximo(cursor.getInt(cursor
+				.getColumnIndex("CAJONESMAXIMO")));
+		resultado.setTelefono(cursor.getString(cursor
+				.getColumnIndex("TELEFONO")));
+		resultado.setActivo(cursor.getInt(cursor.getColumnIndex("ACTIVO")) > 0);
+		db.close();
+		return resultado;
 	}
 
 	@Override
@@ -218,7 +226,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		SQLiteDatabase db = getWritableDatabase();
 		Object[] parametros = new Object[] { camion.getNombre(),
 				camion.getConductor(), camion.getTelefono(),
-				camion.getCajonesMaximo(),camion.isActivo() };
+				camion.getCajonesMaximo(), camion.isActivo() };
 		db.execSQL(
 				"insert into camion(nombre,conductor,telefono,cajonesMaximo,activo) values (?,?,?,?,?)",
 				parametros);
@@ -241,10 +249,13 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 			Camion camion = new Camion();
 			camion.setId(cursor.getInt(cursor.getColumnIndex("ID")));
 			camion.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
-			camion.setConductor(cursor.getString(cursor.getColumnIndex("CONDUCTOR")));
-			camion.setTelefono(cursor.getString(cursor.getColumnIndex("TELEFONO")));
-			camion.setCajonesMaximo(cursor.getInt(cursor.getColumnIndex("CAJONESMAXIMO")));
-			camion.setActivo(cursor.getInt(cursor.getColumnIndex("ACTIVO")) >0);
+			camion.setConductor(cursor.getString(cursor
+					.getColumnIndex("CONDUCTOR")));
+			camion.setTelefono(cursor.getString(cursor
+					.getColumnIndex("TELEFONO")));
+			camion.setCajonesMaximo(cursor.getInt(cursor
+					.getColumnIndex("CAJONESMAXIMO")));
+			camion.setActivo(cursor.getInt(cursor.getColumnIndex("ACTIVO")) > 0);
 			resultado.add(camion);
 		}
 		return resultado;
@@ -254,22 +265,21 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 	public Camion buscarCamionPorNombre(String nombre) {
 		Camion resultado = new Camion();
 		SQLiteDatabase db = getReadableDatabase();
-		Cursor cursor = db.rawQuery("select *from camion", new String[] {});
-		while (cursor.moveToNext()) {
-			String nombreaux = (cursor.getString(cursor
+		Cursor cursor = db.rawQuery("select * from camion where nombre = ?",
+				new String[] { nombre });
+		if (cursor.moveToFirst()) {
+			resultado.setId(cursor.getInt(cursor.getColumnIndex("ID")));
+			resultado.setNombre(cursor.getString(cursor
 					.getColumnIndex("NOMBRE")));
-			if (nombreaux.equals(nombre)) {
-				resultado.setId(cursor.getInt(cursor.getColumnIndex("ID")));
-				resultado.setNombre(cursor.getString(cursor
-						.getColumnIndex("NOMBRE")));
-				resultado.setCajonesMaximo(cursor.getInt(cursor
-						.getColumnIndex("CAJONESMAXIMO")));
-				resultado.setConductor(cursor.getString(cursor
-						.getColumnIndex("CONDUCTOR")));
-				resultado.setTelefono(cursor.getString(cursor
-						.getColumnIndex("TELEFONO")));
-				resultado.setActivo(cursor.getInt(cursor.getColumnIndex("ACTIVO")) >0);
-			}
+			resultado.setCajonesMaximo(cursor.getInt(cursor
+					.getColumnIndex("CAJONESMAXIMO")));
+			resultado.setConductor(cursor.getString(cursor
+					.getColumnIndex("CONDUCTOR")));
+			resultado.setTelefono(cursor.getString(cursor
+					.getColumnIndex("TELEFONO")));
+			resultado
+					.setActivo(cursor.getInt(cursor.getColumnIndex("ACTIVO")) > 0);
+
 		}
 		return resultado;
 	}
@@ -283,14 +293,13 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor cursor = db.rawQuery("select * from comprador where id=?",
 				new String[] { "" + id });
-		cursor.moveToNext();					
-				resultado.setId(cursor.getInt(cursor.getColumnIndex("ID")));
-				resultado.setNombre(cursor.getString(cursor
-						.getColumnIndex("NOMBRE")));
-				resultado.setTelefono(cursor.getString(cursor
-						.getColumnIndex("TELEFONO")));			
-		        resultado.setActivo(cursor.getInt(cursor.getColumnIndex("ACTIVO")) >0);
-		        db.close();
+		cursor.moveToNext();
+		resultado.setId(cursor.getInt(cursor.getColumnIndex("ID")));
+		resultado.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
+		resultado.setTelefono(cursor.getString(cursor
+				.getColumnIndex("TELEFONO")));
+		resultado.setActivo(cursor.getInt(cursor.getColumnIndex("ACTIVO")) > 0);
+		db.close();
 		return resultado;
 	}
 
@@ -301,16 +310,19 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		parametros.put("ID", comprador.getId());
 		parametros.put("NOMBRE", comprador.getNombre());
 		parametros.put("TELEFONO", comprador.getTelefono());
-		parametros.put("ACTIVO",comprador.isActivo());
+		parametros.put("ACTIVO", comprador.isActivo());
 		db.update("comprador", parametros, "ID=" + comprador.getId(), null);
 		db.close();
 	}
 
 	@Override
-	public void guardarComprador(Comprador comprador)throws CompradorYaExisteException {
+	public void guardarComprador(Comprador comprador)
+			throws CompradorYaExisteException {
 		SQLiteDatabase db = getWritableDatabase();
-		Object[] parametros = new Object[] { comprador.getNombre(),comprador.getTelefono(),comprador.isActivo() };
-		db.execSQL("insert into comprador(nombre,telefono,activo) values(?,?,?)",
+		Object[] parametros = new Object[] { comprador.getNombre(),
+				comprador.getTelefono(), comprador.isActivo() };
+		db.execSQL(
+				"insert into comprador(nombre,telefono,activo) values(?,?,?)",
 				parametros);
 	}
 
@@ -334,7 +346,8 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 					.getColumnIndex("NOMBRE")));
 			comprador.setTelefono(cursor.getString(cursor
 					.getColumnIndex("TELEFONO")));
-			comprador.setActivo(cursor.getInt(cursor.getColumnIndex("ACTIVO")) >0);
+			comprador
+					.setActivo(cursor.getInt(cursor.getColumnIndex("ACTIVO")) > 0);
 			resultado.add(comprador);
 		}
 		return resultado;
@@ -344,18 +357,16 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 	public Comprador buscarCompradorPorNombre(String nombre) {
 		Comprador resultado = new Comprador();
 		SQLiteDatabase db = getReadableDatabase();
-		Cursor cursor = db.rawQuery("select *from comprador", new String[] {});
-		while (cursor.moveToNext()) {
-			String nombreaux = (cursor.getString(cursor
+		Cursor cursor = db.rawQuery("select * from comprador where nombre=?",
+				new String[] { nombre });
+		if (cursor.moveToFirst()) {
+			resultado.setId(cursor.getInt(cursor.getColumnIndex("ID")));
+			resultado.setNombre(cursor.getString(cursor
 					.getColumnIndex("NOMBRE")));
-			if (nombreaux.equals(nombre)) {
-				resultado.setId(cursor.getInt(cursor.getColumnIndex("ID")));
-				resultado.setNombre(cursor.getString(cursor
-						.getColumnIndex("NOMBRE")));
-				resultado.setTelefono(cursor.getString(cursor
-						.getColumnIndex("TELEFONO")));
-				resultado.setActivo(cursor.getInt(cursor.getColumnIndex("ACTIVO")) >0);
-			}
+			resultado.setTelefono(cursor.getString(cursor
+					.getColumnIndex("TELEFONO")));
+			resultado
+					.setActivo(cursor.getInt(cursor.getColumnIndex("ACTIVO")) > 0);
 		}
 		return resultado;
 	}
@@ -369,14 +380,13 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor cursor = db.rawQuery("select * from terme where id=?",
 				new String[] { "" + id });
-		cursor.moveToNext();		
-			
-				resultado.setId(cursor.getInt(cursor.getColumnIndex("ID")));
-				resultado.setNombre(cursor.getString(cursor
-						.getColumnIndex("NOMBRE")));
-				resultado.setPrecioKilo(cursor.getDouble(cursor
-						.getColumnIndex("PRECIOKILO")));			
-		
+		cursor.moveToNext();
+
+		resultado.setId(cursor.getInt(cursor.getColumnIndex("ID")));
+		resultado.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
+		resultado.setPrecioKilo(cursor.getDouble(cursor
+				.getColumnIndex("PRECIOKILO")));
+
 		return resultado;
 	}
 
@@ -394,7 +404,8 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 	@Override
 	public void guardarTerme(Terme terme) throws TermeYaExisteException {
 		SQLiteDatabase db = getWritableDatabase();
-		Object[] parametros = new Object[] { terme.getNombre(),terme.getPrecioKilo() };
+		Object[] parametros = new Object[] { terme.getNombre(),
+				terme.getPrecioKilo() };
 		db.execSQL("insert into terme(nombre,preciokilo) values(?,?)",
 				parametros);
 	}
@@ -414,22 +425,23 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		}
 		return resultado;
 	}
-	
+
 	@Override
 	public Terme buscarTermePorNombre(String nombre) {
-	
+
 		String sql = "Select * from terme where nombre = ?";
 		SQLiteDatabase db = getReadableDatabase();
-		Cursor cursor = db.rawQuery(sql, new String[] {nombre});
+		Cursor cursor = db.rawQuery(sql, new String[] { nombre });
 		if (cursor.moveToFirst()) {
-			Terme terme=new Terme();
+			Terme terme = new Terme();
 			terme.setId(cursor.getInt(cursor.getColumnIndex("ID")));
 			terme.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
-			terme.setPrecioKilo(cursor.getDouble(cursor.getColumnIndex("PRECIOKILO")));
+			terme.setPrecioKilo(cursor.getDouble(cursor
+					.getColumnIndex("PRECIOKILO")));
 			db.close();
 			return terme;
-			}
-		db.close();	
+		}
+		db.close();
 		return null;
 	}
 
@@ -442,9 +454,10 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		Cursor cursor = db.rawQuery("select * from variedad where id=?",
 				new String[] { "" + id });
 		cursor.moveToNext();
-				resultado.setId(cursor.getInt(cursor.getColumnIndex("ID")));
-				resultado.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
-				resultado.setPrecioKilo(cursor.getDouble(cursor.getColumnIndex("PRECIOKILO")));			
+		resultado.setId(cursor.getInt(cursor.getColumnIndex("ID")));
+		resultado.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
+		resultado.setPrecioKilo(cursor.getDouble(cursor
+				.getColumnIndex("PRECIOKILO")));
 		return resultado;
 	}
 
@@ -489,73 +502,81 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 	public Variedad buscarVariedadPorNombre(String nombre) {
 		String sql = "Select * from variedad where nombre = ?";
 		SQLiteDatabase db = getReadableDatabase();
-		Cursor cursor = db.rawQuery(sql, new String[] {nombre});
+		Cursor cursor = db.rawQuery(sql, new String[] { nombre });
 		if (cursor.moveToFirst()) {
-			Variedad variedad=new Variedad();
+			Variedad variedad = new Variedad();
 			variedad.setId(cursor.getInt(cursor.getColumnIndex("ID")));
 			variedad.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
-			variedad.setPrecioKilo(cursor.getDouble(cursor.getColumnIndex("PRECIOKILO")));
+			variedad.setPrecioKilo(cursor.getDouble(cursor
+					.getColumnIndex("PRECIOKILO")));
 			db.close();
 			return variedad;
-			}
-		db.close();	
+		}
+		db.close();
 		return null;
-	
+
 	}
 
 	// .ORDENCOLLITA
 	// METODOS........................................................................
 	@Override
 	public OrdenCollita getOrdenCollitadById(Integer id) {
-		OrdenCollita resultado=new OrdenCollita();
-		SQLiteDatabase db = getReadableDatabase();		
+		OrdenCollita resultado = new OrdenCollita();
+		SQLiteDatabase db = getReadableDatabase();
 		Cursor cursor = db.rawQuery("select * from ordencollita where id=?",
 				new String[] { "" + id });
 		cursor.moveToNext();
-		        SimpleDateFormat dateformat= new SimpleDateFormat("dd/MM/yyyy");
-		        Date fecha =new Date();
-			
-	        	Integer idcamion=cursor.getInt(cursor.getColumnIndex("CAMION_ID"));
-		        Integer idcomprador=cursor.getInt(cursor.getColumnIndex("COMPRADOR_ID"));
-		        Integer idcuadrilla=cursor.getInt(cursor.getColumnIndex("CUADRILLA_ID"));
-		        Integer idterme=cursor.getInt(cursor.getColumnIndex("TERME_ID"));
-		        Integer idvariedad=cursor.getInt(cursor.getColumnIndex("VARIEDAD_ID"));
-		       resultado.setId(cursor.getInt(cursor.getColumnIndex("ID")));
-		       resultado.setFechaCollita(fecha);
-		       resultado.setCajonesPrevistos(cursor.getInt(cursor.getColumnIndex("CAJONESPREVISTOS")));
-		       resultado.setPropietario(cursor.getString(cursor.getColumnIndex("propietario")));
-		       resultado.setCamion(getCamionById(idcamion));
-		       resultado.setComprador(getCompradorById(idcomprador));
-		       resultado.setCuadrilla(getCuadrillaById(idcuadrilla));
-		       resultado.setTerme(getTermeById(idterme));
-		       resultado.setVariedad(getVariedadById(idvariedad));
-		       
+		SimpleDateFormat dateformat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
+		Integer idcamion = cursor.getInt(cursor.getColumnIndex("CAMION_ID"));
+		Integer idcomprador = cursor.getInt(cursor
+				.getColumnIndex("COMPRADOR_ID"));
+		Integer idcuadrilla = cursor.getInt(cursor
+				.getColumnIndex("CUADRILLA_ID"));
+		Integer idterme = cursor.getInt(cursor.getColumnIndex("TERME_ID"));
+		Integer idvariedad = cursor
+				.getInt(cursor.getColumnIndex("VARIEDAD_ID"));
+		resultado.setId(cursor.getInt(cursor.getColumnIndex("ID")));
+		String fecha = cursor.getString(cursor.getColumnIndex("FECHACOLLITA"));
+		try {
+			resultado.setFechaCollita(dateformat.parse(fecha));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		resultado.setCajonesPrevistos(cursor.getInt(cursor
+				.getColumnIndex("CAJONESPREVISTOS")));
+		resultado.setPropietario(cursor.getString(cursor
+				.getColumnIndex("propietario")));
+		resultado.setCamion(getCamionById(idcamion));
+		resultado.setComprador(getCompradorById(idcomprador));
+		resultado.setCuadrilla(getCuadrillaById(idcuadrilla));
+		resultado.setTerme(getTermeById(idterme));
+		resultado.setVariedad(getVariedadById(idvariedad));
+
 		return resultado;
 	}
 
 	@Override
 	public void actualizarOrdenCollita(OrdenCollita ordencollita) {
 		SQLiteDatabase db = getWritableDatabase();
-		ContentValues parametros = new ContentValues();		
-		parametros.put("ID", ordencollita.getId());		
+		ContentValues parametros = new ContentValues();
+		parametros.put("ID", ordencollita.getId());
 		parametros.put("CAJONESPREVISTOS", ordencollita.getCajonesPrevistos());
 		parametros.put("propietario", ordencollita.getPropietario());
 		parametros.put("CAMION_ID", ordencollita.getCamion().getId());
-		parametros.put("COMPRADOR_ID",ordencollita.getComprador().getId());
-		parametros.put("CUADRILLA_ID",ordencollita.getCuadrilla().getId());
-		parametros.put("TERME_ID",ordencollita.getTerme().getId());
-		parametros.put("VARIEDAD_ID",ordencollita.getVariedad().getId());
-		db.update("ordencollita", parametros, "ID=" + ordencollita.getId(), null);
+		parametros.put("COMPRADOR_ID", ordencollita.getComprador().getId());
+		parametros.put("CUADRILLA_ID", ordencollita.getCuadrilla().getId());
+		parametros.put("TERME_ID", ordencollita.getTerme().getId());
+		parametros.put("VARIEDAD_ID", ordencollita.getVariedad().getId());
+		db.update("ordencollita", parametros, "ID=" + ordencollita.getId(),
+				null);
 		db.close();
 	}
 
-	
-
 	@Override
 	public void guardarOrdenCollita(OrdenCollita ordencollita) {
-		String sql = "insert into ordencollita(CAJONESPREVISTOS,FECHACOLLITA,CAMION_ID,COMPRADOR_ID,CUADRILLA_ID,TERME_ID,VARIEDAD_ID,propietario) values (?,?,?,?,?,?,?,?)";
-		Object[] params = {
-				ordencollita.getCajonesPrevistos(),
+		String sql = "insert into ordencollita (CAJONESPREVISTOS,FECHACOLLITA,CAMION_ID,COMPRADOR_ID,CUADRILLA_ID,TERME_ID,VARIEDAD_ID,propietario) values (?,?,?,?,?,?,?,?)";
+		Object[] params = { ordencollita.getCajonesPrevistos(),
 				ordencollita.getFechaCollita(),
 				ordencollita.getCamion().getId(),
 				ordencollita.getComprador().getId(),
@@ -565,7 +586,6 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 				ordencollita.getPropietario() };
 		SQLiteDatabase db = getWritableDatabase();
 		db.execSQL(sql, params);
-
 	}
 
 	@Override
@@ -576,28 +596,34 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 
 	@Override
 	public List<OrdenCollita> recuperarOrdenesCollita(Date fecha) {
-		SimpleDateFormat dateformat= new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
 		List<OrdenCollita> resultado = new ArrayList<OrdenCollita>();
 		String sql = "Select * from ordencollita where FECHACOLLITA = ?";
 		SQLiteDatabase db = getReadableDatabase();
-		Cursor cursor = db.rawQuery(sql, new String[] {""+fecha });
-		while(cursor.moveToNext()){
-			OrdenCollita ordencollita=new OrdenCollita();
-			Integer idcamion=cursor.getInt(cursor.getColumnIndex("CAMION_ID"));
-			Integer idcomprador=cursor.getInt(cursor.getColumnIndex("COMPRADOR_ID"));
-			Integer idcuadrilla=cursor.getInt(cursor.getColumnIndex("CUADRILLA_ID"));
-			Integer idterme=cursor.getInt(cursor.getColumnIndex("TERME_ID"));
-			Integer idvariedad=cursor.getInt(cursor.getColumnIndex("VARIEDAD_ID"));			
+		Cursor cursor = db.rawQuery(sql, new String[] { "" + fecha });
+		while (cursor.moveToNext()) {
+			OrdenCollita ordencollita = new OrdenCollita();
+			Integer idcamion = cursor
+					.getInt(cursor.getColumnIndex("CAMION_ID"));
+			Integer idcomprador = cursor.getInt(cursor
+					.getColumnIndex("COMPRADOR_ID"));
+			Integer idcuadrilla = cursor.getInt(cursor
+					.getColumnIndex("CUADRILLA_ID"));
+			Integer idterme = cursor.getInt(cursor.getColumnIndex("TERME_ID"));
+			Integer idvariedad = cursor.getInt(cursor
+					.getColumnIndex("VARIEDAD_ID"));
 			ordencollita.setId(cursor.getInt(cursor.getColumnIndex("ID")));
 			ordencollita.setFechaCollita(fecha);
-			ordencollita.setCajonesPrevistos(cursor.getInt(cursor.getColumnIndex("CAJONESPREVISTOS")));
-			ordencollita.setPropietario(cursor.getString(cursor.getColumnIndex("propietario")));			
+			ordencollita.setCajonesPrevistos(cursor.getInt(cursor
+					.getColumnIndex("CAJONESPREVISTOS")));
+			ordencollita.setPropietario(cursor.getString(cursor
+					.getColumnIndex("propietario")));
 			ordencollita.setCamion(getCamionById(idcamion));
 			ordencollita.setComprador(getCompradorById(idcomprador));
 			ordencollita.setCuadrilla(getCuadrillaById(idcuadrilla));
 			ordencollita.setVariedad(getVariedadById(idvariedad));
 			ordencollita.setTerme(getTermeById(idterme));
-			
+
 			resultado.add(ordencollita);
 		}
 
@@ -647,7 +673,8 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 					.getColumnIndex("NUMEROCOLLIDORS")));
 			cuadrilla.setTelefono(cursor.getString(cursor
 					.getColumnIndex("TELEFONO")));
-			cuadrilla.setActiva(cursor.getInt(cursor.getColumnIndex("ACTIVA")) >0);
+			cuadrilla
+					.setActiva(cursor.getInt(cursor.getColumnIndex("ACTIVA")) > 0);
 			db.close();
 			return cuadrilla;
 		}

@@ -69,20 +69,14 @@ public class EditarOrdenColiitaActivity extends Activity implements OnClickListe
        // Arreplega els datos desde mainactivity
 		
 		Integer ordenCollitaId=getIntent().getIntExtra("ordencollita_id",0);
-		System.out.println("id:"+ordenCollitaId);
 		collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 		ordecollita=collitaDAO.getOrdenCollitadById(ordenCollitaId);
-		
 		propietarioEditText.setText(ordecollita.getPropietario());
-		cajonesOrdenEditText.setText(""+ordecollita.getCajonesPrevistos());
-		
+		cajonesOrdenEditText.setText(""+ordecollita.getCajonesPrevistos());		
 		Date fechacollita=(ordecollita.getFechaCollita());
 		SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yy");
 		String fechastring=sdf.format(fechacollita);		
-		fechaOrdenButton.setText(fechastring);
-		
-		
-		
+		fechaOrdenButton.setText(fechastring);						
 		cuadrillaOrdenAutoComplete.setText(ordecollita.getCuadrilla().toString());
 		camionOrdenAutoComplete.setText(ordecollita.getCamion().toString());
 		compradorOrdenAutoComplete.setText(ordecollita.getComprador().toString());
