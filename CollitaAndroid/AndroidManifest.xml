@@ -94,6 +94,10 @@
             android:name="com.fedesoft.collitaandroid.EditarOrdenColiitaActivity"
             android:label="@string/title_activity_editar_orden_coliita" >
         </activity>
+        <activity
+            android:name="com.fedesoft.collitaandroid.InformesActivity"
+            android:label="@string/title_activity_informes" >
+        </activity>
     </application>
 
 </manifest>

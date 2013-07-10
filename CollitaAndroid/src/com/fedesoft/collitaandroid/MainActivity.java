@@ -11,6 +11,7 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -95,7 +96,16 @@ public class MainActivity extends Activity {
 		List<OrdenCollita> ordenes = collitaDAO.recuperarOrdenesCollita(fecha);
 		HashMap<String, Integer> cajonesVariedad = new HashMap<String, Integer>();
 		for (final OrdenCollita ordenCollita : ordenes) {
-			if(filtro !=null && !ordenCollita.getVariedad().getNombre().equals(filtro)){
+			String variedad = ordenCollita.getVariedad().getNombre();
+			if (cajonesVariedad.get(variedad) == null) {
+				cajonesVariedad.put(variedad,
+						ordenCollita.getCajonesPrevistos());
+			} else {
+				Integer cajones = cajonesVariedad.get(variedad);
+				cajonesVariedad.put(variedad,
+						cajones + ordenCollita.getCajonesPrevistos());
+			}
+			if(filtro !=null && !ordenCollita.getVariedad().getNombre().equals(filtro)){			
 				continue;
 			}
 			Button ordenCollitaButton = new Button(getApplicationContext());
@@ -112,15 +122,6 @@ public class MainActivity extends Activity {
 					startActivityForResult(intent, 3);
 				}
 			});
-			String variedad = ordenCollita.getVariedad().getNombre();
-			if (cajonesVariedad.get(variedad) == null) {
-				cajonesVariedad.put(variedad,
-						ordenCollita.getCajonesPrevistos());
-			} else {
-				Integer cajones = cajonesVariedad.get(variedad);
-				cajonesVariedad.put(variedad,
-						cajones + ordenCollita.getCajonesPrevistos());
-			}
 		}
 		muestraTablaTotales(cajonesVariedad);
 	}
@@ -140,9 +141,11 @@ public class MainActivity extends Activity {
 		});
 		TextView totalTextView = new TextView(getApplicationContext());
 		totalTextView.setLayoutParams(params);
+		totalTextView.setTextColor(Color.BLACK);
 		totalTextView.setGravity(Gravity.CENTER_HORIZONTAL);
 		totalTextView.setTextAppearance(getApplicationContext(),
 				android.R.style.TextAppearance_Large);
+		
 		LinearLayout variedades = new LinearLayout(getApplicationContext());
 		LinearLayout cajones = new LinearLayout(getApplicationContext());
 		variedades.addView(totalButton);
@@ -162,6 +165,7 @@ public class MainActivity extends Activity {
 			textView.setTextAppearance(getApplicationContext(),
 					android.R.style.TextAppearance_Large);
 			textView.setText("" + cajonesVariedad.get(variedad));
+			textView.setTextColor(Color.BLACK);
 			cajones.addView(textView);
 			total += cajonesVariedad.get(variedad);
 			button.setOnClickListener(new OnClickListener() {
@@ -223,35 +227,40 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
-		if (item.getItemId() == R.id.camionesitem) {
-			System.out.println("Selecciono camiones");
+		if (item.getItemId() == R.id.camionesitem) {			
 			Intent intent = new Intent(getApplicationContext(),
 					CamionesActivity.class);
 			startActivity(intent);
 		}
 		if (item.getItemId() == R.id.cuadrillasitem) {
-			System.out.println("Selecciono cuadrillas");
+			
 			Intent intent = new Intent(getApplicationContext(),
 					CuadrillasActivity.class);
 			startActivity(intent);
 		}
 		if (item.getItemId() == R.id.compradoresitem) {
-			System.out.println("Selecciono compradores");
+			
 			Intent intent = new Intent(getApplicationContext(),
 					CompradoresActivity.class);
 			startActivity(intent);
 		}
 		if (item.getItemId() == R.id.variedadesitem) {
-			System.out.println("Selecciono Variedades");
+			
 			Intent intent = new Intent(getApplicationContext(),
 					VariedadesActivity.class);
 			startActivity(intent);
 		}
 		if (item.getItemId() == R.id.termesitem) {
-			System.out.println("Selecciono Termes");
+			
 			Intent intent = new Intent(getApplicationContext(),
 					TermesActivity.class);
 			startActivity(intent);
+		}
+		if (item.getItemId() == R.id.informesitem){
+			Intent intent = new Intent(getApplicationContext(),
+					InformesActivity.class);
+			startActivity(intent);
+			
 		}
 		return true;
 	}

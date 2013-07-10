@@ -578,5 +578,11 @@ public class CollitaDAO implements CollitaDAOIfc {
 		return null;
 	}
 
+	@Override
+	public List<OrdenCollita> recuperarOrdenesCollita(Date desde, Date hasta) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }

@@ -32,6 +32,7 @@ import com.fedesoft.collitaandroid.model.Variedad;
 public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc {
 	private static CollitaDAOSqlite instance = null;
 	private String sqlCreate;
+	private SimpleDateFormat dateformat;
 
 	public static CollitaDAOSqlite getInstance(Context context) {
 		if (instance == null) {
@@ -43,7 +44,9 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 	private CollitaDAOSqlite(Context context, String name,
 			CursorFactory factory, int version) {
 		super(context, name, factory, version);
+		
 		sqlCreate = leerFichero();
+		dateformat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
 
 	}
 
@@ -526,7 +529,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		Cursor cursor = db.rawQuery("select * from ordencollita where id=?",
 				new String[] { "" + id });
 		cursor.moveToNext();
-		SimpleDateFormat dateformat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
+		
 		Integer idcamion = cursor.getInt(cursor.getColumnIndex("CAMION_ID"));
 		Integer idcomprador = cursor.getInt(cursor
 				.getColumnIndex("COMPRADOR_ID"));
@@ -538,6 +541,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		resultado.setId(cursor.getInt(cursor.getColumnIndex("ID")));
 		String fecha = cursor.getString(cursor.getColumnIndex("FECHACOLLITA"));
 		try {
+			System.out.println("fecha:" + fecha);
 			resultado.setFechaCollita(dateformat.parse(fecha));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -596,7 +600,6 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 
 	@Override
 	public List<OrdenCollita> recuperarOrdenesCollita(Date fecha) {
-		SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
 		List<OrdenCollita> resultado = new ArrayList<OrdenCollita>();
 		String sql = "Select * from ordencollita where FECHACOLLITA = ?";
 		SQLiteDatabase db = getReadableDatabase();
@@ -680,6 +683,50 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		}
 		db.close();
 		return null;
+	}
+
+	@Override
+	public List<OrdenCollita> recuperarOrdenesCollita(Date desde, Date hasta) {
+		// SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+		List<OrdenCollita> resultado = new ArrayList<OrdenCollita>();
+		String sql = "Select * from ordencollita where FECHACOLLITA BETWEEN ? AND ?";
+		SQLiteDatabase db = getReadableDatabase();
+		Cursor cursor = db.rawQuery(sql,
+				new String[] { "" + desde, "" + hasta });
+		while (cursor.moveToNext()) {
+			OrdenCollita ordencollita = new OrdenCollita();
+			Integer idcamion = cursor
+					.getInt(cursor.getColumnIndex("CAMION_ID"));
+			Integer idcomprador = cursor.getInt(cursor
+					.getColumnIndex("COMPRADOR_ID"));
+			Integer idcuadrilla = cursor.getInt(cursor
+					.getColumnIndex("CUADRILLA_ID"));
+			Integer idterme = cursor.getInt(cursor.getColumnIndex("TERME_ID"));
+			Integer idvariedad = cursor.getInt(cursor
+					.getColumnIndex("VARIEDAD_ID"));
+			ordencollita.setId(cursor.getInt(cursor.getColumnIndex("ID")));
+			String fecha = cursor.getString(cursor
+					.getColumnIndex("FECHACOLLITA"));
+			try {
+				ordencollita.setFechaCollita(dateformat.parse(fecha));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ordencollita.setCajonesPrevistos(cursor.getInt(cursor
+					.getColumnIndex("CAJONESPREVISTOS")));
+			ordencollita.setPropietario(cursor.getString(cursor
+					.getColumnIndex("propietario")));
+			ordencollita.setCamion(getCamionById(idcamion));
+			ordencollita.setComprador(getCompradorById(idcomprador));
+			ordencollita.setCuadrilla(getCuadrillaById(idcuadrilla));
+			ordencollita.setVariedad(getVariedadById(idvariedad));
+			ordencollita.setTerme(getTermeById(idterme));
+
+			resultado.add(ordencollita);
+			
+		}
+		return resultado;
 	}
 
 }

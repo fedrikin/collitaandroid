@@ -85,4 +85,6 @@ public interface CollitaDAOIfc {
 
 	public abstract List<OrdenCollita> recuperarOrdenesCollita(Date fecha);
 
+	public List<OrdenCollita> recuperarOrdenesCollita(Date desde, Date hasta);
+
 }

@@ -23,5 +23,6 @@
     <string name="title_activity_editar_comprador">EditarCompradorActivity</string>
     <string name="title_activity_edtar_termes">EdtarTermesActivity</string>
     <string name="title_activity_editar_orden_coliita">EditarOrdenColiitaActivity</string>
+    <string name="title_activity_informes">InformesActivity</string>
 
 </resources>

@@ -8,5 +8,6 @@
             <item android:id="@+id/variedadesitem" android:title="Variedades"/>
         </menu>
     </item>
+    <item android:id="@+id/informesitem"></item>
 
 </menu>
