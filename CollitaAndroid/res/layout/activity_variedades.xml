@@ -13,7 +13,7 @@
         android:layout_alignParentRight="true"
         android:text="Agregar" />
      <ScrollView
-        android:id="@+id/scrollView1"
+        android:id="@+id/scrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/agregarcuadrillabutton"

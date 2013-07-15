@@ -46,7 +46,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		super(context, name, factory, version);
 		
 		sqlCreate = leerFichero();
-		dateformat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
+		dateformat = new SimpleDateFormat("MMM dd HH:mm:ss Z yyyy");
 
 	}
 
@@ -529,7 +529,6 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		Cursor cursor = db.rawQuery("select * from ordencollita where id=?",
 				new String[] { "" + id });
 		cursor.moveToNext();
-		
 		Integer idcamion = cursor.getInt(cursor.getColumnIndex("CAMION_ID"));
 		Integer idcomprador = cursor.getInt(cursor
 				.getColumnIndex("COMPRADOR_ID"));
@@ -542,7 +541,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		String fecha = cursor.getString(cursor.getColumnIndex("FECHACOLLITA"));
 		try {
 			System.out.println("fecha:" + fecha);
-			resultado.setFechaCollita(dateformat.parse(fecha));
+			resultado.setFechaCollita(dateformat.parse(fecha.substring(4,fecha.length())));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -687,12 +686,14 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 
 	@Override
 	public List<OrdenCollita> recuperarOrdenesCollita(Date desde, Date hasta) {
-		// SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
 		List<OrdenCollita> resultado = new ArrayList<OrdenCollita>();
 		String sql = "Select * from ordencollita where FECHACOLLITA BETWEEN ? AND ?";
+		System.out.println("desde:" + desde.toString());
+		System.out.println("hasta:" + hasta.toString());
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor cursor = db.rawQuery(sql,
-				new String[] { "" + desde, "" + hasta });
+				new String[] {desde.toString(),hasta.toString()});
 		while (cursor.moveToNext()) {
 			OrdenCollita ordencollita = new OrdenCollita();
 			Integer idcamion = cursor
@@ -707,8 +708,8 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 			ordencollita.setId(cursor.getInt(cursor.getColumnIndex("ID")));
 			String fecha = cursor.getString(cursor
 					.getColumnIndex("FECHACOLLITA"));
-			try {
-				ordencollita.setFechaCollita(dateformat.parse(fecha));
+			try {			
+				ordencollita.setFechaCollita(dateformat.parse(fecha.substring(4,fecha.length())));
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -722,7 +723,6 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 			ordencollita.setCuadrilla(getCuadrillaById(idcuadrilla));
 			ordencollita.setVariedad(getVariedadById(idvariedad));
 			ordencollita.setTerme(getTermeById(idterme));
-
 			resultado.add(ordencollita);
 			
 		}
