@@ -1,6 +1,8 @@
 package com.fedesoft.collitaandroid;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -22,6 +24,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 
 public class InformesActivity extends Activity implements OnClickListener {
 	private static final String[] opciones = { "cuadrillas", "camiones",
@@ -42,6 +45,11 @@ public class InformesActivity extends Activity implements OnClickListener {
 	private Date desde;
 	private Date hasta;
 	private CollitaDAOIfc collitaDAO;
+	private DecimalFormat df = new DecimalFormat("#.00");
+	private List<OrdenCollita> ordenes;
+	private HashMap<String,List<OrdenCollita>> ordenesCuadrillas=new HashMap<String, List<OrdenCollita>>();
+	private HashMap<String,List<OrdenCollita>> ordenesCompradores=new HashMap<String, List<OrdenCollita>>();
+	private HashMap<String,List<OrdenCollita>> ordenesCamiones=new HashMap<String, List<OrdenCollita>>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,32 +60,69 @@ public class InformesActivity extends Activity implements OnClickListener {
 		opcionesButton = (Button) findViewById(R.id.opcionesbutton);
 		unidadesButton = (Button) findViewById(R.id.unidadesbutton);
 		datosLinearLayout=(LinearLayout) findViewById(R.id.datosLinearLayout);
-		totalesLinearLayout=(LinearLayout) findViewById(R.id.totalesLinearLayout);
-		
+		totalesLinearLayout=(LinearLayout) findViewById(R.id.totalesLinearLayout);		
+		totalButton=new Button(getApplicationContext());
+		LinearLayout.LayoutParams params = new LayoutParams(50, 50, 1);		
+		totalButton.setLayoutParams(params);
+		totalButton.setText("Total:");
+		totalKilosTextView=new TextView(getApplicationContext());
+		totalKilosTextView.setLayoutParams(params);
+		totalesLinearLayout.addView(totalButton);
+		totalesLinearLayout.addView(totalKilosTextView);
 		desdeButton.setOnClickListener(this);
 		hastaButton.setOnClickListener(this);
 		opcionesButton.setOnClickListener(this);
 		unidadesButton.setOnClickListener(this);
 		Calendar hoy = new GregorianCalendar();
-		
 		desde = hoy.getTime();
 		hasta = hoy.getTime();
 		desdeButton.setText(sdf.format(desde));
 		hastaButton.setText(sdf.format(hasta));
 		collitaDAO = CollitaApplication.getInstance(getApplicationContext())
 				.getCollitaDAO();
-		totalButton.setText("Total:");
-		
 		muestraDatos();
 	}
 
 	private void muestraDatos() {
 		opcionesButton.setText(opciones[opcionSeleccionada]);
 		unidadesButton.setText(unidades[unidadSeleccionada]);
-		List<OrdenCollita> ordenes = collitaDAO.recuperarOrdenesCollita(desde,
-				hasta);		
+	    ordenes = collitaDAO.recuperarOrdenesCollita(desde,hasta);		
 		System.out.println("ordenes:" + ordenes.size());
-		datosLinearLayout.removeAllViews();
+		datosLinearLayout.removeAllViews();		
+		ordenesCuadrillas=new HashMap<String, List<OrdenCollita>>();
+		ordenesCompradores=new HashMap<String, List<OrdenCollita>>();
+		ordenesCamiones=new HashMap<String, List<OrdenCollita>>();
+		Integer total=0;
+		
+		for (OrdenCollita ordenCollita : ordenes) {
+			String nombreComprador=ordenCollita.getComprador().getNombre();
+			if (ordenesCompradores.get(nombreComprador) == null){
+				List<OrdenCollita> ordenesCollita=new ArrayList<OrdenCollita>();
+				ordenesCollita.add(ordenCollita);
+				ordenesCompradores.put(nombreComprador, ordenesCollita);
+			}else{
+				ordenesCompradores.get(nombreComprador).add(ordenCollita);
+			}
+			String nombreCuadrilla=ordenCollita.getCuadrilla().getNombre();
+			if (ordenesCuadrillas.get(nombreCuadrilla) == null){
+				List<OrdenCollita> ordenesCollita=new ArrayList<OrdenCollita>();
+				ordenesCollita.add(ordenCollita);
+				ordenesCuadrillas.put(nombreCuadrilla, ordenesCollita);
+			}else{
+				ordenesCuadrillas.get(nombreCuadrilla).add(ordenCollita);
+			}
+			String nombreCamion=ordenCollita.getCamion().getNombre();
+			if (ordenesCamiones.get(nombreCamion) == null){
+				List<OrdenCollita> ordenesCollita=new ArrayList<OrdenCollita>();
+				ordenesCollita.add(ordenCollita);
+				ordenesCamiones.put(nombreCamion, ordenesCollita);
+			}else{
+				ordenesCamiones.get(nombreCamion).add(ordenCollita);
+			}			
+			total+=ordenCollita.getCajonesPrevistos()*ordenCollita.getVariedad().getKilosPorCajon();
+		}
+		totalKilosTextView.setText(""+total);
+		
 		switch (opcionSeleccionada) {
 		case 0:
 			muestraDatosCuadrillas(ordenes);
@@ -94,9 +139,7 @@ public class InformesActivity extends Activity implements OnClickListener {
 	}
 
 	private void muestraDatosComprador(List<OrdenCollita> ordenes) {
-		LinearLayout linearLayout=new LinearLayout(getApplicationContext());
 		HashMap<String,Integer> datos=new HashMap<String, Integer>();
-		Integer total=0;
 		for (OrdenCollita ordenCollita : ordenes) {
 			String nombreComprador=ordenCollita.getComprador().getNombre();
 			Integer kilos=ordenCollita.getCajonesPrevistos()*ordenCollita.getVariedad().getKilosPorCajon();
@@ -106,25 +149,77 @@ public class InformesActivity extends Activity implements OnClickListener {
 			}else{
 				datos.put(nombreComprador, kilos);
 			}
-			total+=kilos;
 		}
-		totalKilosTextView.setText(""+total);
-		for (String comprador : datos.keySet()) {
+		
+		
+		for (final String comprador : datos.keySet()) {
+			final LinearLayout datosCompradorLinearLayout=new LinearLayout(getApplicationContext());
+			datosCompradorLinearLayout.setOrientation(LinearLayout.VERTICAL);
+			LinearLayout linearLayout=new LinearLayout(getApplicationContext());
 			Button nombreButton=new Button(getApplicationContext());
+			nombreButton.setLayoutParams(new LayoutParams(50, 50, 1));
 			nombreButton.setText(comprador);
-			TextView kilosTextView= new TextView(getApplicationContext());
+			TextView kilosTextView= new TextView(getApplicationContext());			
 			kilosTextView.setText(""+datos.get(comprador));
+			kilosTextView.setLayoutParams(new LayoutParams(50, 50, 1));
 			TextView eurosTextView= new TextView(getApplicationContext());
-			eurosTextView.setText(""+datos.get(comprador)*0.20);
+			eurosTextView.setLayoutParams(new LayoutParams(50, 50, 1));
+			eurosTextView.setText(df.format(datos.get(comprador)*0.20));
 			linearLayout.addView(nombreButton);
 			linearLayout.addView(kilosTextView);
 			linearLayout.addView(eurosTextView);
-			System.out.println(comprador+":"+datos.get(comprador));
-			
-			datosLinearLayout.addView(linearLayout);
+			nombreButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (datosCompradorLinearLayout.getChildCount() == 2){
+						datosCompradorLinearLayout.removeViewAt(1);
+					}else{
+						datosCompradorLinearLayout.addView(creaLayoutVariedades(ordenesCompradores.get(comprador)));
+					}
+				}
+			});
+			datosCompradorLinearLayout.addView(linearLayout);
+			datosLinearLayout.addView(datosCompradorLinearLayout);
+		}				
+	}
+
+	private LinearLayout creaLayoutVariedades(List<OrdenCollita> ordenes) {
+		HashMap<String,Integer> datos=new HashMap<String, Integer>();
+		for (OrdenCollita ordenCollita : ordenes) {
+			String variedad=ordenCollita.getVariedad().getNombre();
+			Integer kilos=ordenCollita.getCajonesPrevistos()*ordenCollita.getVariedad().getKilosPorCajon();
+			Integer dato=datos.get(variedad);
+			if (dato != null){
+				datos.put(variedad, dato+kilos);
+			}else{
+				datos.put(variedad, kilos);
+			}
 		}
 		
+		final LinearLayout datosVariedadesLinearLayout=new LinearLayout(getApplicationContext());
+		datosVariedadesLinearLayout.setOrientation(LinearLayout.VERTICAL);
+		for (final String variedad : datos.keySet()) {
+			LinearLayout linearLayout=new LinearLayout(getApplicationContext());
+			TextView nombreTextView=new TextView(getApplicationContext());
+			nombreTextView.setLayoutParams(new LayoutParams(50, 50, 1));
+			nombreTextView.setText(variedad);
+			TextView kilosTextView= new TextView(getApplicationContext());			
+			kilosTextView.setText(""+datos.get(variedad));
+			kilosTextView.setLayoutParams(new LayoutParams(50, 50, 1));
+			TextView eurosTextView= new TextView(getApplicationContext());
+			eurosTextView.setLayoutParams(new LayoutParams(50, 50, 1));
+			eurosTextView.setText(df.format(datos.get(variedad)*0.20));
+			linearLayout.addView(nombreTextView);
+			linearLayout.addView(kilosTextView);
+			linearLayout.addView(eurosTextView);			
+			datosVariedadesLinearLayout.addView(linearLayout);			
+		}				
+		return datosVariedadesLinearLayout;
+	}
+	
+	private LinearLayout creaLayoutTermes(String nombreCamion) {
 		
+		return null;
 	}
 
 	private void muestraDatosCamiones(List<OrdenCollita> ordenes) {

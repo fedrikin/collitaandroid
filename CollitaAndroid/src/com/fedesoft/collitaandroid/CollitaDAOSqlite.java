@@ -46,7 +46,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		super(context, name, factory, version);
 		
 		sqlCreate = leerFichero();
-		dateformat = new SimpleDateFormat("MMM dd HH:mm:ss Z yyyy");
+		dateformat = new SimpleDateFormat("yyyyMMdd");
 
 	}
 
@@ -541,7 +541,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		String fecha = cursor.getString(cursor.getColumnIndex("FECHACOLLITA"));
 		try {
 			System.out.println("fecha:" + fecha);
-			resultado.setFechaCollita(dateformat.parse(fecha.substring(4,fecha.length())));
+			resultado.setFechaCollita(dateformat.parse(fecha));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -580,7 +580,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 	public void guardarOrdenCollita(OrdenCollita ordencollita) {
 		String sql = "insert into ordencollita (CAJONESPREVISTOS,FECHACOLLITA,CAMION_ID,COMPRADOR_ID,CUADRILLA_ID,TERME_ID,VARIEDAD_ID,propietario) values (?,?,?,?,?,?,?,?)";
 		Object[] params = { ordencollita.getCajonesPrevistos(),
-				ordencollita.getFechaCollita(),
+				dateformat.format(ordencollita.getFechaCollita()),
 				ordencollita.getCamion().getId(),
 				ordencollita.getComprador().getId(),
 				ordencollita.getCuadrilla().getId(),
@@ -602,7 +602,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		List<OrdenCollita> resultado = new ArrayList<OrdenCollita>();
 		String sql = "Select * from ordencollita where FECHACOLLITA = ?";
 		SQLiteDatabase db = getReadableDatabase();
-		Cursor cursor = db.rawQuery(sql, new String[] { "" + fecha });
+		Cursor cursor = db.rawQuery(sql, new String[] { dateformat.format(fecha) });
 		while (cursor.moveToNext()) {
 			OrdenCollita ordencollita = new OrdenCollita();
 			Integer idcamion = cursor
@@ -686,14 +686,13 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 
 	@Override
 	public List<OrdenCollita> recuperarOrdenesCollita(Date desde, Date hasta) {
-		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
 		List<OrdenCollita> resultado = new ArrayList<OrdenCollita>();
-		String sql = "Select * from ordencollita where FECHACOLLITA BETWEEN ? AND ?";
+		String sql = "Select * from ordencollita where FECHACOLLITA >= ? AND FECHACOLLITA <= ?";
 		System.out.println("desde:" + desde.toString());
 		System.out.println("hasta:" + hasta.toString());
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor cursor = db.rawQuery(sql,
-				new String[] {desde.toString(),hasta.toString()});
+				new String[] {dateformat.format(desde),dateformat.format(hasta)});
 		while (cursor.moveToNext()) {
 			OrdenCollita ordencollita = new OrdenCollita();
 			Integer idcamion = cursor
@@ -709,9 +708,8 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 			String fecha = cursor.getString(cursor
 					.getColumnIndex("FECHACOLLITA"));
 			try {			
-				ordencollita.setFechaCollita(dateformat.parse(fecha.substring(4,fecha.length())));
+				ordencollita.setFechaCollita(dateformat.parse(fecha));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			ordencollita.setCajonesPrevistos(cursor.getInt(cursor
