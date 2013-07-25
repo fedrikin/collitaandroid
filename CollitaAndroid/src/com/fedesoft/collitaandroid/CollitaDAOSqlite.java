@@ -44,12 +44,12 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 	private CollitaDAOSqlite(Context context, String name,
 			CursorFactory factory, int version) {
 		super(context, name, factory, version);
-		
 		sqlCreate = leerFichero();
+		System.out.println("CREATE SQL:"+sqlCreate);
 		dateformat = new SimpleDateFormat("yyyyMMdd");
-
 	}
-
+  
+	
 	private String leerFichero() {
 		InputStream fis;
 		try {
@@ -59,7 +59,6 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 			while (fis.read(buffer) != -1) {
 				fileContent.append(new String(buffer));
 			}
-
 			fis.close();
 			return fileContent.toString();
 		} catch (FileNotFoundException e) {
@@ -459,8 +458,10 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		cursor.moveToNext();
 		resultado.setId(cursor.getInt(cursor.getColumnIndex("ID")));
 		resultado.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
-		resultado.setPrecioKilo(cursor.getDouble(cursor
+		resultado.setPrecioKiloCollita(cursor.getDouble(cursor
 				.getColumnIndex("PRECIOKILO")));
+		resultado.setPrecioMedioCompra(cursor.getDouble(cursor
+				.getColumnIndex("PRECIOMEDIOCOMPRA")));
 		return resultado;
 	}
 
@@ -470,7 +471,8 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		ContentValues parametros = new ContentValues();
 		parametros.put("ID", variedad.getId());
 		parametros.put("NOMBRE", variedad.getNombre());
-		parametros.put("PRECIOKILO", variedad.getPrecioKilo());
+		parametros.put("PRECIOKILO", variedad.getPrecioKiloCollita());
+		parametros.put("PRECIOMEDIOCOMPRA", variedad.getPrecioMedioCompra());
 		db.update("variedad", parametros, "ID=" + variedad.getId(), null);
 		db.close();
 	}
@@ -480,8 +482,8 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 			throws VariedadYaExisteException {
 		SQLiteDatabase db = getWritableDatabase();
 		Object[] parametros = new Object[] { variedad.getNombre(),
-				variedad.getPrecioKilo() };
-		db.execSQL("insert into variedad(nombre,preciokilo) values(?,?)",
+				variedad.getPrecioKiloCollita(),variedad.getPrecioMedioCompra() };
+		db.execSQL("insert into variedad(nombre,preciokilo,preciomediocompra) values(?,?,?)",
 				parametros);
 	}
 
@@ -494,8 +496,10 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 			Variedad variedad = new Variedad();
 			variedad.setId(cursor.getInt(cursor.getColumnIndex("ID")));
 			variedad.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
-			variedad.setPrecioKilo(cursor.getDouble(cursor
+			variedad.setPrecioKiloCollita(cursor.getDouble(cursor
 					.getColumnIndex("PRECIOKILO")));
+			variedad.setPrecioMedioCompra(cursor.getDouble(cursor
+					.getColumnIndex("PRECIOMEDIOCOMPRA")));
 			resultado.add(variedad);
 		}
 		return resultado;
@@ -510,8 +514,10 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 			Variedad variedad = new Variedad();
 			variedad.setId(cursor.getInt(cursor.getColumnIndex("ID")));
 			variedad.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
-			variedad.setPrecioKilo(cursor.getDouble(cursor
+			variedad.setPrecioKiloCollita(cursor.getDouble(cursor
 					.getColumnIndex("PRECIOKILO")));
+			variedad.setPrecioMedioCompra(cursor.getDouble(cursor
+					.getColumnIndex("PRECIOMEDIOCOMPRA")));
 			db.close();
 			return variedad;
 		}
@@ -643,8 +649,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		String[] lines = sql.split(";");
 		int count;
 		count = executeSqlStatements(db, lines);
-		System.out
-				.println("Executed " + count + " statements from SQL script ");
+		System.out.println("Executed " + count + " statements from SQL script ");
 		return count;
 	}
 

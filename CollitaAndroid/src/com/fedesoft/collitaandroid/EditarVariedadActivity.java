@@ -14,6 +14,7 @@ import android.widget.Toast;
 public class EditarVariedadActivity extends Activity {
 	private EditText nombreVariedadEditText;
 	private EditText precioKgEditText;
+	private EditText precioVariedadEditText;
 	private Button   editaVariedadEditText;
     private Variedad variedad;
 	@Override
@@ -22,7 +23,8 @@ public class EditarVariedadActivity extends Activity {
 		setContentView(R.layout.activity_editar_variedad);
 		nombreVariedadEditText=(EditText) findViewById(R.id.nombrevariedadeditText);
 		precioKgEditText=(EditText) findViewById(R.id.preciovariedadeditText);
-		editaVariedadEditText=(Button) findViewById(R.id.editarvariedadbutton);		
+		editaVariedadEditText=(Button) findViewById(R.id.editarvariedadbutton);	
+		precioVariedadEditText=(EditText) findViewById(R.id.preciovariedadcompraedittext);
 		editaVariedadEditText.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
@@ -37,7 +39,7 @@ public class EditarVariedadActivity extends Activity {
 		CollitaDAOIfc collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 	    variedad=collitaDAO.getVariedadById(variedadId);
 		nombreVariedadEditText.setText(variedad.getNombre());
-		precioKgEditText.setText(""+variedad.getPrecioKilo());
+		precioKgEditText.setText(""+variedad.getPrecioKiloCollita());
 					
 	}
 	
@@ -55,7 +57,14 @@ public class EditarVariedadActivity extends Activity {
 			toast.show();
 			return;
 		}
-		variedad.setPrecioKilo(Double.parseDouble(preciovariedad));		
+		variedad.setPrecioKiloCollita(Double.parseDouble(preciovariedad));
+		String precioCompra=precioVariedadEditText.getText().toString();
+		if (precioCompra.equals("")){
+			Toast toast=Toast.makeText(getApplicationContext(), "Introduce UN PRECIO", Toast.LENGTH_LONG);
+			toast.show();
+			return;
+		}
+		variedad.setPrecioMedioCompra(Double.parseDouble(precioCompra));	
 		CollitaDAOSqlite.getInstance(getApplicationContext()).actualizaVariedad(variedad);
 		setResult(1);
 		finish();

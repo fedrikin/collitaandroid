@@ -21,28 +21,8 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView1"
         android:layout_marginTop="22dp"
-        android:text="Preciokg:"
+        android:text="Precio kg collita:"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <Button
-        android:id="@+id/editarvariedadbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/textView2"
-        android:layout_marginTop="49dp"
-        android:text="Guardar" />
-
-    <EditText
-        android:id="@+id/preciovariedadeditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView2"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_alignLeft="@+id/nombrevariedadeditText"
-        android:ems="10"
-        android:inputType="numberDecimal" />
 
     <EditText
         android:id="@+id/nombrevariedadeditText"
@@ -50,11 +30,52 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/textView2"
+        android1:layout_alignParentRight="true"
         android:ems="10"
         android:inputType="textPersonName" >
 
         <requestFocus />
     </EditText>
-   
+
+    <TextView
+        android1:id="@+id/TextView01"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentLeft="true"
+        android1:layout_below="@+id/preciovariedadeditText"
+        android1:layout_marginTop="16dp"
+        android1:text="Precio kg compra:"
+        android1:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android1:id="@+id/preciovariedadeditText"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentRight="true"
+        android1:layout_alignTop="@+id/textView2"
+        android1:layout_toRightOf="@+id/TextView01"
+        android1:ems="10"
+        android1:inputType="numberDecimal" />
+
+    <EditText
+        android1:id="@+id/preciovariedadcompraedittext"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignBaseline="@+id/TextView01"
+        android1:layout_alignBottom="@+id/TextView01"
+        android1:layout_alignParentRight="true"
+        android1:layout_toRightOf="@+id/TextView01"
+        android1:ems="10"
+        android1:inputType="numberDecimal" />
+
+    <Button
+        android1:id="@+id/editarvariedadbutton"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentLeft="true"
+        android1:layout_alignParentRight="true"
+        android1:layout_below="@+id/preciovariedadcompraedittext"
+        android1:layout_marginTop="11dp"
+        android1:text="Guardar" />
 
 </RelativeLayout>

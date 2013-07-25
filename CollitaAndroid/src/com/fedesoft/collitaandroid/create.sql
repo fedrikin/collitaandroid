@@ -1,5 +1,5 @@
-CREATE TABLE  camion (
-  ID Integer primary key  ,
+CREATE TABLE camion (
+  ID Integer primary key,
   CAJONESMAXIMO int  NULL,
   CONDUCTOR VARCHAR NULL,
   NOMBRE VARCHAR NULL,
@@ -8,7 +8,7 @@ CREATE TABLE  camion (
 );
 
 CREATE TABLE cuadrilla (
-  ID Integer primary key ,
+  ID Integer primary key,
   NOMBRE varchar  NULL,
   NUMEROCOLLIDORS int  NULL,
   TELEFONO varchar  NULL,
@@ -16,15 +16,11 @@ CREATE TABLE cuadrilla (
 );
 
 CREATE TABLE comprador (
-  ID Integer primary key ,
+  ID Integer primary key,
   NOMBRE varchar DEFAULT NULL,
   TELEFONO varchar DEFAULT NULL,
   ACTIVO boolean NULL
 );
-
-
-
-
 
 CREATE TABLE ordencollita (
   ID Integer primary key ,
@@ -36,20 +32,17 @@ CREATE TABLE ordencollita (
   TERME_ID int  NULL,
   VARIEDAD_ID int  NULL,
   propietario varchar  NULL
-
 );
 
 
 CREATE TABLE  terme (
-  ID Integer primary key ,
+  ID Integer primary key,
   NOMBRE varchar  NULL,
   PRECIOKILO double  NULL
-
 );
-
 
 CREATE TABLE  variedad (
-  ID Integer primary key ,
+  ID Integer primary key,
   NOMBRE varchar  NULL,
-  PRECIOKILO double  NULL
-);
+  PRECIOKILO double  NULL,
+  PRECIOMEDIOCOMPRA double NULL)

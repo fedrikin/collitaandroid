@@ -3,7 +3,7 @@ package com.fedesoft.collitaandroid.model;
 public class Variedad {
 	private Integer id;
 	private String nombre;
-	private Double precioKilo;
+	private Double precioKiloCollita;
 	private Double precioMedioCompra=0.20;
 	private Integer kilosPorCajon=18;
 	
@@ -19,11 +19,11 @@ public class Variedad {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public Double getPrecioKilo() {
-		return precioKilo;
+	public Double getPrecioKiloCollita() {
+		return precioKiloCollita;
 	}
-	public void setPrecioKilo(Double precioKilo) {
-		this.precioKilo = precioKilo;
+	public void setPrecioKiloCollita(Double precioKilo) {
+		this.precioKiloCollita = precioKilo;
 	}
 	public String toString(){
 		return nombre;

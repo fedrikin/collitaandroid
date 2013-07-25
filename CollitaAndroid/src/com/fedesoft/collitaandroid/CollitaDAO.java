@@ -119,7 +119,7 @@ public class CollitaDAO implements CollitaDAOIfc {
 		Variedad v1=new Variedad();
 		v1.setId(1);
 		v1.setNombre("Navelina");
-		v1.setPrecioKilo(0.060);
+		v1.setPrecioKiloCollita(0.060);
 		try {
 			guardarVariedad(v1);
 		} catch (VariedadYaExisteException e1) {
@@ -129,7 +129,7 @@ public class CollitaDAO implements CollitaDAOIfc {
 		Variedad v2=new Variedad();
 		v2.setId(2);
 		v2.setNombre("Clementina");
-		v2.setPrecioKilo(0.1080);
+		v2.setPrecioKiloCollita(0.1080);
 		try {
 			guardarVariedad(v2);
 		} catch (VariedadYaExisteException e1) {
@@ -138,7 +138,7 @@ public class CollitaDAO implements CollitaDAOIfc {
 		}		Variedad v3=new Variedad();
 		v3.setId(3);
 		v3.setNombre("Ortanike");
-		v3.setPrecioKilo(0.0880);
+		v3.setPrecioKiloCollita(0.0880);
 		try {
 			guardarVariedad(v3);
 		} catch (VariedadYaExisteException e1) {
@@ -482,7 +482,7 @@ public class CollitaDAO implements CollitaDAOIfc {
 		for (Variedad variedadAux:variedades){
 			if (variedadAux.getId()==variedad.getId()){
 				variedadAux.setNombre(variedad.getNombre());
-				variedadAux.setPrecioKilo(variedad.getPrecioKilo());
+				variedadAux.setPrecioKiloCollita(variedad.getPrecioKiloCollita());
 				return;				
 			}
 		}

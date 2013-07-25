@@ -20,7 +20,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView1"
         android:layout_marginTop="22dp"
-        android:text="Preciokg:"
+        android:text="Precio kg collita:"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView2"
         android:layout_alignBottom="@+id/textView2"
-        android:layout_alignLeft="@+id/nombrevariedadeditText"
+        android:layout_toRightOf="@+id/TextView01"
         android:ems="10"
         android:inputType="numberDecimal" />
 
@@ -47,12 +47,31 @@
         android:id="@+id/nombrevariedadeditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/preciovariedadeditText"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/textView2"
         android:ems="10"
         android:inputType="textPersonName" >
 
         <requestFocus />
     </EditText>
+
+    <EditText
+        android:id="@+id/preciocompravariedadedittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/preciovariedadeditText"
+        android:layout_toRightOf="@+id/TextView01"
+        android:ems="10"
+        android:inputType="numberDecimal" />
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/preciocompravariedadedittext"
+        android:layout_alignParentLeft="true"
+        android:text="Precio kg compra:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>
