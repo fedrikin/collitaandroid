@@ -44,31 +44,11 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 	private CollitaDAOSqlite(Context context, String name,
 			CursorFactory factory, int version) {
 		super(context, name, factory, version);
-		sqlCreate = leerFichero();
+		sqlCreate = context.getString(R.string.sqlcreate);
 		System.out.println("CREATE SQL:"+sqlCreate);
 		dateformat = new SimpleDateFormat("yyyyMMdd");
 	}
-  
-	
-	private String leerFichero() {
-		InputStream fis;
-		try {
-			fis = getClass().getResourceAsStream("create.sql");
-			StringBuffer fileContent = new StringBuffer("");
-			byte[] buffer = new byte[1024];
-			while (fis.read(buffer) != -1) {
-				fileContent.append(new String(buffer));
-			}
-			fis.close();
-			return fileContent.toString();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
+  		
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		executeSqlScript(db, sqlCreate);
@@ -76,14 +56,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		if (oldVersion == 1 && newVersion == 2) {
-			db.execSQL("Alter table cuadrilla add column activa boolean null");
-		}
-		if (oldVersion == 2 && newVersion == 3) {
-			db.execSQL("Alter table camion add column ACTIVO boolean null");
-			db.execSQL("Alter table comprador add column ACTIVO boolean null");
-		}
-
+		executeSqlScript(db, sqlCreate);	
 	}
 
 	// CUADRILLAS
@@ -451,17 +424,12 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 
 	@Override
 	public Variedad getVariedadById(Integer id) {
-		Variedad resultado = new Variedad();
+		
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor cursor = db.rawQuery("select * from variedad where id=?",
 				new String[] { "" + id });
 		cursor.moveToNext();
-		resultado.setId(cursor.getInt(cursor.getColumnIndex("ID")));
-		resultado.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
-		resultado.setPrecioKiloCollita(cursor.getDouble(cursor
-				.getColumnIndex("PRECIOKILO")));
-		resultado.setPrecioMedioCompra(cursor.getDouble(cursor
-				.getColumnIndex("PRECIOMEDIOCOMPRA")));
+		Variedad resultado = construyeVariedad(cursor);		
 		return resultado;
 	}
 
@@ -493,13 +461,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor cursor = db.rawQuery("select * from variedad", new String[] {});
 		while (cursor.moveToNext()) {
-			Variedad variedad = new Variedad();
-			variedad.setId(cursor.getInt(cursor.getColumnIndex("ID")));
-			variedad.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
-			variedad.setPrecioKiloCollita(cursor.getDouble(cursor
-					.getColumnIndex("PRECIOKILO")));
-			variedad.setPrecioMedioCompra(cursor.getDouble(cursor
-					.getColumnIndex("PRECIOMEDIOCOMPRA")));
+			Variedad variedad = construyeVariedad(cursor);
 			resultado.add(variedad);
 		}
 		return resultado;
@@ -511,19 +473,26 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor cursor = db.rawQuery(sql, new String[] { nombre });
 		if (cursor.moveToFirst()) {
-			Variedad variedad = new Variedad();
-			variedad.setId(cursor.getInt(cursor.getColumnIndex("ID")));
-			variedad.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
-			variedad.setPrecioKiloCollita(cursor.getDouble(cursor
-					.getColumnIndex("PRECIOKILO")));
-			variedad.setPrecioMedioCompra(cursor.getDouble(cursor
-					.getColumnIndex("PRECIOMEDIOCOMPRA")));
+			Variedad variedad = construyeVariedad(cursor);
 			db.close();
 			return variedad;
 		}
 		db.close();
 		return null;
 
+	}
+
+	private Variedad construyeVariedad(Cursor cursor) {
+		Variedad variedad = new Variedad();
+		variedad.setId(cursor.getInt(cursor.getColumnIndex("ID")));
+		variedad.setNombre(cursor.getString(cursor.getColumnIndex("NOMBRE")));
+		variedad.setPrecioKiloCollita(cursor.getDouble(cursor
+				.getColumnIndex("PRECIOKILO")));
+		variedad.setPrecioMedioCompra(cursor.getDouble(cursor
+				.getColumnIndex("PRECIOMEDIOCOMPRA")));
+		variedad.setKilosPorCajon(cursor.getInt(cursor
+				.getColumnIndex("KILOSPORCAJON")));
+		return variedad;
 	}
 
 	// .ORDENCOLLITA

@@ -4,8 +4,9 @@ public class Variedad {
 	private Integer id;
 	private String nombre;
 	private Double precioKiloCollita;
-	private Double precioMedioCompra=0.20;
-	private Integer kilosPorCajon=18;
+	private Double precioMedioCompra;
+	private Integer kilosPorCajon;
+	 
 	
 	public Integer getId() {
 		return id;

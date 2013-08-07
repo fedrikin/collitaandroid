@@ -68,7 +68,7 @@ public class NuevaVarierdadActivity extends Activity {
 			Toast toast=Toast.makeText(getApplicationContext(), "Ya existe variedad con el mismo nombre", Toast.LENGTH_LONG);
 			toast.show();
 		}
-	
+	 
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

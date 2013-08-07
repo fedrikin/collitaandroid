@@ -6,7 +6,6 @@ CREATE TABLE camion (
   TELEFONO VARCHAR NULL,
   ACTIVO boolean NULL
 );
-
 CREATE TABLE cuadrilla (
   ID Integer primary key,
   NOMBRE varchar  NULL,
@@ -14,14 +13,12 @@ CREATE TABLE cuadrilla (
   TELEFONO varchar  NULL,
   ACTIVA boolean NULL
 );
-
 CREATE TABLE comprador (
   ID Integer primary key,
   NOMBRE varchar DEFAULT NULL,
   TELEFONO varchar DEFAULT NULL,
   ACTIVO boolean NULL
 );
-
 CREATE TABLE ordencollita (
   ID Integer primary key ,
   CAJONESPREVISTOS int  NULL,
@@ -33,16 +30,15 @@ CREATE TABLE ordencollita (
   VARIEDAD_ID int  NULL,
   propietario varchar  NULL
 );
-
-
 CREATE TABLE  terme (
   ID Integer primary key,
   NOMBRE varchar  NULL,
   PRECIOKILO double  NULL
 );
-
 CREATE TABLE  variedad (
   ID Integer primary key,
   NOMBRE varchar  NULL,
   PRECIOKILO double  NULL,
+  KILOSPORCAJON int NULL,
   PRECIOMEDIOCOMPRA double NULL)
+ 

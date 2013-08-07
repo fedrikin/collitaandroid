@@ -482,7 +482,7 @@ public class CollitaDAO implements CollitaDAOIfc {
 		for (Variedad variedadAux:variedades){
 			if (variedadAux.getId()==variedad.getId()){
 				variedadAux.setNombre(variedad.getNombre());
-				variedadAux.setPrecioKiloCollita(variedad.getPrecioKiloCollita());
+				variedadAux.setPrecioKiloCollita(variedad.getPrecioKiloCollita()); 
 				return;				
 			}
 		}
