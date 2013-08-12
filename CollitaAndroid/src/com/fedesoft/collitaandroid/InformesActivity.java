@@ -64,7 +64,7 @@ public class InformesActivity extends Activity implements OnClickListener {
 		totalesLinearLayout = (LinearLayout) findViewById(R.id.totalesLinearLayout);
 		totalVariedadLinearLayout = (LinearLayout) findViewById(R.id.totalVariedadLinearLayout);
 		totalButton = new Button(getApplicationContext());
-		LinearLayout.LayoutParams params = new LayoutParams(50, 50, 1);
+		LinearLayout.LayoutParams params = new LayoutParams(50, 100, 1);
 		totalButton.setLayoutParams(params);
 		totalButton.setText("Total:");
 		totalCantidadTextView = new TextView(getApplicationContext());
@@ -114,6 +114,7 @@ public class InformesActivity extends Activity implements OnClickListener {
 		ordenesCamiones = new HashMap<String, List<OrdenCollita>>();
 		Integer total = 0;
 		Double totalEuros=0d;
+		
 		for (OrdenCollita ordenCollita : ordenes) {
 			String nombreComprador = ordenCollita.getComprador().getNombre();
 			Integer kilos=ordenCollita.getCajonesPrevistos()
@@ -203,7 +204,7 @@ public class InformesActivity extends Activity implements OnClickListener {
 			LinearLayout linearLayout = new LinearLayout(
 					getApplicationContext());
 			Button nombreButton = new Button(getApplicationContext());
-			nombreButton.setLayoutParams(new LayoutParams(50, 50, 1));
+			nombreButton.setLayoutParams(new LayoutParams(50, 100, 1));
 			nombreButton.setText(comprador);
 			TextView cantidadTextView = new TextView(getApplicationContext());
 			Integer cantidad = 0;
@@ -253,9 +254,10 @@ public class InformesActivity extends Activity implements OnClickListener {
 			datosCollita.setKilos(kilos);
 			datosCollita.setCajones(ordenCollita.getCajonesPrevistos());
 			Double euros=0d;
+			euros=kilos*ordenCollita.getVariedad().getPrecioMedioCompra();//sera aci?
 			switch (opcionSeleccionada) {
 			case 0:
-				
+				euros=(kilos*ordenCollita.getVariedad().getPrecioKiloCollita())/(ordenCollita.getCuadrilla().getNumeroCollidors());
 				break;
 			case 1:
 				
@@ -266,6 +268,7 @@ public class InformesActivity extends Activity implements OnClickListener {
 				break;
 			
 			default:
+				euros=kilos*ordenCollita.getVariedad().getPrecioMedioCompra();//aci no va
 				break;
 			}
 			datosCollita.setEuros(euros);			
@@ -337,24 +340,75 @@ public class InformesActivity extends Activity implements OnClickListener {
 			System.out.println(camion + ":" + datos.get(camion));
 		}
 	}
-
+// cuadrillas....................................
 	private void muestraDatosCuadrillas(List<OrdenCollita> ordenes) {
-		HashMap<String, Integer> datos = new HashMap<String, Integer>();
+		HashMap<String, DatosCollita> datos = new HashMap<String, DatosCollita>();
 		for (OrdenCollita ordenCollita : ordenes) {
 			String nombreCuadrilla = ordenCollita.getCuadrilla().getNombre();
+			DatosCollita datosCollita = new DatosCollita();
 			Integer kilos = ordenCollita.getCajonesPrevistos()
 					* ordenCollita.getVariedad().getKilosPorCajon();
-			Integer dato = datos.get(nombreCuadrilla);
+			datosCollita.setKilos(kilos);
+			datosCollita.setCajones(ordenCollita.getCajonesPrevistos());
+			Double euros = (kilos*ordenCollita.getVariedad().getPrecioKiloCollita())/(ordenCollita.getCuadrilla().getNumeroCollidors());
+			datosCollita.setEuros(euros);
+			DatosCollita dato = datos.get(nombreCuadrilla);
 			if (dato != null) {
-				datos.put(nombreCuadrilla, dato + kilos);
+				dato.setKilos(dato.getKilos() + datosCollita.getKilos());
+				dato.setCajones(dato.getCajones() + datosCollita.getCajones());
+				dato.setEuros(dato.getEuros() + datosCollita.getEuros());
 			} else {
-				datos.put(nombreCuadrilla, kilos);
+				datos.put(nombreCuadrilla, datosCollita);
 			}
 		}
-		for (String cuadrilla : datos.keySet()) {
-			System.out.println(cuadrilla + ":" + datos.get(cuadrilla));
+		for (final String cuadrilla : datos.keySet()) {
+			final LinearLayout datosCuadrillaLinearLayout = new LinearLayout(
+					getApplicationContext());
+			DatosCollita dato = datos.get(cuadrilla);
+			datosCuadrillaLinearLayout.setOrientation(LinearLayout.VERTICAL);
+			LinearLayout linearLayout = new LinearLayout(
+					getApplicationContext());
+			Button nombreButton = new Button(getApplicationContext());
+			nombreButton.setLayoutParams(new LayoutParams(50, 100, 1));
+			nombreButton.setText(cuadrilla);
+			TextView cantidadTextView = new TextView(getApplicationContext());
+			Integer cantidad = 0;
+			switch (unidadSeleccionada) {
+			case 0:
+				cantidad = dato.getKilos();
+				break;
+			case 1:
+				cantidad = dato.getArrobes();
+				break;
+			case 2:
+				cantidad = dato.getCajones();
+				break;
+			}
+			cantidadTextView.setText("" + cantidad);
+			cantidadTextView.setLayoutParams(new LayoutParams(50, 50, 1));
+			TextView eurosTextView = new TextView(getApplicationContext());
+			eurosTextView.setLayoutParams(new LayoutParams(50, 50, 1));
+			eurosTextView.setText(df.format(dato.getEuros()));
+			linearLayout.addView(nombreButton);
+			linearLayout.addView(cantidadTextView);
+			linearLayout.addView(eurosTextView);
+			nombreButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (datosCuadrillaLinearLayout.getChildCount() == 2) {
+						datosCuadrillaLinearLayout.removeViewAt(1);
+					} else {
+						datosCuadrillaLinearLayout
+								.addView(creaLayoutVariedades(ordenesCuadrillas
+										.get(cuadrilla)));
+					}
+				}
+				
+				
+			});
+			datosCuadrillaLinearLayout.addView(linearLayout);
+			datosLinearLayout.addView(datosCuadrillaLinearLayout);
 		}
-
 	}
 
 	@Override

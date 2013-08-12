@@ -128,7 +128,7 @@ public class MainActivity extends Activity {
 
 	private void muestraTablaTotales(HashMap<String, Integer> cajonesVariedad) {
 		cajonesVariedadLayout.removeAllViews();
-		LinearLayout.LayoutParams params = new LayoutParams(50, 50, 1);
+		LinearLayout.LayoutParams params = new LayoutParams(50, 100, 1);
 		Button totalButton = new Button(getApplicationContext());
 		totalButton.setLayoutParams(params);
 		totalButton.setText("Total");
@@ -152,9 +152,7 @@ public class MainActivity extends Activity {
 		cajones.addView(totalTextView);
 		Integer total = 0;
 		for (final String variedad : cajonesVariedad.keySet()) {
-			Button button = new Button(getApplicationContext());
-			// Per a distribuir l'espai entre tots el botons el weight ha de ser
-			// 1
+			Button button = new Button(getApplicationContext());			
 			button.setLayoutParams(params);
 			button.setText(variedad);
 			variedades.addView(button);

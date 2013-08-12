@@ -440,6 +440,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 		parametros.put("ID", variedad.getId());
 		parametros.put("NOMBRE", variedad.getNombre());
 		parametros.put("PRECIOKILO", variedad.getPrecioKiloCollita());
+		parametros.put("KILOSPORCAJON", variedad.getKilosPorCajon());
 		parametros.put("PRECIOMEDIOCOMPRA", variedad.getPrecioMedioCompra());
 		db.update("variedad", parametros, "ID=" + variedad.getId(), null);
 		db.close();
@@ -450,8 +451,8 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 			throws VariedadYaExisteException {
 		SQLiteDatabase db = getWritableDatabase();
 		Object[] parametros = new Object[] { variedad.getNombre(),
-				variedad.getPrecioKiloCollita(),variedad.getPrecioMedioCompra() };
-		db.execSQL("insert into variedad(nombre,preciokilo,preciomediocompra) values(?,?,?)",
+				variedad.getPrecioKiloCollita(),variedad.getKilosPorCajon(),variedad.getPrecioMedioCompra() };
+		db.execSQL("insert into variedad(nombre,preciokilo,kilosporcajon,preciomediocompra) values(?,?,?,?)",
 				parametros);
 	}
 

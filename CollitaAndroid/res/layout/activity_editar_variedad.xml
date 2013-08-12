@@ -5,15 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".EditarVariedadActivity" >
 
- <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Nombre:"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -29,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/textView2"
+        android1:layout_alignLeft="@+id/preciovariedadeditText"
         android1:layout_alignParentRight="true"
         android:ems="10"
         android:inputType="textPersonName" >
@@ -37,23 +28,13 @@
         <requestFocus />
     </EditText>
 
-    <TextView
-        android1:id="@+id/TextView01"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignParentLeft="true"
-        android1:layout_below="@+id/preciovariedadeditText"
-        android1:layout_marginTop="16dp"
-        android1:text="Precio kg compra:"
-        android1:textAppearance="?android:attr/textAppearanceLarge" />
-
     <EditText
         android1:id="@+id/preciovariedadeditText"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
+        android1:layout_alignBottom="@+id/textView2"
+        android1:layout_alignLeft="@+id/preciovariedadcompraedittext"
         android1:layout_alignParentRight="true"
-        android1:layout_alignTop="@+id/textView2"
-        android1:layout_toRightOf="@+id/TextView01"
         android1:ems="10"
         android1:inputType="numberDecimal" />
 
@@ -61,12 +42,40 @@
         android1:id="@+id/preciovariedadcompraedittext"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
-        android1:layout_alignBaseline="@+id/TextView01"
         android1:layout_alignBottom="@+id/TextView01"
         android1:layout_alignParentRight="true"
         android1:layout_toRightOf="@+id/TextView01"
         android1:ems="10"
         android1:inputType="numberDecimal" />
+
+    <TextView
+        android1:id="@+id/TextView01"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentLeft="true"
+        android1:layout_below="@+id/textView2"
+        android1:layout_marginTop="22dp"
+        android1:text="Precio kg compra:"
+        android1:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android1:id="@+id/TextView02"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/textView1"
+        android1:layout_below="@+id/preciovariedadcompraedittext"
+        android1:layout_marginTop="24dp"
+        android1:text="Kilos por cajon:"
+        android1:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android1:id="@+id/kilosporcajonsedittext"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignBottom="@+id/TextView02"
+        android1:layout_alignLeft="@+id/preciovariedadcompraedittext"
+        android1:ems="10"
+        android1:inputType="number" />
 
     <Button
         android1:id="@+id/editarvariedadbutton"
@@ -74,8 +83,17 @@
         android1:layout_height="wrap_content"
         android1:layout_alignParentLeft="true"
         android1:layout_alignParentRight="true"
-        android1:layout_below="@+id/preciovariedadcompraedittext"
-        android1:layout_marginTop="11dp"
+        android1:layout_below="@+id/TextView02"
+        android1:layout_marginTop="42dp"
         android1:text="Guardar" />
+
+    <TextView
+        android1:id="@+id/textView1"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignBottom="@+id/nombrevariedadeditText"
+        android1:layout_alignParentLeft="true"
+        android1:text="Nombre:"
+        android1:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

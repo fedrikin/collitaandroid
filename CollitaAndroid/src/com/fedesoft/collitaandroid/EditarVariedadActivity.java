@@ -15,6 +15,7 @@ public class EditarVariedadActivity extends Activity {
 	private EditText nombreVariedadEditText;
 	private EditText precioKgEditText;
 	private EditText precioVariedadEditText;
+	private EditText kiloporcajonEditText;
 	private Button   editaVariedadEditText;
     private Variedad variedad;
 	@Override
@@ -25,12 +26,12 @@ public class EditarVariedadActivity extends Activity {
 		precioKgEditText=(EditText) findViewById(R.id.preciovariedadeditText);
 		editaVariedadEditText=(Button) findViewById(R.id.editarvariedadbutton);	
 		precioVariedadEditText=(EditText) findViewById(R.id.preciovariedadcompraedittext);
+		kiloporcajonEditText=(EditText) findViewById(R.id.kilosporcajonsedittext);
 		editaVariedadEditText.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
 				editarVariedad();
-			}
-			
+			}			
 			
 		});
 		
@@ -40,6 +41,8 @@ public class EditarVariedadActivity extends Activity {
 	    variedad=collitaDAO.getVariedadById(variedadId);
 		nombreVariedadEditText.setText(variedad.getNombre());
 		precioKgEditText.setText(""+variedad.getPrecioKiloCollita());
+		precioVariedadEditText.setText(""+variedad.getPrecioMedioCompra());
+		kiloporcajonEditText.setText(""+variedad.getKilosPorCajon());
 					
 	}
 	
@@ -64,7 +67,14 @@ public class EditarVariedadActivity extends Activity {
 			toast.show();
 			return;
 		}
-		variedad.setPrecioMedioCompra(Double.parseDouble(precioCompra));	
+		variedad.setPrecioMedioCompra(Double.parseDouble(precioCompra));
+		String kilocajon=kiloporcajonEditText.getText().toString();
+		if (precioCompra.equals("")){
+			Toast toast=Toast.makeText(getApplicationContext(), "Introduce nº de KILOS!", Toast.LENGTH_LONG);
+			toast.show();
+			return;
+		}
+		variedad.setKilosPorCajon(Integer.parseInt(kilocajon));
 		CollitaDAOSqlite.getInstance(getApplicationContext()).actualizaVariedad(variedad);
 		setResult(1);
 		finish();

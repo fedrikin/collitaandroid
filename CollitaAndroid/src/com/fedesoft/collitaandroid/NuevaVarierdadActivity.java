@@ -16,8 +16,9 @@ public class NuevaVarierdadActivity extends Activity {
 	private EditText nombreVariedadEditText;
 	private EditText precioVariedadEditText;
 	private EditText precioCompraVariedadEditText;
+	private EditText kiloPorCajonEditText;
 	private Button   guardaButton;
-	
+		
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,7 @@ public class NuevaVarierdadActivity extends Activity {
 		nombreVariedadEditText= (EditText) findViewById(R.id.nombrevariedadeditText);
 		precioVariedadEditText= (EditText) findViewById(R.id.preciovariedadeditText);
 		precioCompraVariedadEditText=(EditText) findViewById(R.id.preciocompravariedadedittext);
+		kiloPorCajonEditText=(EditText) findViewById(R.id.kilosporcajonedittext);
 		guardaButton= (Button) findViewById(R.id.editarvariedadbutton);
 	    guardaButton.setOnClickListener(new OnClickListener() {
 			
@@ -40,6 +42,7 @@ public class NuevaVarierdadActivity extends Activity {
 		String nombre=nombreVariedadEditText.getText().toString();
 		String precioKilo=precioVariedadEditText.getText().toString();
 		String precioCompraVariedad=precioCompraVariedadEditText.getText().toString();
+		String kiloporcajon=kiloPorCajonEditText.getText().toString();
 		if (nombre.equals("")){
 			Toast toast=Toast.makeText(getApplicationContext(),"debe introducir un nombre", Toast.LENGTH_LONG);
 			toast.show();
@@ -55,10 +58,16 @@ public class NuevaVarierdadActivity extends Activity {
 			toast.show();
 			return;
 		}
+		if (kiloporcajon.equals("")){
+			Toast toast=Toast.makeText(getApplicationContext(), "Introduce nº de KILOS!", Toast.LENGTH_LONG);
+			toast.show();
+			return;
+		}
 		Variedad variedad=new Variedad();
 		variedad.setNombre(nombre);
 		variedad.setPrecioKiloCollita(Double.parseDouble(precioKilo));
 		variedad.setPrecioMedioCompra(Double.parseDouble(precioCompraVariedad));
+		variedad.setKilosPorCajon(Integer.parseInt(kiloporcajon));
 		CollitaDAOIfc collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
 		try {
 			collitaDAO.guardarVariedad(variedad);
