@@ -254,7 +254,7 @@ public class InformesActivity extends Activity implements OnClickListener {
 			datosCollita.setKilos(kilos);
 			datosCollita.setCajones(ordenCollita.getCajonesPrevistos());
 			Double euros=0d;
-			euros=kilos*ordenCollita.getVariedad().getPrecioMedioCompra();//sera aci?
+           
 			switch (opcionSeleccionada) {
 			case 0:
 				euros=(kilos*ordenCollita.getVariedad().getPrecioKiloCollita())/(ordenCollita.getCuadrilla().getNumeroCollidors());
@@ -268,9 +268,13 @@ public class InformesActivity extends Activity implements OnClickListener {
 				break;
 			
 			default:
-				euros=kilos*ordenCollita.getVariedad().getPrecioMedioCompra();//aci no va
+				
 				break;
 			}
+			 if (totalButton != null){
+					euros=kilos*ordenCollita.getVariedad().getPrecioMedioCompra();//sera aci?
+		            }
+			 
 			datosCollita.setEuros(euros);			
 			DatosCollita dato = datos.get(variedad);
 			if (dato != null) {
@@ -340,7 +344,7 @@ public class InformesActivity extends Activity implements OnClickListener {
 			System.out.println(camion + ":" + datos.get(camion));
 		}
 	}
-// cuadrillas....................................
+
 	private void muestraDatosCuadrillas(List<OrdenCollita> ordenes) {
 		HashMap<String, DatosCollita> datos = new HashMap<String, DatosCollita>();
 		for (OrdenCollita ordenCollita : ordenes) {
