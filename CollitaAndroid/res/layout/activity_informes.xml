@@ -91,7 +91,7 @@
 
         <Button
             android:id="@+id/opcionesbutton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/informesdesdebutton"
@@ -100,7 +100,7 @@
 
         <Button
             android:id="@+id/unidadesbutton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/opcionesbutton"
             android:layout_alignBottom="@+id/opcionesbutton"
@@ -111,7 +111,7 @@
 
         <Button
             android:id="@+id/button3"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/informeshastabutton"
             android:layout_below="@+id/textView2"
