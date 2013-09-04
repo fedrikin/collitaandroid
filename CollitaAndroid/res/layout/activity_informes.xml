@@ -2,47 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+   
     tools:context=".InformesActivity" >
-
-    <Button
-        android:id="@+id/informesdesdebutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView1"
-        android:layout_toRightOf="@+id/textView1"
-        android:text="Button" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/informesdesdebutton"
-        android:layout_alignTop="@+id/informesdesdebutton"
-        android:layout_toLeftOf="@+id/informeshastabutton"
-        android:layout_toRightOf="@+id/informesdesdebutton"
-        android:text="Hasta:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <Button
-        android:id="@+id/informeshastabutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/textView2"
-        android:text="Button" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Desde:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -119,5 +80,61 @@
             android:text="€" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/informeshastabutton"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/informeshastabutton"
+        android:background="@drawable/shapenaranja"
+        android:gravity="center"
+        android:text="Hasta"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/informesdesdebutton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/shapeazul"
+        android:gravity="center"
+        android:text="Desde"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/informeshastabutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/cabeceralayout"
+        android:layout_toLeftOf="@+id/textView2"
+        android:background="@drawable/masmenosboton"
+        android:text="Button"
+        android:textAppearance="?android:attr/textAppearanceSmall"  />
+
+    <Button
+        android:id="@+id/informesdesdebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/textView1"
+        android:background="@drawable/masmenosboton"
+        android:text="Button"
+         android:textAppearance="?android:attr/textAppearanceSmall"  />
+
+    <Button
+        android:id="@+id/hoybutton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="hoy" 
+        android:background="@drawable/masmenosboton" />
+
+"
 
 </RelativeLayout>

@@ -87,4 +87,6 @@ public interface CollitaDAOIfc {
 
 	public List<OrdenCollita> recuperarOrdenesCollita(Date desde, Date hasta);
 
+	void borraOrdenCollita(OrdenCollita ordencollita);
+
 }

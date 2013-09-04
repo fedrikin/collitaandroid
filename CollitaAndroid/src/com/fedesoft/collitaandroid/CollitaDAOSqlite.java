@@ -519,7 +519,7 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 			System.out.println("fecha:" + fecha);
 			resultado.setFechaCollita(dateformat.parse(fecha));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		resultado.setCajonesPrevistos(cursor.getInt(cursor
@@ -568,9 +568,10 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 	}
 
 	@Override
-	public List<OrdenCollita> recuperarOrdenesCollita() {
-		// TODO Auto-generated method stub
-		return null;
+	public void borraOrdenCollita(OrdenCollita ordencollita) {
+		SQLiteDatabase db = getWritableDatabase();
+		db.delete("ordencollita", "ID="+ ordencollita.getId(),null);
+		db.close();
 	}
 
 	@Override
@@ -700,6 +701,12 @@ public class CollitaDAOSqlite extends SQLiteOpenHelper implements CollitaDAOIfc 
 			
 		}
 		return resultado;
+	}
+
+	@Override
+	public List<OrdenCollita> recuperarOrdenesCollita() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -584,5 +584,11 @@ public class CollitaDAO implements CollitaDAOIfc {
 		return null;
 	}
 
+	@Override
+	public void borraOrdenCollita(OrdenCollita ordencollita) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }

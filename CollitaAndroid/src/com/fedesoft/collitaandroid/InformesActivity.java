@@ -53,11 +53,12 @@ public class InformesActivity extends Activity implements OnClickListener {
 	private HashMap<String, List<OrdenCollita>> ordenesCuadrillas = new HashMap<String, List<OrdenCollita>>();
 	private HashMap<String, List<OrdenCollita>> ordenesCompradores = new HashMap<String, List<OrdenCollita>>();
 	private HashMap<String, List<OrdenCollita>> ordenesCamiones = new HashMap<String, List<OrdenCollita>>();
-
+    private Boolean variedadesClik;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_informes);
+		variedadesClik = false;
 		desdeButton = (Button) findViewById(R.id.informesdesdebutton);
 		hastaButton = (Button) findViewById(R.id.informeshastabutton);
 		opcionesButton = (Button) findViewById(R.id.opcionesbutton);
@@ -114,7 +115,7 @@ public class InformesActivity extends Activity implements OnClickListener {
 		unidadesButton.setText(unidades[unidadSeleccionada]);
 		ordenes = collitaDAO.recuperarOrdenesCollita(desde, hasta);
 		System.out.println("ordenes:" + ordenes.size());
-		datosLinearLayout.removeAllViews();
+		datosLinearLayout.removeAllViews();		
 		ordenesCuadrillas = new HashMap<String, List<OrdenCollita>>();
 		ordenesCompradores = new HashMap<String, List<OrdenCollita>>();
 		ordenesCamiones = new HashMap<String, List<OrdenCollita>>();
@@ -240,21 +241,29 @@ public class InformesActivity extends Activity implements OnClickListener {
 			linearLayout.addView(nombreButton);
 			linearLayout.addView(cantidadTextView);
 			linearLayout.addView(eurosTextView);
+			
+			
 			nombreButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (datosCompradorLinearLayout.getChildCount() == 2) {
 						datosCompradorLinearLayout.removeViewAt(1);
+						variedadesClik = false ;
 					} else {
 						datosCompradorLinearLayout
 								.addView(creaLayoutVariedades(
 										ordenesCompradores.get(comprador),
 										false));
+						variedadesClik = true ;
 					}
 				}
 			});
 			datosCompradorLinearLayout.addView(linearLayout);
+			    if (variedadesClik){
+				datosCompradorLinearLayout.addView(creaLayoutVariedades(ordenesCompradores.get(comprador),false));
+			    }
 			datosLinearLayout.addView(datosCompradorLinearLayout);
+			
 		}
 	}
 
@@ -463,14 +472,21 @@ public class InformesActivity extends Activity implements OnClickListener {
 				public void onClick(View v) {
 					if (datosCamionLinearLayout.getChildCount() == 2) {
 						datosCamionLinearLayout.removeViewAt(1);
+						variedadesClik = false;
 					} else {
 						datosCamionLinearLayout
 								.addView(creaLayoutTermes(ordenesCamiones
 										.get(camion)));
+						variedadesClik = true;
 					}
 				}
 			});
 			datosCamionLinearLayout.addView(linearLayout);
+			if (variedadesClik){
+				datosCamionLinearLayout
+				.addView(creaLayoutTermes(ordenesCamiones
+						.get(camion)));
+			}
 			datosLinearLayout.addView(datosCamionLinearLayout);
 		}
 	}
@@ -537,15 +553,22 @@ public class InformesActivity extends Activity implements OnClickListener {
 				public void onClick(View v) {
 					if (datosCuadrillaLinearLayout.getChildCount() == 2) {
 						datosCuadrillaLinearLayout.removeViewAt(1);
+						variedadesClik = false;
 					} else {
 						datosCuadrillaLinearLayout
 								.addView(creaLayoutVariedades(
 										ordenesCuadrillas.get(cuadrilla), false));
+						variedadesClik = true;
 					}
 				}
 
 			});
 			datosCuadrillaLinearLayout.addView(linearLayout);
+			if (variedadesClik){
+				datosCuadrillaLinearLayout
+				.addView(creaLayoutVariedades(
+						ordenesCuadrillas.get(cuadrilla), false));				
+			}
 			datosLinearLayout.addView(datosCuadrillaLinearLayout);
 		}
 	}
@@ -560,6 +583,7 @@ public class InformesActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		if (v == opcionesButton) {
 			opcionSeleccionada = (opcionSeleccionada + 1) % 3;
+			variedadesClik=false;
 			muestraDatos();
 		}
 		if (v == unidadesButton) {

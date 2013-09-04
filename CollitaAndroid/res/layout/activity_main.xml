@@ -2,38 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
+       
     tools:context=".MainActivity" >
-
-    <TextView
-        android:id="@+id/recolecciontextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Recolección dia:" />
-
-    <Button
-        android:id="@+id/fechacollitabutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/recolecciontextView"
-        android:text="Button" />
-
-    <Button
-        android:id="@+id/agragarordenbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:text="Agregar" />
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/scrolshape"
         android:layout_above="@+id/cajonesvariedadlinearlayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
@@ -52,11 +29,60 @@
         android:id="@+id/cajonesvariedadlinearlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/agragarordenbutton"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:orientation="vertical" >
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/agragarordenbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/fechacollitabutton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/shapenaranja"
+        android:text="Agregar" />
+
+    <Button
+        android:id="@+id/fechamasbutton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/agragarordenbutton"
+        android:background="@drawable/masmenosboton"
+        android:text="+" />
+
+    <Button
+        android:id="@+id/fechacollitabutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/fechamasbutton"
+        android:layout_toRightOf="@+id/fechamenosbutton"
+        android:background="@drawable/shapebotones"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/informeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/shapeazul"
+        android:text="Informe" />
+
+    <Button
+        android:id="@+id/fechamenosbutton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/informeButton"
+        android:background="@drawable/pressbutton"
+        android:text="-" />
 
 </RelativeLayout>

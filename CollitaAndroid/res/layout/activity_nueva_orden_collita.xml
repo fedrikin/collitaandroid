@@ -129,16 +129,6 @@
         android:text="v" />
 
     <Button
-        android:id="@+id/fechaOrdenbutton"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/elijecuadrillaButton"
-        android:layout_toRightOf="@+id/textView3"
-        android:text="Button" />
-
-    <Button
         android:id="@+id/elijecuadrillaButton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
@@ -230,21 +220,29 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/diamenosbutton"
+        android:layout_alignBottom="@+id/fechaOrdenbutton"
         android:layout_alignLeft="@+id/elijecuadrillaButton"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="^" />
+        android:text="+" />
+
+    <Button
+        android:id="@+id/fechaOrdenbutton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/cuadrillaOrdenAutoCompleteEditText"
+        android:layout_toRightOf="@+id/diamenosbutton"
+        android:text="Button" />
 
     <Button
         android:id="@+id/diamenosbutton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/fechaOrdenbutton"
-        android:layout_alignLeft="@+id/elijecuadrillaButton"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/textView1"
-        android:text="v" />
+        android:layout_alignLeft="@+id/compradorOrdenAutoCompleteText"
+        android:layout_alignParentTop="true"
+        android:text="-" />
 
 </RelativeLayout>

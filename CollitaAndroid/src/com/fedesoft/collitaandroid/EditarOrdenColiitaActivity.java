@@ -36,6 +36,7 @@ public class EditarOrdenColiitaActivity extends Activity implements OnClickListe
 	private Button seleccionTermeButton;
 	private Button seleccionVariedadButton;
 	private Button editaButton;
+	private Button borraOrdenButton;
 	private OrdenCollita ordecollita;
 	private CollitaDAOIfc collitaDAO;
 	
@@ -61,7 +62,8 @@ public class EditarOrdenColiitaActivity extends Activity implements OnClickListe
 		seleccionTermeButton.setOnClickListener(this);
 		seleccionVariedadButton =(Button) findViewById(R.id.elijevariedadButton);		
 		seleccionVariedadButton.setOnClickListener(this);
-		
+		borraOrdenButton=(Button) findViewById(R.id.informeButton);
+		borraOrdenButton.setOnClickListener(this);
 		editaButton=(Button) findViewById(R.id.editarrordenbutton);
 		editaButton.setOnClickListener(this);
 		
@@ -149,7 +151,12 @@ public class EditarOrdenColiitaActivity extends Activity implements OnClickListe
 		finish();
 	}
 		
+	private void borrarOrdenCollita() {
+		collitaDAO.borraOrdenCollita(ordecollita);
+		setResult(1);
+		finish();
 	
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -163,6 +170,9 @@ public class EditarOrdenColiitaActivity extends Activity implements OnClickListe
 		public void onClick(View v) {
 			if (v == editaButton){
 				this.editarOrdeCollita();
+			}
+			if (v == borraOrdenButton){
+				this.borrarOrdenCollita();
 			}
 			if (v == seleccionCuadrillaButton){
 				System.out.println("cuadrillas");
@@ -186,4 +196,5 @@ public class EditarOrdenColiitaActivity extends Activity implements OnClickListe
 				variedadOrdenAutoComplete.showDropDown();
 			}
 		}
+	
 }

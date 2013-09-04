@@ -136,7 +136,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/textView3"
+        android:layout_toRightOf="@+id/textView2"
         android:text="Button" />
 
     <Button
@@ -154,7 +154,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
+        android:layout_toLeftOf="@+id/informeButton"
         android:text="Guardar" />
 
     <AutoCompleteTextView 
@@ -225,5 +225,13 @@
         android:layout_alignRight="@+id/textView8"
         android:text="Cuadrilla :"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/informeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Borrar" />
 
 </RelativeLayout>

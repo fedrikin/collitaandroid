@@ -32,7 +32,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class NuevaOrdenCollitaActivity extends Activity implements OnClickListener {
@@ -72,8 +71,7 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 		cajonesOrdenEditText = (EditText) findViewById(R.id.cajonesEditText);
 		diaMasButton= (Button) findViewById(R.id.diamasbutton);
 		diaMenosButton=(Button)findViewById(R.id.diamenosbutton);
-		fechaOrdenButton = (Button) findViewById(R.id.fechaOrdenbutton);
-		// La propia activitat fa les funcions de onclicklistener
+		fechaOrdenButton = (Button) findViewById(R.id.fechaOrdenbutton);	
 		seleccionCuadrillaButton = (Button) findViewById(R.id.elijecuadrillaButton);		
 		seleccionCuadrillaButton.setOnClickListener(this);
 		seleccionCamionButton = (Button) findViewById(R.id.elijecamionbutton);
@@ -83,12 +81,11 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 		seleccionTermeButton =(Button) findViewById(R.id.elijetermeButton);
 		seleccionTermeButton.setOnClickListener(this);
 		seleccionVariedadButton =(Button) findViewById(R.id.elijevariedadButton);		
-		seleccionVariedadButton.setOnClickListener(this);
-		
+		seleccionVariedadButton.setOnClickListener(this);		
 		guardaButton = (Button) findViewById(R.id.editarrordenbutton);
 		guardaButton.setOnClickListener(this);
-		
-		fechaOrdenButton.setText(simpleDateFormat.format(fecha));
+		String fechamain= getIntent().getStringExtra("ordencollita_fecha");
+		fechaOrdenButton.setText(fechamain);
 		fechaOrdenButton.setOnClickListener(this);
 		diaMasButton.setOnClickListener(this);
 		diaMenosButton.setOnClickListener(this);
@@ -109,7 +106,8 @@ public class NuevaOrdenCollitaActivity extends Activity implements OnClickListen
 		variedadOrdenAutoComplete.setThreshold(1);
 		
 	}
-     // METODOS......................
+
+	// METODOS......................
 	private void cargarCuadrillas() {
 		List<Cuadrilla> cuadrillas = collitaDAO.recuperarCuadrillas(true);
 		ArrayAdapter<Cuadrilla> adapter=new ArrayAdapter<Cuadrilla>(this,android.R.layout.simple_dropdown_item_1line,cuadrillas.toArray(new Cuadrilla[]{}));
