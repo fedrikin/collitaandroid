@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -67,5 +68,48 @@ public class CompradoresActivity extends Activity {
 		getMenuInflater().inflate(R.menu.compradores, menu);
 		return true;
 	}
-
+	@Override
+	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
+		if (item.getItemId() == R.id.camionesitem) {			
+			Intent intent = new Intent(getApplicationContext(),
+					CamionesActivity.class);
+			startActivity(intent);
+			setResult(1);
+			finish();
+		}
+		if (item.getItemId() == R.id.cuadrillasitem) {
+			
+			Intent intent = new Intent(getApplicationContext(),
+					CuadrillasActivity.class);
+			startActivity(intent);
+			setResult(1);
+			finish();
+		}
+		
+		if (item.getItemId() == R.id.variedadesitem) {
+			
+			Intent intent = new Intent(getApplicationContext(),
+					VariedadesActivity.class);
+			startActivity(intent);
+			setResult(1);
+			finish();
+		}
+		if (item.getItemId() == R.id.termesitem) {
+			
+			Intent intent = new Intent(getApplicationContext(),
+					TermesActivity.class);
+			startActivity(intent);
+			setResult(1);
+			finish();
+		}
+		if (item.getItemId() == R.id.informesitem){
+			Intent intent = new Intent(getApplicationContext(),
+					InformesActivity.class);
+			startActivity(intent);
+			setResult(1);
+			finish();
+			
+		}
+		return true;
+	}
 }

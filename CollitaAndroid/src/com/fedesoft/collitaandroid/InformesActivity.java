@@ -1,6 +1,7 @@
 package com.fedesoft.collitaandroid;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,9 +18,11 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -36,6 +39,7 @@ public class InformesActivity extends Activity implements OnClickListener {
 	private Button hastaButton;
 	private Button opcionesButton;
 	private Button unidadesButton;
+	private Button hoyButton;
 	private LinearLayout datosLinearLayout;
 	private LinearLayout totalesLinearLayout;
 	private LinearLayout totalVariedadLinearLayout;
@@ -48,21 +52,23 @@ public class InformesActivity extends Activity implements OnClickListener {
 	private Date desde;
 	private Date hasta;
 	private CollitaDAOIfc collitaDAO;
-	private DecimalFormat df = new DecimalFormat("#.00");
+	private DecimalFormat df = new DecimalFormat("###,###.00");
+	private DecimalFormat dff = new DecimalFormat("###,###");
 	private List<OrdenCollita> ordenes;
 	private HashMap<String, List<OrdenCollita>> ordenesCuadrillas = new HashMap<String, List<OrdenCollita>>();
 	private HashMap<String, List<OrdenCollita>> ordenesCompradores = new HashMap<String, List<OrdenCollita>>();
 	private HashMap<String, List<OrdenCollita>> ordenesCamiones = new HashMap<String, List<OrdenCollita>>();
-    private Boolean variedadesClik;
+ 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_informes);
-		variedadesClik = false;
+		
 		desdeButton = (Button) findViewById(R.id.informesdesdebutton);
 		hastaButton = (Button) findViewById(R.id.informeshastabutton);
 		opcionesButton = (Button) findViewById(R.id.opcionesbutton);
 		unidadesButton = (Button) findViewById(R.id.unidadesbutton);
+		hoyButton =(Button) findViewById(R.id.hoybutton);
 		datosLinearLayout = (LinearLayout) findViewById(R.id.datosLinearLayout);
 		totalesLinearLayout = (LinearLayout) findViewById(R.id.totalesLinearLayout);
 		totalVariedadLinearLayout = (LinearLayout) findViewById(R.id.totalVariedadLinearLayout);
@@ -70,17 +76,22 @@ public class InformesActivity extends Activity implements OnClickListener {
 		LinearLayout.LayoutParams params = new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1);
 		totalButton.setLayoutParams(params);
 		totalButton.setText("Total:");
+		totalButton.setTextColor(Color.BLACK);
+		totalButton.setBackgroundResource(R.drawable.pbotonesinformes);
 		totalCantidadTextView = new TextView(getApplicationContext());
 		totalCantidadTextView.setLayoutParams(params);
-		totalCantidadTextView.setGravity(Gravity.RIGHT);
-		totalCantidadTextView.setPadding(0, 0, 10, 0);
+		totalCantidadTextView.setGravity(Gravity.RIGHT);				
+		totalCantidadTextView.setTextColor(Color.parseColor("#FFFFFF"));
+		totalCantidadTextView.setPadding(0, 10, 10, 0);
 		totalEurosTextView = new TextView(getApplicationContext());
 		totalEurosTextView.setLayoutParams(params);
-		totalEurosTextView.setGravity(Gravity.RIGHT);
-		totalEurosTextView.setPadding(0, 0, 10, 0);
+		totalEurosTextView.setGravity(Gravity.RIGHT);		
+		totalEurosTextView.setTextColor(Color.parseColor("#FFFFFF"));
+		totalEurosTextView.setPadding(0, 10, 10, 0);
 		totalVariedadLinearLayout.addView(totalButton);
 		totalVariedadLinearLayout.addView(totalCantidadTextView);
 		totalVariedadLinearLayout.addView(totalEurosTextView);
+		totalVariedadLinearLayout.setBackgroundColor(Color.BLACK);
 		totalButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -89,17 +100,39 @@ public class InformesActivity extends Activity implements OnClickListener {
 		});
 		desdeButton.setOnClickListener(this);
 		hastaButton.setOnClickListener(this);
-		opcionesButton.setOnClickListener(this);
+		opcionesButton.setOnClickListener(this);		
 		unidadesButton.setOnClickListener(this);
-		Calendar hoy = new GregorianCalendar();
-		desde = hoy.getTime();
-		hasta = hoy.getTime();
-		desdeButton.setText(sdf.format(desde));
-		hastaButton.setText(sdf.format(hasta));
+		hoyButton.setOnClickListener(this);
+	// Fecha	
+		String fechamain= getIntent().getStringExtra("fecha");
+		if (fechamain !=null){
+		   desdeButton.setText(fechamain);
+		   hastaButton.setText(fechamain);
+	
+		   try {
+			desde = sdf.parse(desdeButton.getText().toString());
+		   } catch (ParseException e) {			
+			e.printStackTrace();
+		   }
+		   try {
+			hasta = sdf.parse(hastaButton.getText().toString());
+		   } catch (ParseException e) {			
+			e.printStackTrace();
+		  }
+		}
+		else{		
+		     Calendar hoy = new GregorianCalendar();
+		     desde = hoy.getTime();
+		     hasta = hoy.getTime();
+		     desdeButton.setText(sdf.format(desde));
+		     hastaButton.setText(sdf.format(hasta));
+		
+		    }
+	// Fecha
 		collitaDAO = CollitaApplication.getInstance(getApplicationContext())
 				.getCollitaDAO();
 		muestraDatos();
-	}
+	}	
 
 	protected void muestraTotalesVariedad() {
 		if (totalesLinearLayout.getChildCount() == 2) {
@@ -110,11 +143,13 @@ public class InformesActivity extends Activity implements OnClickListener {
  
 	}
 
+
 	private void muestraDatos() {
 		opcionesButton.setText(opciones[opcionSeleccionada]);
 		unidadesButton.setText(unidades[unidadSeleccionada]);
 		ordenes = collitaDAO.recuperarOrdenesCollita(desde, hasta);
 		System.out.println("ordenes:" + ordenes.size());
+		//.............
 		datosLinearLayout.removeAllViews();		
 		ordenesCuadrillas = new HashMap<String, List<OrdenCollita>>();
 		ordenesCompradores = new HashMap<String, List<OrdenCollita>>();
@@ -164,15 +199,18 @@ public class InformesActivity extends Activity implements OnClickListener {
 					* ordenCollita.getVariedad().getPrecioMedioCompra();
 
 		}
-		totalCantidadTextView.setText("" + total);
+		totalCantidadTextView.setText("" + dff.format(total));
 		totalEurosTextView.setText("" + df.format(totalEuros));
 		if (totalesLinearLayout.getChildCount() == 2) {
 			totalesLinearLayout.removeViewAt(1);
 			totalesLinearLayout.addView(creaLayoutVariedades(ordenes, true));
 		}
+		else {	}
+		
+	
 		switch (opcionSeleccionada) {
 		case 0:
-			muestraDatosCuadrillas(ordenes);
+			muestraDatosCuadrillas(ordenes);						
 			break;
 		case 1:
 			muestraDatosCamiones(ordenes);
@@ -183,7 +221,9 @@ public class InformesActivity extends Activity implements OnClickListener {
 		}
 
 	}
+	
 
+	
 	private void muestraDatosComprador(List<OrdenCollita> ordenes) {
 		HashMap<String, DatosCollita> datos = new HashMap<String, DatosCollita>();
 		for (OrdenCollita ordenCollita : ordenes) {
@@ -228,12 +268,14 @@ public class InformesActivity extends Activity implements OnClickListener {
 				cantidad = dato.getCajones();
 				break;
 			}			
-			cantidadTextView.setText("" + cantidad);				
+			cantidadTextView.setText("" + dff.format(cantidad));				
 			cantidadTextView.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1));			
 			cantidadTextView.setGravity(Gravity.RIGHT);	
+			cantidadTextView.setTextColor(Color.parseColor("#FFFFFF"));
 			cantidadTextView.setPadding(0, 0, 10, 0);
 			TextView eurosTextView = new TextView(getApplicationContext());			
 			eurosTextView.setGravity(Gravity.RIGHT);
+			eurosTextView.setTextColor(Color.parseColor("#FFFFFF"));
 			eurosTextView.setPadding(0, 0, 10, 0);
 			eurosTextView.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1));
 			eurosTextView.setText(df.format(dato.getEuros()));
@@ -243,28 +285,26 @@ public class InformesActivity extends Activity implements OnClickListener {
 			linearLayout.addView(eurosTextView);
 			
 			
+			
 			nombreButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (datosCompradorLinearLayout.getChildCount() == 2) {
-						datosCompradorLinearLayout.removeViewAt(1);
-						variedadesClik = false ;
+						datosCompradorLinearLayout.removeViewAt(1);						
 					} else {
 						datosCompradorLinearLayout
 								.addView(creaLayoutVariedades(
 										ordenesCompradores.get(comprador),
-										false));
-						variedadesClik = true ;
+										false));			
 					}
 				}
 			});
-			datosCompradorLinearLayout.addView(linearLayout);
-			    if (variedadesClik){
-				datosCompradorLinearLayout.addView(creaLayoutVariedades(ordenesCompradores.get(comprador),false));
-			    }
-			datosLinearLayout.addView(datosCompradorLinearLayout);
 			
+			
+			datosCompradorLinearLayout.addView(linearLayout);				
+			datosLinearLayout.addView(datosCompradorLinearLayout);				
 		}
+	
 	}
 
 	private LinearLayout creaLayoutVariedades(List<OrdenCollita> ordenes,
@@ -286,15 +326,12 @@ public class InformesActivity extends Activity implements OnClickListener {
 						/ (ordenCollita.getCuadrilla().getNumeroCollidors());
 				break;
 			case 1:
-
 				break;
 			case 2:
 				euros = (kilos * ordenCollita.getVariedad()
 						.getPrecioMedioCompra()) * 0.03d;
 				break;
-
 			default:
-
 				break;
 			}
 			if (totales) {
@@ -321,6 +358,7 @@ public class InformesActivity extends Activity implements OnClickListener {
 			TextView nombreTextView = new TextView(getApplicationContext());
 			nombreTextView.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1));
 			nombreTextView.setText(variedad);
+			nombreTextView.setTextColor(Color.parseColor("#99FFFF"));
 			Integer cantidad = 0;
 			switch (unidadSeleccionada) {
 			case 0:
@@ -334,13 +372,15 @@ public class InformesActivity extends Activity implements OnClickListener {
 				break;
 			}
 			TextView cantidadTextView = new TextView(getApplicationContext());
-			cantidadTextView.setText("" + cantidad);
+			cantidadTextView.setText("" +dff.format(cantidad));
 			cantidadTextView.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1));
 			cantidadTextView.setGravity(Gravity.RIGHT);
+			cantidadTextView.setTextColor(Color.parseColor("#FFFFFF"));
 			cantidadTextView.setPadding(0,0, 10, 0);
 			TextView eurosTextView = new TextView(getApplicationContext());
 			eurosTextView.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1));
 			eurosTextView.setGravity(Gravity.RIGHT);
+			eurosTextView.setTextColor(Color.parseColor("#FFFFFF"));
 			eurosTextView.setPadding(0,0, 10, 0);
 			eurosTextView.setText(df.format(dato.getEuros()));
 			linearLayout.addView(nombreTextView);
@@ -382,6 +422,7 @@ public class InformesActivity extends Activity implements OnClickListener {
 			TextView nombreTextView = new TextView(getApplicationContext());
 			nombreTextView.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1));
 			nombreTextView.setText(terme);
+			nombreTextView.setTextColor(Color.parseColor("#FFCC99"));
 			Integer cantidad = 0;
 			switch (unidadSeleccionada) {
 			case 0:
@@ -398,11 +439,13 @@ public class InformesActivity extends Activity implements OnClickListener {
 			cantidadTextView.setText("" + cantidad);
 			cantidadTextView.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1));
 			cantidadTextView.setGravity(Gravity.RIGHT);
+			cantidadTextView.setTextColor(Color.parseColor("#FFFFFF"));
 			cantidadTextView.setPadding(0,0, 10, 0);
 			TextView eurosTextView = new TextView(getApplicationContext());
 			eurosTextView.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1));
 			eurosTextView.setGravity(Gravity.RIGHT);
 			eurosTextView.setPadding(0,0, 10, 0);
+			eurosTextView.setTextColor(Color.parseColor("#FFFFFF"));
 			eurosTextView.setText(df.format(dato.getEuros()));
 			linearLayout.addView(nombreTextView);
 			linearLayout.addView(cantidadTextView);
@@ -455,12 +498,14 @@ public class InformesActivity extends Activity implements OnClickListener {
 				cantidad = dato.getCajones();
 				break;
 			}
-			cantidadTextView.setText("" + cantidad);
+			cantidadTextView.setText("" + dff.format(cantidad));
 			cantidadTextView.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1));			
 			cantidadTextView.setGravity(Gravity.RIGHT);	
+			cantidadTextView.setTextColor(Color.parseColor("#FFFFFF"));
 			cantidadTextView.setPadding(0, 0, 10, 0);
 			TextView eurosTextView = new TextView(getApplicationContext());			
 			eurosTextView.setGravity(Gravity.RIGHT);
+			eurosTextView.setTextColor(Color.parseColor("#FFFFFF"));
 			eurosTextView.setPadding(0, 0, 10, 0);
 			eurosTextView.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1));		
 			eurosTextView.setText(df.format(dato.getEuros()));
@@ -472,21 +517,15 @@ public class InformesActivity extends Activity implements OnClickListener {
 				public void onClick(View v) {
 					if (datosCamionLinearLayout.getChildCount() == 2) {
 						datosCamionLinearLayout.removeViewAt(1);
-						variedadesClik = false;
+						
 					} else {
 						datosCamionLinearLayout
 								.addView(creaLayoutTermes(ordenesCamiones
-										.get(camion)));
-						variedadesClik = true;
+										.get(camion)));						
 					}
 				}
 			});
-			datosCamionLinearLayout.addView(linearLayout);
-			if (variedadesClik){
-				datosCamionLinearLayout
-				.addView(creaLayoutTermes(ordenesCamiones
-						.get(camion)));
-			}
+			datosCamionLinearLayout.addView(linearLayout);		
 			datosLinearLayout.addView(datosCamionLinearLayout);
 		}
 	}
@@ -536,12 +575,14 @@ public class InformesActivity extends Activity implements OnClickListener {
 				cantidad = dato.getCajones();
 				break;
 			}
-			cantidadTextView.setText("" + cantidad);
+			cantidadTextView.setText("" + dff.format(cantidad));
 			cantidadTextView.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1));			
 			cantidadTextView.setGravity(Gravity.RIGHT);	
+			cantidadTextView.setTextColor(Color.parseColor("#FFFFFF"));
 			cantidadTextView.setPadding(0, 0, 10, 0);
 			TextView eurosTextView = new TextView(getApplicationContext());			
 			eurosTextView.setGravity(Gravity.RIGHT);
+			eurosTextView.setTextColor(Color.parseColor("#FFFFFF"));			
 			eurosTextView.setPadding(0, 0, 10, 0);
 			eurosTextView.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1));															
 			eurosTextView.setText(df.format(dato.getEuros()));
@@ -553,22 +594,15 @@ public class InformesActivity extends Activity implements OnClickListener {
 				public void onClick(View v) {
 					if (datosCuadrillaLinearLayout.getChildCount() == 2) {
 						datosCuadrillaLinearLayout.removeViewAt(1);
-						variedadesClik = false;
+					
 					} else {
 						datosCuadrillaLinearLayout
 								.addView(creaLayoutVariedades(
-										ordenesCuadrillas.get(cuadrilla), false));
-						variedadesClik = true;
+										ordenesCuadrillas.get(cuadrilla), false));					
 					}
 				}
-
 			});
-			datosCuadrillaLinearLayout.addView(linearLayout);
-			if (variedadesClik){
-				datosCuadrillaLinearLayout
-				.addView(creaLayoutVariedades(
-						ordenesCuadrillas.get(cuadrilla), false));				
-			}
+			datosCuadrillaLinearLayout.addView(linearLayout);			
 			datosLinearLayout.addView(datosCuadrillaLinearLayout);
 		}
 	}
@@ -578,12 +612,47 @@ public class InformesActivity extends Activity implements OnClickListener {
 		getMenuInflater().inflate(R.menu.informes, menu);
 		return true;
 	}
+	@Override
+	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
+		if (item.getItemId() == R.id.camionesitem) {			
+			Intent intent = new Intent(getApplicationContext(),
+					CamionesActivity.class);
+			startActivity(intent);
+			
+		}
+		if (item.getItemId() == R.id.cuadrillasitem) {
+			
+			Intent intent = new Intent(getApplicationContext(),
+					CuadrillasActivity.class);
+			startActivity(intent);
+		}
+		if (item.getItemId() == R.id.compradoresitem) {
+			
+			Intent intent = new Intent(getApplicationContext(),
+					CompradoresActivity.class);
+			startActivity(intent);
+		}
+		if (item.getItemId() == R.id.variedadesitem) {
+			
+			Intent intent = new Intent(getApplicationContext(),
+					VariedadesActivity.class);
+			startActivity(intent);
+		}
+		if (item.getItemId() == R.id.termesitem) {
+			
+			Intent intent = new Intent(getApplicationContext(),
+					TermesActivity.class);
+			startActivity(intent);
+		}
+	
+		return true;
+	}
+
 
 	@Override
 	public void onClick(View v) {
 		if (v == opcionesButton) {
-			opcionSeleccionada = (opcionSeleccionada + 1) % 3;
-			variedadesClik=false;
+			opcionSeleccionada = (opcionSeleccionada + 1) % 3;			
 			muestraDatos();
 		}
 		if (v == unidadesButton) {
@@ -602,7 +671,14 @@ public class InformesActivity extends Activity implements OnClickListener {
 			fragment.show(getFragmentManager(), "Seleccione fecha");
 			System.out.println("cambio hasta");
 		}
-
+		if (v == hoyButton) {
+			Calendar hoy = new GregorianCalendar();
+			desde = hoy.getTime();
+			hasta = hoy.getTime();
+			desdeButton.setText(sdf.format(desde));
+			hastaButton.setText(sdf.format(hasta));			
+			muestraDatos();
+		}
 	}
 
 	@SuppressLint("ValidFragment")

@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import android.R.color;
@@ -15,7 +14,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable.Orientation;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -53,12 +51,24 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		fechaCollitaButton = (Button) findViewById(R.id.fechacollitabutton);
-		informesActivityButton =(Button) findViewById(R.id.informeButton);
+		fechaCollitaButton = (Button) findViewById(R.id.fechacollitabutton);		
 		diamasButton =(Button) findViewById(R.id.fechamasbutton);
 		diamenosButton = (Button) findViewById(R.id.fechamenosbutton);
 		ordenesLinearLayout = (LinearLayout) findViewById(R.id.ordeneslinearlayout);
 		cajonesVariedadLayout = (LinearLayout) findViewById(R.id.cajonesvariedadlinearlayout);
+		informesActivityButton =(Button) findViewById(R.id.informeButton);
+		informesActivityButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(),
+						InformesActivity.class);
+				intent.putExtra("fecha", fechaCollitaButton.getText());
+				startActivityForResult(intent, 3);
+
+				
+			}
+		});
 		agregarButton = (Button) findViewById(R.id.agragarordenbutton);
 		agregarButton.setOnClickListener(new OnClickListener() {
 
@@ -156,7 +166,7 @@ public class MainActivity extends Activity {
 			LinearLayout ordenCollitalinearLayout = new LinearLayout(getApplicationContext());
 			LinearLayout.LayoutParams params = new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1);
 			LinearLayout.LayoutParams paramsL = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1);
-	        
+			LinearLayout.LayoutParams paramsca = new LayoutParams(0, LayoutParams.WRAP_CONTENT,(float) 0.5);
 	        
 			ordenCollitalinearLayout.setBackgroundResource(R.drawable.shape);		
 			ordenCollitalinearLayout.setLayoutParams(paramsL);
@@ -174,7 +184,7 @@ public class MainActivity extends Activity {
 			cuadrillaButton.setTextColor(Color.BLACK);
 			Drawable cuadrillaDrawable = getResources().getDrawable(R.drawable.ic_cuadrilla2);
 		    cuadrillaButton.setCompoundDrawablesWithIntrinsicBounds(cuadrillaDrawable,null, null, null);
-			cuadrillaButton.setBackgroundResource(R.drawable.shapebotones);	
+			cuadrillaButton.setBackgroundResource(R.drawable.botonesgrises);	
 			camionButton.setText(""+ ordenCollita.getCamion());
 			camionButton.setLayoutParams(params);		   
 			camionButton.setTextAppearance(getApplicationContext(),
@@ -182,13 +192,13 @@ public class MainActivity extends Activity {
 			camionButton.setTextColor(Color.BLACK);
 			Drawable camionDrawable = getResources().getDrawable(R.drawable.ic_camion2);
 		    camionButton.setCompoundDrawablesWithIntrinsicBounds(camionDrawable ,null, null, null);
-			camionButton.setBackgroundResource(R.drawable.shapebotones);
+			camionButton.setBackgroundResource(R.drawable.botonesgrises);
 			//...cajones
-			cajonesTextView.setText(""+ ordenCollita.getCajonesPrevistos()+ ".c");
+			cajonesTextView.setText(""+ ordenCollita.getCajonesPrevistos()+"c");
 			cajonesTextView.setTextAppearance(getApplicationContext(),
 					android.R.style.TextAppearance_Small);			
 			cajonesTextView.setTextColor(Color.BLACK);
-			
+			cajonesTextView.setLayoutParams(paramsca);	
 			cajonesTextView.setGravity(Gravity.RIGHT);
 			cajonesTextView.setBackgroundResource(R.drawable.shapetextos);	
 			
@@ -197,12 +207,12 @@ public class MainActivity extends Activity {
 			LinearLayout.LayoutParams textparam = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1);
 			
 			textoslayout.setOrientation(LinearLayout.VERTICAL);
-			variedadTextView.setText("" + ordenCollita.getVariedad()+ " ");
+			variedadTextView.setText("" + ordenCollita.getVariedad());
 			variedadTextView.setTextAppearance(getApplicationContext(),
 					android.R.style.TextAppearance_Small);
 			variedadTextView.setTextColor(Color.BLACK);
 			variedadTextView.setGravity(Gravity.CENTER);
-			variedadTextView.setBackgroundResource(R.drawable.shapenaranja);
+			variedadTextView.setBackgroundResource(R.drawable.botonesnaranjas);
 			variedadTextView.setLayoutParams(textparam);
 			
 			termeTextView.setText("" + ordenCollita.getTerme());
@@ -210,7 +220,7 @@ public class MainActivity extends Activity {
 					android.R.style.TextAppearance_Small);
 			termeTextView.setTextColor(Color.BLACK);
 			termeTextView.setGravity(Gravity.CENTER);
-			termeTextView.setBackgroundResource(R.drawable.shapeazul);
+			termeTextView.setBackgroundResource(R.drawable.botonesazules);
 			termeTextView.setLayoutParams(textparam);
 			;
 			textoslayout.addView(termeTextView);
@@ -247,7 +257,7 @@ public class MainActivity extends Activity {
 		totalButton.setTextAppearance(getApplicationContext(),
 				android.R.style.TextAppearance_Small);
 		totalButton.setTextColor(Color.BLACK);
-		totalButton.setBackgroundResource(R.drawable.shapeazul);
+		totalButton.setBackgroundResource(R.drawable.pbotonazules);
 		totalButton.setOnClickListener(new OnClickListener() {	    
 			@Override
 			public void onClick(View v) {
@@ -256,9 +266,8 @@ public class MainActivity extends Activity {
 		});
 		TextView totalTextView = new TextView(getApplicationContext());
 		totalTextView.setLayoutParams(params);
-		totalTextView.setTextColor(Color.BLACK);
-		totalTextView.setGravity(Gravity.CENTER_HORIZONTAL);	
-		totalTextView.setBackgroundResource(R.drawable.cantidadestext);
+		totalTextView.setTextColor(Color.WHITE);
+		totalTextView.setGravity(Gravity.CENTER_HORIZONTAL);		
 		totalTextView.setTextAppearance(getApplicationContext(),
 				android.R.style.TextAppearance_Medium);		
 		LinearLayout variedades = new LinearLayout(getApplicationContext());
@@ -267,25 +276,25 @@ public class MainActivity extends Activity {
 		variedades.addView(totalButton);		
 		cajones.setBackgroundResource(R.drawable.layoutcantidades);	
 		cajones.addView(totalTextView);
-		totalTextView.setTextColor(Color.BLACK);
+		totalTextView.setTextColor(Color.WHITE);
 		Integer total = 0;
 		for (final String variedad : cajonesVariedad.keySet()) {
 			Button button = new Button(getApplicationContext());			
 			button.setLayoutParams(params);
 			button.setText(variedad);		
-			button.setBackgroundResource(R.drawable.shapenaranja);				
+			button.setBackgroundResource(R.drawable.pbotonesnaranjas);				
 			button.setTextAppearance(getApplicationContext(),
 					android.R.style.TextAppearance_Small);	
 			button.setTextColor(Color.BLACK);
 			variedades.addView(button);
 			TextView textView = new TextView(getApplicationContext());
 			textView.setLayoutParams(params);
-			textView.setGravity(Gravity.RIGHT);
-			textView.setBackgroundResource(R.drawable.cantidadestext);	
+			textView.setGravity(Gravity.CENTER
+					);		
 			textView.setTextAppearance(getApplicationContext(),
 					android.R.style.TextAppearance_Medium);
 			textView.setText("" + cajonesVariedad.get(variedad));
-			textView.setTextColor(Color.BLACK);
+			textView.setTextColor(Color.WHITE);
 			cajones.addView(textView);
 			total += cajonesVariedad.get(variedad);
 			button.setOnClickListener(new OnClickListener() {
@@ -328,7 +337,7 @@ public class MainActivity extends Activity {
 			int year = c.get(Calendar.YEAR);
 			int month = c.get(Calendar.MONTH);
 			int day = c.get(Calendar.DAY_OF_MONTH);
-			// Create a new instance of DatePickerDialog and return it
+		// Create a new instance of DatePickerDialog and return it
 			return new DatePickerDialog(getActivity(), this, year, month, day);
 		}
 
@@ -340,7 +349,7 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
+// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
@@ -384,5 +393,7 @@ public class MainActivity extends Activity {
 		}
 		return true;
 	}
+
+
 
 }

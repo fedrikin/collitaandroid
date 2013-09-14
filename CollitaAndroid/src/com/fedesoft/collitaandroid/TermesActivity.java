@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -66,6 +67,50 @@ public class TermesActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.termes, menu);
+		return true;
+	}
+	@Override
+	public boolean onMenuItemSelected(int featuredId, MenuItem item) {
+		if (item.getItemId() == R.id.camionesitem) {			
+			Intent intent = new Intent(getApplicationContext(),
+					CamionesActivity.class);
+			startActivity(intent);
+			setResult(1);
+			finish();
+		}
+		if (item.getItemId() == R.id.cuadrillasitem) {
+			
+			Intent intent = new Intent(getApplicationContext(),
+					CuadrillasActivity.class);
+			startActivity(intent);
+			setResult(1);
+			finish();
+		}
+		if (item.getItemId() == R.id.compradoresitem) {
+			
+			Intent intent = new Intent(getApplicationContext(),
+					CompradoresActivity.class);
+			startActivity(intent);
+			setResult(1);
+			finish();
+		}
+		if (item.getItemId() == R.id.variedadesitem) {
+			
+			Intent intent = new Intent(getApplicationContext(),
+					VariedadesActivity.class);
+			startActivity(intent);
+			setResult(1);
+			finish();
+		}
+		
+		if (item.getItemId() == R.id.informesitem){
+			Intent intent = new Intent(getApplicationContext(),
+					InformesActivity.class);
+			startActivity(intent);
+			setResult(1);
+			finish();
+			
+		}
 		return true;
 	}
 
