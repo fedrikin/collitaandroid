@@ -1,7 +1,9 @@
 package com.fedesoft.collitaandroid;
 
+import com.fedesoft.collitaandroid.exceptions.TermeYaExisteException;
 import com.fedesoft.collitaandroid.model.Terme;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -16,6 +18,7 @@ public class EditarTermesActivity extends Activity {
     private EditText preciokgEditText;
     private Button   editaTermeButton;
     private Terme terme;
+	private CollitaDAOIfc collitaDAO;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,13 +34,17 @@ public class EditarTermesActivity extends Activity {
 			
 		});
 		Integer termeId=getIntent().getIntExtra("terme_id",0);
-		System.out.println("id:"+termeId);
-		CollitaDAOIfc collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
-	    terme=collitaDAO.getTermeById(termeId);
+//		collitaDAO=CollitaApplication.getInstance(getApplicationContext()).getCollitaDAO();
+		collitaDAO=new CollitaDAOServidor();
+		RecuperarTermeTask recuperarTermeTask=new RecuperarTermeTask();
+		recuperarTermeTask.execute(termeId);
+	}
+	
+	private void muestraDatos(){
 		nombreTermeEditText.setText(terme.getNombre());
 		preciokgEditText.setText(""+terme.getPrecioKilo());
-		
 	}
+	
 	private void editaTerme() {
 		String nomterme=nombreTermeEditText.getText().toString();
 	    if (nomterme.equals("")){
@@ -53,7 +60,8 @@ public class EditarTermesActivity extends Activity {
 			return;
 	    }
 	    terme.setPrecioKilo(Double.parseDouble(preciokgEditText.getText().toString()));
-	    CollitaDAOSqlite.getInstance(getApplicationContext()).actualizaTerme(terme);
+	    ActualizarTermeTask actualizarTermeTask=new ActualizarTermeTask();
+	    actualizarTermeTask.execute(terme);	    
 	    setResult(1);
 	    finish();
 	}
@@ -63,6 +71,33 @@ public class EditarTermesActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.edtar_termes, menu);
 		return true;
+	}
+	
+	
+	private class ActualizarTermeTask extends AsyncTask<Terme, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Terme... params) {			
+				collitaDAO.actualizaTerme(params[0]);
+				return null;
+		}
+
+	}
+	private class RecuperarTermeTask extends AsyncTask<Integer, Void, Terme>{
+
+		@Override
+		protected Terme doInBackground(Integer... params) {
+			return collitaDAO.getTermeById(params[0]);
+		}
+		
+		@Override
+		protected void onPostExecute(Terme result) {
+			super.onPostExecute(result);
+			EditarTermesActivity.this.terme=result;
+			muestraDatos();
+		}
+		
+		
 	}
 
 }
